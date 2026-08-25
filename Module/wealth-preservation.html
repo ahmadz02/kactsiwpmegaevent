@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wealth Preservation Journey | KAC x TSI</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-pantone-blue-dark: #0A2240;
+      --color-pantone-blue-medium: #11335C;
+      --color-pantone-blue-light: #1A4475;
+      --color-gold-primary: #C5A059;
+      --color-gold-hover: #D4AF37;
+      --color-gold-light: #F4EEDC;
+      --color-gold-glow: rgba(197, 160, 89, 0.2);
+      --color-white: #FFFFFF;
+      --color-offwhite: #F8FAFC;
+      --color-gray-dark: #1E293B;
+      --color-gray-muted: #64748B;
+      --color-danger: #B91C1C;
+      --color-warn: #B45309;
+      --color-success: #15803D;
+
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-offwhite);
+      color: var(--color-gray-dark);
+      overscroll-behavior-y: none;
+    }
+
+    .brand-title { font-family: var(--font-display); letter-spacing: 0.02em; }
+
+    /* Screens */
+    .screen { display: none; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .screen.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .header-bar {
+      background: linear-gradient(135deg, var(--color-pantone-blue-dark) 0%, var(--color-pantone-blue-medium) 100%);
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 0.75rem; }
+    .brand-badge {
+      display: inline-flex; align-items: center;
+      padding: 0.35rem 0.65rem;
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 3px;
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      color: var(--color-gold-light); font-weight: 600;
+    }
+    .brand-x { color: var(--color-gold-primary); font-size: 0.85rem; }
+
+    /* Progress dots */
+    .progress-track { display: flex; gap: 0.4rem; align-items: center; }
+    .progress-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(197, 160, 89, 0.25);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .progress-dot.active { background: var(--color-gold-primary); width: 24px; border-radius: 4px; }
+    .progress-dot.completed { background: var(--color-gold-hover); }
+
+    /* Cards */
+    .premium-card {
+      background: var(--color-white);
+      border: 1px solid rgba(197, 160, 89, 0.15);
+      border-radius: 4px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .premium-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-gold-primary);
+      box-shadow: 0 10px 30px -12px rgba(10, 34, 64, 0.18);
+    }
+
+    /* Eyebrow label */
+    .eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.22em;
+      color: var(--color-gold-primary); text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Gold underline for section titles */
+    .gold-rule {
+      display: block; width: 44px; height: 2px;
+      background: var(--color-gold-primary); margin: 0.75rem 0 1rem;
+    }
+
+    /* Screen 1: Survival choice cards */
+    .survival-btn {
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: 1.1rem 1.2rem;
+      background: var(--color-white);
+      border: 1.5px solid rgba(10, 34, 64, 0.08);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left; width: 100%;
+    }
+    .survival-btn:hover {
+      border-color: var(--color-gold-primary);
+      background: var(--color-gold-light);
+    }
+    .survival-btn.selected {
+      border-color: var(--color-gold-primary);
+      background: var(--color-gold-light);
+      box-shadow: 0 0 0 3px var(--color-gold-glow);
+    }
+    .survival-btn .label {
+      font-family: var(--font-display); font-weight: 700; font-size: 1.35rem;
+      color: var(--color-pantone-blue-dark);
+    }
+    .survival-btn .desc {
+      font-size: 0.85rem; color: var(--color-gray-muted); margin-top: 0.15rem;
+    }
+
+    /* Spectrum bar */
+    .spectrum {
+      position: relative; height: 12px; border-radius: 6px;
+      background: linear-gradient(90deg,
+        #DC2626 0%, #DC2626 33%,
+        #D97706 33%, #D97706 66%,
+        #16A34A 66%, #16A34A 100%);
+      overflow: visible;
+    }
+    .spectrum-marker {
+      position: absolute; top: -6px;
+      width: 24px; height: 24px;
+      background: var(--color-white);
+      border: 3px solid var(--color-pantone-blue-dark);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(10, 34, 64, 0.25);
+      transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .spectrum-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 0.75rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Event chips (Sinking Fund) */
+    .event-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(10, 34, 64, 0.08);
+      border-radius: 4px;
+      background: var(--color-white);
+      transition: all 0.25s ease;
+    }
+    .event-row.active {
+      border-color: var(--color-gold-primary);
+      background: var(--color-gold-light);
+    }
+    .event-row .event-name {
+      font-weight: 600; color: var(--color-pantone-blue-dark);
+      font-size: 0.95rem;
+    }
+    .event-row .event-month {
+      font-size: 0.72rem; color: var(--color-gray-muted);
+      letter-spacing: 0.05em; text-transform: uppercase; margin-top: 0.15rem;
+    }
+    .event-input {
+      width: 100px; padding: 0.5rem 0.6rem;
+      border: 1px solid rgba(10, 34, 64, 0.15);
+      border-radius: 3px;
+      font-size: 0.9rem; text-align: right;
+      font-weight: 600; color: var(--color-pantone-blue-dark);
+      font-family: var(--font-body);
+    }
+    .event-input:focus {
+      outline: none; border-color: var(--color-gold-primary);
+      box-shadow: 0 0 0 3px var(--color-gold-glow);
+    }
+    .event-input:disabled {
+      background: #F1F5F9; color: #94A3B8; cursor: not-allowed;
+    }
+    .event-check {
+      width: 22px; height: 22px; border: 2px solid rgba(10, 34, 64, 0.2);
+      border-radius: 3px; display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; transition: all 0.2s ease;
+    }
+    .event-check.checked {
+      background: var(--color-pantone-blue-dark);
+      border-color: var(--color-pantone-blue-dark);
+    }
+    .event-check.checked::after {
+      content: ""; width: 6px; height: 11px;
+      border: solid var(--color-gold-primary);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg); margin-top: -3px;
+    }
+
+    /* Month calendar */
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+    }
+    .month-cell {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 700;
+      background: rgba(10, 34, 64, 0.06);
+      color: var(--color-gray-muted);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .month-cell.load-1 { background: rgba(197, 160, 89, 0.35); color: var(--color-pantone-blue-dark); }
+    .month-cell.load-2 { background: rgba(197, 160, 89, 0.7); color: var(--color-pantone-blue-dark); }
+    .month-cell.load-3 { background: var(--color-gold-hover); color: var(--color-pantone-blue-dark); }
+
+    /* Live sum bar (bottom of Screen 2) */
+    .sum-bar {
+      position: sticky; bottom: 0; z-index: 10;
+      background: linear-gradient(180deg, rgba(10,34,64,0.95) 0%, var(--color-pantone-blue-dark) 100%);
+      color: var(--color-white);
+      padding: 1rem 1.25rem;
+      border-top: 2px solid var(--color-gold-primary);
+      margin: 0 -1rem -1rem;
+    }
+
+    /* Inputs */
+    .field-label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--color-gray-muted); letter-spacing: 0.06em;
+      text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+    .rm-input-wrap {
+      position: relative; display: flex; align-items: center;
+    }
+    .rm-input-wrap::before {
+      content: "RM"; position: absolute; left: 1rem;
+      font-weight: 700; color: var(--color-gold-primary);
+      font-size: 0.9rem;
+    }
+    .rm-input {
+      width: 100%; padding: 0.9rem 1rem 0.9rem 3rem;
+      border: 1.5px solid rgba(10, 34, 64, 0.12);
+      border-radius: 4px;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--color-pantone-blue-dark);
+      font-family: var(--font-body);
+      background: var(--color-white);
+    }
+    .rm-input:focus {
+      outline: none; border-color: var(--color-gold-primary);
+      box-shadow: 0 0 0 3px var(--color-gold-glow);
+    }
+
+    /* Tier cards */
+    .tier-card {
+      padding: 1.25rem;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 4px;
+      background: var(--color-white);
+      position: relative;
+    }
+    .tier-card.tier-1 { border-left: 4px solid #DC2626; }
+    .tier-card.tier-2 { border-left: 4px solid #D97706; }
+    .tier-card.tier-3 { border-left: 4px solid #16A34A; }
+
+    .tier-status {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.6rem; border-radius: 3px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .tier-status.done { background: #DCFCE7; color: #15803D; }
+    .tier-status.gap { background: #FEF3C7; color: #B45309; }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--color-gold-primary);
+      color: var(--color-pantone-blue-dark);
+      font-weight: 700;
+      padding: 0.9rem 1.75rem;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.25s ease;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+    }
+    .btn-primary:hover {
+      background: var(--color-gold-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px -8px rgba(197, 160, 89, 0.6);
+    }
+    .btn-primary:disabled {
+      background: #CBD5E1; color: #64748B;
+      cursor: not-allowed; transform: none; box-shadow: none;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-pantone-blue-medium);
+      padding: 0.9rem 1.5rem;
+      border: 1.5px solid rgba(10, 34, 64, 0.15);
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+    }
+    .btn-secondary:hover {
+      border-color: var(--color-pantone-blue-dark);
+      background: var(--color-offwhite);
+    }
+
+    /* Roadmap (Screen 4) — feels like a covenant document */
+    .roadmap-doc {
+      background: var(--color-white);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .roadmap-doc::before {
+      content: ""; position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px;
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      border-radius: 3px; pointer-events: none;
+    }
+    .roadmap-doc-inner { position: relative; z-index: 1; }
+
+    .commitment-block {
+      padding: 1rem 0;
+      border-bottom: 1px dashed rgba(10, 34, 64, 0.1);
+    }
+    .commitment-block:last-child { border-bottom: none; }
+
+    .commitment-number {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-gold-primary);
+      font-weight: 700;
+    }
+
+    .roadmap-value {
+      font-family: var(--font-display);
+      font-weight: 700; color: var(--color-pantone-blue-dark);
+    }
+
+    /* Small text input inside roadmap */
+    .plain-input {
+      border: none;
+      border-bottom: 1.5px dashed var(--color-gold-primary);
+      background: transparent;
+      padding: 0.15rem 0.4rem;
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--color-pantone-blue-dark);
+      font-size: 0.95rem;
+    }
+    .plain-input:focus {
+      outline: none; border-bottom-style: solid;
+    }
+
+    /* Bottom action bar */
+    .action-bar {
+      position: sticky; bottom: 0;
+      background: var(--color-white);
+      border-top: 1px solid rgba(10, 34, 64, 0.08);
+      padding: 0.85rem 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 0.75rem;
+      z-index: 20;
+    }
+
+    /* Number display */
+    .metric {
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--color-pantone-blue-dark);
+      line-height: 1;
+    }
+    .metric-hero { font-size: 2.5rem; }
+    .metric-lg { font-size: 1.8rem; }
+    .metric-md { font-size: 1.25rem; }
+
+    /* Utility */
+    .divider-gold {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-primary), transparent);
+      margin: 1rem 0;
+    }
+
+    /* Screen 1 hero */
+    .hook-hero {
+      background: linear-gradient(135deg, var(--color-pantone-blue-dark) 0%, var(--color-pantone-blue-light) 100%);
+      color: var(--color-white);
+      padding: 2rem 1.5rem;
+      border-radius: 4px;
+      position: relative; overflow: hidden;
+    }
+    .hook-hero::before {
+      content: ""; position: absolute; top: -50%; right: -20%;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hook-quote {
+      font-family: var(--font-display);
+      font-size: 1.6rem; font-weight: 700;
+      line-height: 1.3;
+      position: relative; z-index: 1;
+    }
+
+    /* Print styles for Screen 4 */
+    @media print {
+      body { background: white; }
+      .no-print { display: none !important; }
+      .screen { display: none; }
+      #screen-4 { display: block !important; }
+      .action-bar { display: none; }
+      .roadmap-doc { border: 2px solid var(--color-gold-primary); box-shadow: none; }
+    }
+
+    /* Mobile refinements */
+    @media (max-width: 640px) {
+      .metric-hero { font-size: 2rem; }
+      .hook-quote { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header-bar text-white sticky top-0 z-30">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="brand-lockup">
+      <span class="brand-badge">KAC</span>
+      <span class="brand-x">×</span>
+      <span class="brand-badge">TSI WEALTH</span>
+    </div>
+    <div class="progress-track" id="progress-track">
+      <div class="progress-dot active" data-screen="1"></div>
+      <div class="progress-dot" data-screen="2"></div>
+      <div class="progress-dot" data-screen="3"></div>
+      <div class="progress-dot" data-screen="4"></div>
+    </div>
+  </div>
+  <div class="max-w-3xl mx-auto px-4 pb-3">
+    <div class="text-xs tracking-widest uppercase" style="color: var(--color-gold-primary);">Pillar 04 · Wealth Preservation</div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 1: SURVIVAL CHECK                                     -->
+  <!-- ============================================================ -->
+  <section id="screen-1" class="screen active">
+    <div class="eyebrow">Langkah 1 · Realiti Peribadi</div>
+    <h1 class="brand-title text-3xl md:text-4xl font-bold mt-2" style="color: var(--color-pantone-blue-dark);">
+      Kalau Income Berhenti Esok...
+    </h1>
+    <span class="gold-rule"></span>
+
+    <div class="hook-hero mt-4">
+      <p class="hook-quote">"Berapa bulan keluarga anda boleh survive tanpa gaji masuk?"</p>
+      <p class="mt-4 text-sm opacity-80" style="max-width: 40ch;">
+        Jawab dari <em>gut feeling</em>. Bukan angka ideal — angka realiti hari ini.
+      </p>
+    </div>
+
+    <div class="mt-6 grid gap-3" id="survival-options">
+      <button class="survival-btn" data-value="1" data-months="0.5">
+        <span class="label">Kurang dari 1 bulan</span>
+        <span class="desc">Habis gaji, habis simpanan.</span>
+      </button>
+      <button class="survival-btn" data-value="2" data-months="2">
+        <span class="label">1 – 3 bulan</span>
+        <span class="desc">Ada sedikit buffer, tapi ketat.</span>
+      </button>
+      <button class="survival-btn" data-value="3" data-months="4.5">
+        <span class="label">3 – 6 bulan</span>
+        <span class="desc">Tahap emergency fund asas.</span>
+      </button>
+      <button class="survival-btn" data-value="4" data-months="9">
+        <span class="label">6 – 12 bulan</span>
+        <span class="desc">Selesa. Boleh cari kerja tanpa panik.</span>
+      </button>
+      <button class="survival-btn" data-value="5" data-months="15">
+        <span class="label">Lebih 12 bulan</span>
+        <span class="desc">Financial resilience — <em>gold standard</em>.</span>
+      </button>
+    </div>
+
+    <!-- Reveal Panel -->
+    <div id="survival-reveal" class="mt-8 hidden">
+      <div class="divider-gold"></div>
+      <div class="eyebrow">Posisi Anda</div>
+
+      <div class="premium-card mt-3 p-5">
+        <div class="spectrum">
+          <div class="spectrum-marker" id="spectrum-marker" style="left: 0%;"></div>
+        </div>
+        <div class="spectrum-labels" style="color: var(--color-gray-muted);">
+          <span style="color: #DC2626;">Vulnerable</span>
+          <span style="color: #D97706;">Prepared</span>
+          <span style="color: #16A34A;">Resilient</span>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-slate-100">
+          <div class="text-sm font-semibold" style="color: var(--color-gray-muted);">Verdict:</div>
+          <p id="survival-verdict" class="brand-title text-xl mt-1" style="color: var(--color-pantone-blue-dark);"></p>
+          <p id="survival-message" class="mt-3 text-sm leading-relaxed" style="color: var(--color-gray-dark);"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 2: SINKING FUND RADAR                                 -->
+  <!-- ============================================================ -->
+  <section id="screen-2" class="screen">
+    <div class="eyebrow">Langkah 2 · Sinking Fund Radar</div>
+    <h1 class="brand-title text-3xl md:text-4xl font-bold mt-2" style="color: var(--color-pantone-blue-dark);">
+      Bil Yang Anda Tahu Akan Datang
+    </h1>
+    <span class="gold-rule"></span>
+
+    <p class="text-sm leading-relaxed" style="color: var(--color-gray-muted);">
+      Bukan emergency. Bukan surprise. Ini adalah bil-bil yang <em>berulang tahunan</em> —
+      tick yang berkaitan dengan anda, laraskan amaun.
+    </p>
+
+    <div class="mt-6 grid gap-2" id="event-list">
+      <!-- events injected by JS -->
+    </div>
+
+    <!-- Add custom event -->
+    <div class="mt-3">
+      <button id="add-custom-btn" class="btn-secondary w-full text-sm" style="border-style: dashed;">
+        + Tambah bil tersendiri
+      </button>
+    </div>
+
+    <!-- Month load calendar -->
+    <div class="mt-8">
+      <div class="eyebrow">Peta Beban Bulanan</div>
+      <p class="text-xs mt-1 mb-3" style="color: var(--color-gray-muted);">
+        Bulan yang gelap = beban tinggi. Ini sebabnya "bulan kering" wujud.
+      </p>
+      <div class="month-grid" id="month-grid">
+        <div class="month-cell" data-month="0">J</div>
+        <div class="month-cell" data-month="1">F</div>
+        <div class="month-cell" data-month="2">M</div>
+        <div class="month-cell" data-month="3">A</div>
+        <div class="month-cell" data-month="4">M</div>
+        <div class="month-cell" data-month="5">J</div>
+        <div class="month-cell" data-month="6">J</div>
+        <div class="month-cell" data-month="7">O</div>
+        <div class="month-cell" data-month="8">S</div>
+        <div class="month-cell" data-month="9">O</div>
+        <div class="month-cell" data-month="10">N</div>
+        <div class="month-cell" data-month="11">D</div>
+      </div>
+    </div>
+
+    <!-- Live Sum Bar -->
+    <div class="sum-bar mt-6">
+      <div class="flex justify-between items-baseline">
+        <div>
+          <div class="text-xs uppercase tracking-widest opacity-70">Jumlah Tahunan</div>
+          <div class="metric metric-md text-white mt-1">RM <span id="annual-total">0</span></div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs uppercase tracking-widest opacity-70" style="color: var(--color-gold-primary);">Sinking Fund Bulanan</div>
+          <div class="metric metric-lg" style="color: var(--color-gold-primary);">RM <span id="monthly-sinking">0</span></div>
+          <div class="text-[10px] opacity-70 mt-1">yang anda patut save setiap bulan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 3: EMERGENCY FUND DIAGNOSTIC                          -->
+  <!-- ============================================================ -->
+  <section id="screen-3" class="screen">
+    <div class="eyebrow">Langkah 3 · Emergency Fund Diagnostic</div>
+    <h1 class="brand-title text-3xl md:text-4xl font-bold mt-2" style="color: var(--color-pantone-blue-dark);">
+      Kalau Langit Runtuh Esok
+    </h1>
+    <span class="gold-rule"></span>
+
+    <p class="text-sm leading-relaxed" style="color: var(--color-gray-muted);">
+      3 tahap kekuatan. Berapa jauh anda dari setiap satu?
+    </p>
+
+    <div class="mt-6 space-y-4">
+      <div>
+        <label class="field-label" for="monthly-expenses">Perbelanjaan Bulanan Isi Rumah</label>
+        <div class="rm-input-wrap">
+          <input id="monthly-expenses" class="rm-input" type="number" inputmode="numeric" placeholder="0" />
+        </div>
+        <p class="text-xs mt-2" style="color: var(--color-gray-muted);">
+          Termasuk sewa/mortgage, makan, bil, komitmen bulanan.
+        </p>
+      </div>
+
+      <div>
+        <label class="field-label" for="current-savings">Simpanan Semasa Yang Boleh Diakses</label>
+        <div class="rm-input-wrap">
+          <input id="current-savings" class="rm-input" type="number" inputmode="numeric" placeholder="0" />
+        </div>
+        <p class="text-xs mt-2" style="color: var(--color-gray-muted);">
+          Cash + FD + duit dalam bank. Tidak termasuk EPF, ASB terkunci, rumah, saham.
+        </p>
+      </div>
+
+      <div>
+        <label class="field-label" for="monthly-save-rate">Kemampuan Save Setiap Bulan (Anggaran)</label>
+        <div class="rm-input-wrap">
+          <input id="monthly-save-rate" class="rm-input" type="number" inputmode="numeric" placeholder="0" />
+        </div>
+        <p class="text-xs mt-2" style="color: var(--color-gray-muted);">
+          Untuk kira berapa lama masa yang diperlukan untuk capai target.
+        </p>
+      </div>
+    </div>
+
+    <!-- Tier reveals -->
+    <div id="tier-reveals" class="mt-8 space-y-3 hidden">
+      <div class="eyebrow">3 Tahap Kekuatan Anda</div>
+
+      <div class="tier-card tier-1">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-xs font-bold tracking-widest uppercase" style="color: #DC2626;">Tahap 1 · Starter</div>
+            <div class="brand-title text-lg mt-1" style="color: var(--color-pantone-blue-dark);">Emergency Buffer Kecemasan</div>
+          </div>
+          <span id="tier-1-status" class="tier-status gap">Belum capai</span>
+        </div>
+        <div class="mt-3 flex justify-between items-baseline">
+          <div>
+            <div class="text-xs" style="color: var(--color-gray-muted);">Target</div>
+            <div class="metric metric-md">RM <span id="tier-1-target">3,000</span></div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs" style="color: var(--color-gray-muted);">Jarak</div>
+            <div class="metric metric-md" style="color: #DC2626;">RM <span id="tier-1-gap">0</span></div>
+            <div class="text-[10px] mt-1" id="tier-1-eta" style="color: var(--color-gray-muted);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-card tier-2">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-xs font-bold tracking-widest uppercase" style="color: #D97706;">Tahap 2 · Full Emergency Fund</div>
+            <div class="brand-title text-lg mt-1" style="color: var(--color-pantone-blue-dark);">6 bulan perbelanjaan</div>
+          </div>
+          <span id="tier-2-status" class="tier-status gap">Belum capai</span>
+        </div>
+        <div class="mt-3 flex justify-between items-baseline">
+          <div>
+            <div class="text-xs" style="color: var(--color-gray-muted);">Target</div>
+            <div class="metric metric-md">RM <span id="tier-2-target">0</span></div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs" style="color: var(--color-gray-muted);">Jarak</div>
+            <div class="metric metric-md" style="color: #D97706;">RM <span id="tier-2-gap">0</span></div>
+            <div class="text-[10px] mt-1" id="tier-2-eta" style="color: var(--color-gray-muted);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-card tier-3">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-xs font-bold tracking-widest uppercase" style="color: #16A34A;">Tahap 3 · Resilient Fund</div>
+            <div class="brand-title text-lg mt-1" style="color: var(--color-pantone-blue-dark);">12 bulan perbelanjaan</div>
+          </div>
+          <span id="tier-3-status" class="tier-status gap">Belum capai</span>
+        </div>
+        <div class="mt-3 flex justify-between items-baseline">
+          <div>
+            <div class="text-xs" style="color: var(--color-gray-muted);">Target</div>
+            <div class="metric metric-md">RM <span id="tier-3-target">0</span></div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs" style="color: var(--color-gray-muted);">Jarak</div>
+            <div class="metric metric-md" style="color: #16A34A;">RM <span id="tier-3-gap">0</span></div>
+            <div class="text-[10px] mt-1" id="tier-3-eta" style="color: var(--color-gray-muted);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 4: 90-DAY ROADMAP                                     -->
+  <!-- ============================================================ -->
+  <section id="screen-4" class="screen">
+    <div class="eyebrow">Langkah 4 · Amanah Peribadi</div>
+    <h1 class="brand-title text-3xl md:text-4xl font-bold mt-2" style="color: var(--color-pantone-blue-dark);">
+      Roadmap 90 Hari Saya
+    </h1>
+    <span class="gold-rule"></span>
+
+    <div class="roadmap-doc mt-4">
+      <div class="roadmap-doc-inner">
+
+        <div class="text-center mb-6">
+          <div class="eyebrow">Wealth Preservation Commitment</div>
+          <div class="brand-title text-2xl mt-1" style="color: var(--color-pantone-blue-dark);">
+            Amanah <input type="text" id="user-name" class="plain-input" placeholder="nama saya" style="width: 150px;" />
+          </div>
+          <div class="text-xs mt-2" style="color: var(--color-gray-muted);">
+            Tarikh: <span id="today-date"></span>
+          </div>
+        </div>
+
+        <div class="divider-gold"></div>
+
+        <!-- Snapshot -->
+        <div class="mb-4">
+          <div class="eyebrow">Titik Permulaan</div>
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <div class="premium-card p-3 text-center">
+              <div class="text-[10px] uppercase tracking-widest" style="color: var(--color-gray-muted);">Status Semasa</div>
+              <div class="brand-title text-sm mt-1" id="roadmap-status" style="color: var(--color-pantone-blue-dark);">—</div>
+            </div>
+            <div class="premium-card p-3 text-center">
+              <div class="text-[10px] uppercase tracking-widest" style="color: var(--color-gray-muted);">Bulan Survival</div>
+              <div class="brand-title text-sm mt-1" style="color: var(--color-pantone-blue-dark);">
+                <span id="roadmap-months">—</span> bulan
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commitment 1 -->
+        <div class="commitment-block">
+          <div class="flex items-start gap-3">
+            <div class="commitment-number">01</div>
+            <div class="flex-1">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--color-gold-primary);">Sinking Fund Bulanan</div>
+              <p class="mt-2 text-sm leading-relaxed">
+                Bermula esok, saya akan pindah <span class="roadmap-value">RM <span id="commit-sinking">0</span></span>
+                setiap bulan ke akaun berasingan untuk bil tahunan yang telah saya kenalpasti.
+              </p>
+              <div class="mt-2 text-xs" style="color: var(--color-gray-muted);">
+                Tarikh auto-transfer: <input type="text" class="plain-input" placeholder="cth: 1hb setiap bulan" style="width: 200px;" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commitment 2 -->
+        <div class="commitment-block">
+          <div class="flex items-start gap-3">
+            <div class="commitment-number">02</div>
+            <div class="flex-1">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--color-gold-primary);">Emergency Fund 90 Hari</div>
+              <p class="mt-2 text-sm leading-relaxed">
+                Dalam 90 hari, saya akan tambah <span class="roadmap-value">RM <span id="commit-emergency-add">0</span></span>
+                ke emergency fund, bergerak dari <span id="commit-emergency-from">RM 0</span>
+                ke <span class="roadmap-value">RM <span id="commit-emergency-to">0</span></span>.
+              </p>
+              <div class="mt-2 text-xs" style="color: var(--color-gray-muted);">
+                Target akhir: <span id="commit-final-target">Tahap 1 · Starter Buffer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Commitment 3 -->
+        <div class="commitment-block">
+          <div class="flex items-start gap-3">
+            <div class="commitment-number">03</div>
+            <div class="flex-1">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--color-gold-primary);">Akaun Berasingan</div>
+              <p class="mt-2 text-sm leading-relaxed">
+                Saya akan buka satu akaun berasingan (bukan akaun harian) untuk simpanan ini pada:
+              </p>
+              <div class="mt-2">
+                <input type="text" class="plain-input" placeholder="cth: Bank Islam / TH / Wahed" style="width: 100%; max-width: 280px;" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider-gold mt-4"></div>
+
+        <p class="text-xs italic text-center" style="color: var(--color-gray-muted);">
+          "Simpanan di masa lapang untuk digunakan di masa sempit."<br>
+          <span class="text-[10px]">— Prinsip Nabi Yusuf a.s., Surah Yusuf: 47–48</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-5 flex gap-2 no-print">
+      <button onclick="window.print()" class="btn-secondary flex-1 text-sm">
+        📄 Simpan / Print
+      </button>
+      <button onclick="shareRoadmap()" class="btn-primary flex-1 text-sm">
+        Screenshot &amp; Kongsi
+      </button>
+    </div>
+
+    <p class="text-xs text-center mt-4" style="color: var(--color-gray-muted);">
+      <em>Screenshot page ini. Tampal di dinding. Semak setiap 30 hari.</em>
+    </p>
+  </section>
+
+</main>
+
+<!-- ===== BOTTOM ACTION BAR ===== -->
+<div class="action-bar no-print max-w-3xl mx-auto">
+  <button id="btn-back" class="btn-secondary" style="visibility: hidden;">← Kembali</button>
+  <div class="text-xs uppercase tracking-widest" style="color: var(--color-gray-muted);">
+    <span id="screen-counter">1</span> / 4
+  </div>
+  <button id="btn-next" class="btn-primary">Seterusnya →</button>
+</div>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+  // -----------------------------------------------------
+  // STATE (in-memory only for this prototype)
+  // -----------------------------------------------------
+  const state = {
+    currentScreen: 1,
+    survival: null,        // { value, months, label, verdict, message }
+    events: [],            // { id, name, month, amount, active, custom }
+    diagnostic: {
+      monthlyExpenses: 0,
+      currentSavings: 0,
+      monthlySaveRate: 0,
+    },
+  };
+
+  // -----------------------------------------------------
+  // PRESET EVENTS
+  // Realistic Malaysian recurring annual events
+  // -----------------------------------------------------
+  const presetEvents = [
+    { id: 'roadtax',   name: 'Roadtax + Insurance kereta', month: 1, amount: 1200, active: false }, // Feb
+    { id: 'raya',      name: 'Baju Raya + Duit Raya',      month: 3, amount: 2500, active: false }, // Apr
+    { id: 'korban',    name: 'Ibadah Korban',               month: 5, amount: 800,  active: false }, // Jun
+    { id: 'cukai',     name: 'Cukai Pintu + Cukai Tanah',   month: 5, amount: 600,  active: false }, // Jun
+    { id: 'sekolah',   name: 'Persekolahan anak (baju, buku, yuran)', month: 0, amount: 1500, active: false }, // Jan
+    { id: 'servis',    name: 'Servis kereta major',         month: 7, amount: 800,  active: false }, // Aug
+    { id: 'zakat',     name: 'Zakat pendapatan',             month: 11, amount: 1200, active: false }, // Dec
+    { id: 'takaful',   name: 'Takaful renewal tahunan',      month: 8, amount: 1500, active: false }, // Sep
+    { id: 'umrah',     name: 'Simpanan Umrah / Haji',        month: 9, amount: 3000, active: false }, // Oct
+  ];
+
+  state.events = JSON.parse(JSON.stringify(presetEvents));
+
+  const monthNames = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis'];
+
+  // -----------------------------------------------------
+  // NUMBER FORMATTING
+  // -----------------------------------------------------
+  const fmt = (n) => Math.round(n).toLocaleString('en-MY');
+
+  // -----------------------------------------------------
+  // SCREEN NAVIGATION
+  // -----------------------------------------------------
+  function goToScreen(n) {
+    if (n < 1 || n > 4) return;
+    state.currentScreen = n;
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + n).classList.add('active');
+
+    // Progress dots
+    document.querySelectorAll('.progress-dot').forEach((d, i) => {
+      d.classList.remove('active', 'completed');
+      if (i + 1 < n) d.classList.add('completed');
+      if (i + 1 === n) d.classList.add('active');
+    });
+
+    document.getElementById('screen-counter').textContent = n;
+
+    // Back button visibility
+    document.getElementById('btn-back').style.visibility = n === 1 ? 'hidden' : 'visible';
+
+    // Next button label
+    const nextBtn = document.getElementById('btn-next');
+    if (n === 4) {
+      nextBtn.textContent = 'Selesai ✓';
+      nextBtn.onclick = () => alert('Alhamdulillah. Screenshot roadmap anda dan tampal di dinding.');
+    } else {
+      nextBtn.textContent = 'Seterusnya →';
+      nextBtn.onclick = () => goToScreen(n + 1);
+    }
+
+    // Refresh side-effects
+    if (n === 4) refreshRoadmap();
+    if (n === 3) refreshDiagnostic();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('btn-back').onclick = () => goToScreen(state.currentScreen - 1);
+  document.getElementById('btn-next').onclick = () => goToScreen(state.currentScreen + 1);
+
+  // Progress dot click navigation
+  document.querySelectorAll('.progress-dot').forEach(d => {
+    d.addEventListener('click', () => {
+      const n = parseInt(d.dataset.screen);
+      goToScreen(n);
+    });
+  });
+
+  // -----------------------------------------------------
+  // SCREEN 1: SURVIVAL CHECK
+  // -----------------------------------------------------
+  document.querySelectorAll('.survival-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.survival-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      const value = parseInt(btn.dataset.value);
+      const months = parseFloat(btn.dataset.months);
+      state.survival = { value, months };
+
+      revealSurvival(value, months);
+    });
+  });
+
+  function revealSurvival(value, months) {
+    const reveal = document.getElementById('survival-reveal');
+    reveal.classList.remove('hidden');
+
+    // Position marker (approximate mapping to the 3-zone spectrum)
+    const positions = { 1: 8, 2: 22, 3: 50, 4: 78, 5: 92 };
+    const pos = positions[value];
+    setTimeout(() => {
+      document.getElementById('spectrum-marker').style.left = pos + '%';
+    }, 100);
+
+    const verdicts = {
+      1: {
+        verdict: 'Vulnerable',
+        message: 'Anda hidup satu langkah dari krisis. Satu hospital bill, satu retrenchment — cukup untuk mengganggu keseluruhan pelan keluarga. Ini bukan penghinaan, ini adalah realiti separuh Malaysia. Yang penting: hari ini adalah hari terbaik untuk mula ubah.',
+      },
+      2: {
+        verdict: 'Vulnerable — Awal Perjalanan',
+        message: 'Anda ada permulaan. Tapi 1–3 bulan tak cukup untuk cari kerja baru dengan tenang, atau untuk hadapi emergency besar. Tumpuan seterusnya: bina hingga 6 bulan.',
+      },
+      3: {
+        verdict: 'Prepared',
+        message: 'Alhamdulillah. Anda di zon minimum yang direkomen. Tetapi "3 bulan" hilang cepat masa krisis. Sasaran seterusnya adalah 12 bulan, dan lindungi emergency fund ini dari godaan digunakan untuk perkara bukan emergency.',
+      },
+      4: {
+        verdict: 'Prepared — Kukuh',
+        message: 'Anda ada asas yang kukuh. Pada tahap ini, tumpuan berubah — bukan lagi bina emergency fund, tapi optimize: apakah simpanan anda dalam instrumen yang tidak diserang inflasi? Adakah ia mudah diakses tanpa penalti?',
+      },
+      5: {
+        verdict: 'Resilient',
+        message: 'Anda dalam kedudukan yang sedikit rakyat Malaysia miliki. Cabaran anda berbeza sekarang: adakah simpanan berlebihan ini menghalang anda dari growth? Sudah tiba masa fikir Wealth Multiplication — tapi jangan runtuhkan pertahanan ini.',
+      },
+    };
+
+    const v = verdicts[value];
+    document.getElementById('survival-verdict').textContent = v.verdict;
+    document.getElementById('survival-message').textContent = v.message;
+
+    state.survival.verdict = v.verdict;
+    state.survival.message = v.message;
+  }
+
+  // -----------------------------------------------------
+  // SCREEN 2: SINKING FUND RADAR
+  // -----------------------------------------------------
+  function renderEvents() {
+    const list = document.getElementById('event-list');
+    list.innerHTML = '';
+
+    state.events.forEach((ev, idx) => {
+      const row = document.createElement('div');
+      row.className = 'event-row' + (ev.active ? ' active' : '');
+      row.innerHTML = `
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="event-check ${ev.active ? 'checked' : ''}" data-idx="${idx}"></div>
+          <div class="min-w-0">
+            <div class="event-name truncate">${ev.name}</div>
+            <div class="event-month">${monthNames[ev.month]}${ev.custom ? ' · custom' : ''}</div>
+          </div>
+        </div>
+        <input type="number" inputmode="numeric" class="event-input"
+          value="${ev.amount}" data-idx="${idx}" ${ev.active ? '' : 'disabled'} />
+      `;
+      list.appendChild(row);
+    });
+
+    // Wire up checks
+    document.querySelectorAll('#event-list .event-check').forEach(el => {
+      el.addEventListener('click', () => {
+        const idx = parseInt(el.dataset.idx);
+        state.events[idx].active = !state.events[idx].active;
+        renderEvents();
+        recalcSinking();
+      });
+    });
+
+    // Wire up amount inputs
+    document.querySelectorAll('#event-list .event-input').forEach(el => {
+      el.addEventListener('input', () => {
+        const idx = parseInt(el.dataset.idx);
+        state.events[idx].amount = parseFloat(el.value) || 0;
+        recalcSinking();
+      });
+    });
+  }
+
+  function recalcSinking() {
+    const activeEvents = state.events.filter(e => e.active);
+    const annual = activeEvents.reduce((sum, e) => sum + e.amount, 0);
+    const monthly = annual / 12;
+
+    document.getElementById('annual-total').textContent = fmt(annual);
+    document.getElementById('monthly-sinking').textContent = fmt(monthly);
+
+    // Update month load map
+    const monthLoad = new Array(12).fill(0);
+    activeEvents.forEach(e => { monthLoad[e.month] += e.amount; });
+    const maxLoad = Math.max(...monthLoad, 1);
+
+    document.querySelectorAll('.month-cell').forEach(cell => {
+      const m = parseInt(cell.dataset.month);
+      const load = monthLoad[m];
+      cell.classList.remove('load-1', 'load-2', 'load-3');
+      if (load === 0) return;
+      const ratio = load / maxLoad;
+      if (ratio > 0.66) cell.classList.add('load-3');
+      else if (ratio > 0.33) cell.classList.add('load-2');
+      else cell.classList.add('load-1');
+    });
+  }
+
+  // Add custom event
+  document.getElementById('add-custom-btn').addEventListener('click', () => {
+    const name = prompt('Nama bil / event:');
+    if (!name) return;
+    const monthStr = prompt('Bulan (1-12):');
+    const month = Math.max(0, Math.min(11, (parseInt(monthStr) || 1) - 1));
+    const amountStr = prompt('Anggaran amaun (RM):');
+    const amount = parseFloat(amountStr) || 0;
+
+    state.events.push({
+      id: 'custom-' + Date.now(),
+      name, month, amount,
+      active: true, custom: true,
+    });
+    renderEvents();
+    recalcSinking();
+  });
+
+  renderEvents();
+  recalcSinking();
+
+  // -----------------------------------------------------
+  // SCREEN 3: EMERGENCY FUND DIAGNOSTIC
+  // -----------------------------------------------------
+  ['monthly-expenses', 'current-savings', 'monthly-save-rate'].forEach(id => {
+    document.getElementById(id).addEventListener('input', refreshDiagnostic);
+  });
+
+  function refreshDiagnostic() {
+    const exp = parseFloat(document.getElementById('monthly-expenses').value) || 0;
+    const savings = parseFloat(document.getElementById('current-savings').value) || 0;
+    const rate = parseFloat(document.getElementById('monthly-save-rate').value) || 0;
+
+    state.diagnostic = { monthlyExpenses: exp, currentSavings: savings, monthlySaveRate: rate };
+
+    if (exp === 0) {
+      document.getElementById('tier-reveals').classList.add('hidden');
+      return;
+    }
+    document.getElementById('tier-reveals').classList.remove('hidden');
+
+    const tiers = [
+      { id: 1, target: 3000 },                 // Starter fixed
+      { id: 2, target: Math.max(exp * 6, 0) }, // Full 6 months
+      { id: 3, target: Math.max(exp * 12, 0) },// Resilient 12 months
+    ];
+
+    tiers.forEach(t => {
+      const gap = Math.max(0, t.target - savings);
+      const done = gap === 0;
+      const months = (rate > 0 && gap > 0) ? Math.ceil(gap / rate) : null;
+
+      document.getElementById('tier-' + t.id + '-target').textContent = fmt(t.target);
+      document.getElementById('tier-' + t.id + '-gap').textContent = fmt(gap);
+
+      const statusEl = document.getElementById('tier-' + t.id + '-status');
+      if (done) {
+        statusEl.textContent = '✓ Tercapai';
+        statusEl.className = 'tier-status done';
+      } else {
+        statusEl.textContent = 'Belum capai';
+        statusEl.className = 'tier-status gap';
+      }
+
+      const etaEl = document.getElementById('tier-' + t.id + '-eta');
+      if (done) etaEl.textContent = 'Alhamdulillah — kekalkan.';
+      else if (months) etaEl.textContent = `≈ ${months} bulan dengan pace sekarang`;
+      else etaEl.textContent = 'Masukkan kadar simpan bulanan untuk kira ETA';
+    });
+  }
+
+  // -----------------------------------------------------
+  // SCREEN 4: ROADMAP
+  // -----------------------------------------------------
+  function refreshRoadmap() {
+    // Today's date
+    const today = new Date();
+    const dateStr = today.toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('today-date').textContent = dateStr;
+
+    // From Screen 1
+    if (state.survival) {
+      document.getElementById('roadmap-status').textContent = state.survival.verdict || '—';
+      document.getElementById('roadmap-months').textContent = state.survival.months;
+    }
+
+    // From Screen 2 — monthly sinking
+    const annual = state.events.filter(e => e.active).reduce((s, e) => s + e.amount, 0);
+    document.getElementById('commit-sinking').textContent = fmt(annual / 12);
+
+    // From Screen 3 — 90-day target for emergency fund
+    const exp = state.diagnostic.monthlyExpenses;
+    const savings = state.diagnostic.currentSavings;
+    const rate = state.diagnostic.monthlySaveRate;
+
+    // What's the closest achievable tier in 90 days (~3 months)?
+    const projectedAdd = rate * 3;
+    const projectedTotal = savings + projectedAdd;
+
+    // Determine target tier
+    let targetTier, targetAmount;
+    if (savings < 3000) {
+      targetTier = 'Tahap 1 · Starter Buffer (RM 3,000)';
+      targetAmount = 3000;
+    } else if (savings < exp * 6) {
+      targetTier = 'Tahap 2 · Full Emergency Fund (6 bulan)';
+      targetAmount = exp * 6;
+    } else {
+      targetTier = 'Tahap 3 · Resilient Fund (12 bulan)';
+      targetAmount = exp * 12;
+    }
+
+    // How much to add in 90 days (aim: min of projectedAdd, or gap to next tier)
+    const gap = Math.max(0, targetAmount - savings);
+    const add90 = Math.min(gap, Math.max(projectedAdd, 0));
+
+    document.getElementById('commit-emergency-add').textContent = fmt(add90);
+    document.getElementById('commit-emergency-from').textContent = 'RM ' + fmt(savings);
+    document.getElementById('commit-emergency-to').textContent = fmt(savings + add90);
+    document.getElementById('commit-final-target').textContent = targetTier;
+  }
+
+  function shareRoadmap() {
+    alert('Screenshot page ini menggunakan phone anda. Tampal di dinding, wallpaper phone, atau print A4.');
+  }
+
+  // -----------------------------------------------------
+  // INIT
+  // -----------------------------------------------------
+  goToScreen(1);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Kekayaan KAC x TSI</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons for premium visual cues -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------------------------------------------------------
+       GLOBAL THEME STYLE SYSTEM
+       Decoupled color definitions for simple global changes
+       --------------------------------------------------------- */
+    :root {
+      /* Primary Pantone Blue Palette */
+      --color-pantone-blue-dark: #0A2240;      /* Deep rich navy */
+      --color-pantone-blue-medium: #11335C;    /* Classic Pantone Blue */
+      --color-pantone-blue-light: #1A4475;     /* Accent blue */
+      
+      /* Premium Metallic Gold Palette */
+      --color-gold-primary: #C5A059;           /* Pure satin gold */
+      --color-gold-hover: #D4AF37;             /* Bright metallic gold */
+      --color-gold-light: #F4EEDC;             /* Champagne soft gold */
+      --color-gold-glow: rgba(197, 160, 89, 0.2);
+
+      /* Neutrals & Utility */
+      --color-white: #FFFFFF;
+      --color-offwhite: #F8FAFC;
+      --color-gray-dark: #1E293B;
+      --color-gray-muted: #64748B;
+      
+      /* Typography */
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-offwhite);
+      color: var(--color-gray-dark);
+    }
+
+    /* Custom Color Utilities to map custom CSS variables with Tailwind classes */
+    .bg-pantone-dark { background-color: var(--color-pantone-blue-dark); }
+    .bg-pantone-medium { background-color: var(--color-pantone-blue-medium); }
+    .bg-pantone-light { background-color: var(--color-pantone-blue-light); }
+    
+    .bg-gold-primary { background-color: var(--color-gold-primary); }
+    .bg-gold-light { background-color: var(--color-gold-light); }
+    .text-pantone-dark { color: var(--color-pantone-blue-dark); }
+    .text-pantone-medium { color: var(--color-pantone-blue-medium); }
+    .text-gold-primary { color: var(--color-gold-primary); }
+    .text-gold-hover { color: var(--color-gold-hover); }
+    
+    .border-gold { border-color: var(--color-gold-primary); }
+    .border-pantone-light { border-color: var(--color-pantone-blue-light); }
+    
+    /* Elegant Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-pantone-blue-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-gold-primary);
+      border-radius: 4px;
+    }
+
+    /* Premium Hover States & Card Transitions */
+    .premium-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(197, 160, 89, 0.15);
+    }
+    .premium-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--color-gold-primary);
+      box-shadow: 0 12px 24px -10px rgba(10, 34, 64, 0.15), 0 0 15px var(--color-gold-glow);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+    }
+  </style>
+
+  <script>
+    // Configures Tailwind with custom extensions matching our variables
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandBlue: {
+              900: 'var(--color-pantone-blue-dark)',
+              800: 'var(--color-pantone-blue-medium)',
+              700: 'var(--color-pantone-blue-light)',
+            },
+            brandGold: {
+              DEFAULT: 'var(--color-gold-primary)',
+              light: 'var(--color-gold-light)',
+              hover: 'var(--color-gold-hover)',
+            }
+          },
+          fontFamily: {
+            display: ['Cinzel', 'serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-brandGold selection:text-brandBlue-900">
+
+  <!-- ================= HEADER SECTION ================= -->
+  <header class="bg-brandBlue-900 border-b border-brandGold/20 sticky top-0 z-40 backdrop-blur-md bg-opacity-95 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Interactive Interchangeable Logo Area -->
+        <div class="flex items-center gap-4">
+          <!-- Logo 1 Container (Interchangeable) -->
+          <div id="logo1-wrapper" class="flex items-center justify-center bg-white/5 border border-brandGold/30 px-3 py-1.5 rounded transition-all">
+            <span id="logo1-text" class="text-xl font-bold tracking-widest text-white brand-title">KAC</span>
+          </div>
+          
+          <!-- Partnership Divider -->
+          <div class="flex flex-col items-center justify-center">
+            <i data-lucide="x" class="w-4 h-4 text-brandGold"></i>
+          </div>
+          
+          <!-- Logo 2 Container (Interchangeable) -->
+          <div id="logo2-wrapper" class="flex items-center justify-center bg-white/5 border border-brandGold/30 px-3 py-1.5 rounded transition-all">
+            <span id="logo2-text" class="text-xl font-bold tracking-widest text-brandGold brand-title">TSI WEALTH</span>
+          </div>
+
+          <!-- Quick Logo Switcher Trigger (Demonstrating interchangeability) -->
+          <button onclick="toggleLogoConfig()" class="p-1 rounded-full bg-brandGold/10 text-brandGold hover:bg-brandGold/20 transition-all ml-2" title="Interchange Logo Styles">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Tagline / Dynamic Message -->
+        <div class="text-center md:text-right">
+          <p class="text-brandGold font-medium text-xs tracking-widest uppercase mb-0.5">Rangka Kerja Strategik Pembinaan Aset & Kekayaan</p>
+          <p class="text-white/70 text-xs italic">Mengubah aspirasi menjadi legasi merentasi generasi yang berkekalan</p>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Logo Customization Floating Sidebar (Hidden by default) -->
+  <div id="logo-config-drawer" class="fixed right-0 top-0 h-full w-80 bg-brandBlue-900 border-l border-brandGold/30 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6">
+    <div class="flex items-center justify-between mb-6 border-b border-brandGold/20 pb-4">
+      <h3 class="text-white font-bold text-lg flex items-center gap-2">
+        <i data-lucide="sliders" class="text-brandGold"></i> Sandbox Penjenamaan
+      </h3>
+      <button onclick="toggleLogoConfig()" class="text-white/60 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    
+    <div class="space-y-5">
+      <p class="text-xs text-white/70">Ubah suai logo secara langsung untuk melihat bagaimana pengepala boleh tukar dikemas kini serta-merta.</p>
+      
+      <!-- Logo 1 Edit -->
+      <div>
+        <label class="block text-xs font-semibold text-brandGold uppercase tracking-wider mb-2">Teks Logo 1</label>
+        <input id="input-logo1" type="text" value="KAC" class="w-full bg-brandBlue-800 border border-brandGold/30 text-white rounded px-3 py-2 text-sm focus:outline-none focus:border-brandGold" oninput="updateLogoText()">
+      </div>
+
+      <!-- Logo 2 Edit -->
+      <div>
+        <label class="block text-xs font-semibold text-brandGold uppercase tracking-wider mb-2">Teks Logo 2</label>
+        <input id="input-logo2" type="text" value="TSI WEALTH" class="w-full bg-brandBlue-800 border border-brandGold/30 text-white rounded px-3 py-2 text-sm focus:outline-none focus:border-brandGold" oninput="updateLogoText()">
+      </div>
+
+      <!-- Quick Styling Options -->
+      <div>
+        <label class="block text-xs font-semibold text-brandGold uppercase tracking-wider mb-2">Set Tema Logo</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="applyLogoTheme('gold-accent')" class="bg-brandBlue-800 border border-brandGold hover:bg-brandBlue-700 text-xs text-white py-2 rounded">Emas Klasik</button>
+          <button onclick="applyLogoTheme('modern-white')" class="bg-brandBlue-800 border border-white/30 hover:bg-brandBlue-700 text-xs text-white py-2 rounded">Putih Minimalis</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= HERO / STATEMENT SECTION ================= -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-brandBlue-900 to-brandBlue-800 text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-brandGold/20">
+    <!-- Subtle premium backdrop pattern -->
+    <div class="absolute inset-0 opacity-5 mix-blend-overlay bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-brandBlue-900 to-black"></div>
+    
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <span class="inline-block px-4 py-1.5 rounded-full bg-brandGold/10 border border-brandGold/30 text-brandGold text-xs font-bold tracking-widest uppercase mb-4">
+        Kitaran Hayat Kekayaan yang Lengkap
+      </span>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+        Rangka Kewangan Anda
+      </h1>
+      <p class="max-w-2xl mx-auto text-sm md:text-lg text-white/80 leading-relaxed font-light">
+        Rangka kerja bersepadu direka oleh KAC dan TSI Wealth untuk mentadbir, menggandakan, dan memelihara aset selaras dengan kejelasan mutlak, strategi, serta nilai pembinaan kekayaan yang berkekalan.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ================= MAIN CONTENT PAGE: 2X4 GRID ================= -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <div class="text-center mb-10">
+      <h2 class="text-xl uppercase tracking-widest text-brandBlue-900 font-extrabold mb-2">Lapan Tunjang Kekayaan</h2>
+      <div class="w-20 h-1 bg-brandGold mx-auto rounded-full"></div>
+      <p class="text-sm text-brandBlue-900/60 mt-2">Klik mana-mana kad untuk terus membuka pengiraan tersuai dan diagnostik peribadi.</p>
+    </div>
+
+    <!-- The 2x4 Pillar Grid (Desktop 2-columns x 4-rows, fully responsive) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- 1. WEALTH CREATION -->
+      <div onclick="openPillarModal(1)" class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="key-round" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 01</span>
+            <span class="px-2 py-0.5 rounded bg-brandGold/10 text-brandGold text-[10px] font-bold">Cuba Diagnostik</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH CREATION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Penemuan kendiri dalam usaha menjana pendapatan. Kenal pasti laluan semula jadi anda yang paling sesuai melalui Ujian Personaliti Kekayaan tersuai kami.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Mula Profiler Personaliti <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. WEALTH MANAGEMENT -->
+      <div onclick="openPillarModal(2)" class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="scale" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 02</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Alat Interaktif</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH MANAGEMENT</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Uruskan aliran tunai anda dengan teliti. Audit pendapatan, perbelanjaan, aset, dan liabiliti semasa untuk mengenal pasti kebocoran tersembunyi.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Lancar Pembina Kunci Kira-Kira <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. WEALTH PURIFICATION -->
+      <div onclick="window.open('Module/wealth-purification.html', '_blank')"
+      
+      class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="heart-handshake" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 03</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Kalkulator</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH PURIFICATION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Pastikan keberkatan dalam rezeki anda. Kekalkan kekayaan yang bersih, patuh syariah, dan bermanfaat melalui pengiraan Zakat tersuai serta pengoptimuman peruntukan cukai.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Kira Zakat & Cukai <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. WEALTH PRESERVATION -->
+       <div onclick="window.open('Module/wealth-preservation.html', '_blank')"
+
+           
+      " class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="shield-alert" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 04</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Perancang Dinamik</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH PRESERVATION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Bina garis pertahanan yang teguh dan tidak boleh dipatahkan. Rangka simpanan tunai hasil tinggi serta model dana kecemasan yang tahan terhadap kemelesetan ekonomi.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Model Rizab Kecemasan <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. WEALTH PROTECTION -->
+       <!--
+      <div onclick="openPillarModal(5)" class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+      -->
+        
+      <div onclick="window.open('Module/wealth-protect.html', '_blank')"
+     class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+    
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="umbrella" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 05</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Anggaran</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH PROTECTION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Lindungi modal terkumpul daripada bencana. Manfaatkan produk Takaful terkini dan instrumen perlindungan kewangan untuk menjaga aset utama anda.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Audit Keperluan Perlindungan <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. WEALTH MULTIPLICATION -->
+
+      <div onclick="window.open('Module/wealth-multiplication.html', '_blank')"
+      
+      class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="trending-up" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 06</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Simulator</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH MULTIPLICATION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Percepatkan pertumbuhan global dengan selamat. Rangka model peruntukan modal, laluan pematuhan Syariah, dan protokol penggandaan aset dinamik.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Jalankan simulasi penggandaan <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. WEALTH FINANCING -->
+      <div onclick="openPillarModal(7)" class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="coins" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 07</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Audit Pintar</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH FINANCING</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Manfaatkan hutang dengan bijak. Pelajari pendekatan canggih untuk menguruskan had kredit, membina aset komersial, dan mendapatkan pembiayaan yang sihat.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Analisis Nisbah Khidmat Hutang (DSR) <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. WEALTH DISTRIBUTION -->
+       <div onclick="window.open('Module/wealth-distribution.html', '_blank')"
+        
+       " class="premium-card bg-white rounded-xl p-6 flex gap-5 cursor-pointer relative overflow-hidden group">
+        <div class="absolute right-0 top-0 bg-brandGold/10 w-24 h-24 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-125 duration-500"></div>
+        <div class="flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-brandBlue-900 text-brandGold border border-brandGold/20 shadow-md">
+          <i data-lucide="scroll" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold tracking-wider text-brandGold uppercase">PILLAR 08</span>
+            <span class="px-2 py-0.5 rounded bg-brandBlue-900/5 text-brandBlue-800 text-[10px] font-bold">Perancang Legasi</span>
+          </div>
+          <h3 class="text-xl font-bold text-brandBlue-900 mb-2">WEALTH DISTRIBUTION</h3>
+          <p class="text-sm text-brandBlue-900/70 leading-relaxed">
+            Berikan ketenangan fikiran kepada orang tersayang. Rangka pemindahan legasi yang mantap menggunakan susunan Hibah moden, prinsip Faraid, dan sistem amanah tersuai.
+          </p>
+          <div class="mt-4 flex items-center gap-1.5 text-xs text-brandGold font-bold tracking-wide group-hover:translate-x-1 transition-transform">
+            Petakan Pembahagian Harta Pusaka <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================= POP-UP DIALOG MODAL FOR DETAILED WORKFLOWS ================= -->
+  <div id="pillar-modal" class="fixed inset-0 bg-brandBlue-900/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4 transition-all duration-300">
+    <div class="bg-white rounded-2xl border-2 border-brandGold max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-container">
+      
+      <!-- Modal Header -->
+      <div class="bg-brandBlue-900 text-white p-6 border-b border-brandGold/20 flex items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded bg-white/10 flex items-center justify-center border border-brandGold/30" id="modal-icon-container">
+            <i data-lucide="key-round" class="w-5 h-5 text-brandGold" id="modal-icon"></i>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-brandGold tracking-wider uppercase block" id="modal-pillar-num">PILLAR 01</span>
+            <h3 class="text-xl font-extrabold" id="modal-title">WEALTH CREATION</h3>
+          </div>
+        </div>
+        <button onclick="closePillarModal()" class="text-white/60 hover:text-white p-2 hover:bg-white/5 rounded-full transition-all">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Dynamic Content Body (Changes depending on clicked pillar) -->
+      <div class="p-6 md:p-8" id="modal-content-slot">
+        <!-- Content gets dynamically injected here by JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-slate-50 border-t border-slate-100 p-4 flex items-center justify-between">
+        <span class="text-xs text-brandBlue-900/50 italic">Perundingan strategik disokong oleh KAC x TSI Wealth</span>
+        <button onclick="closePillarModal()" class="bg-brandBlue-900 hover:bg-brandBlue-800 text-white border border-brandGold text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded transition-all">
+          Tutup Diagnostik
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================= FOOTER SECTION ================= -->
+  <footer class="bg-brandBlue-900 text-white border-t border-brandGold/20 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        
+        <!-- Corporate Statement -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="brand-title font-bold tracking-wider text-white">KAC</span>
+            <span class="text-brandGold">✕</span>
+            <span class="brand-title font-bold tracking-wider text-brandGold">TSI WEALTH</span>
+          </div>
+          <p class="text-xs text-white/60 leading-relaxed max-w-sm">
+            Menghubungkan kecemerlangan institusi dengan pertumbuhan kewangan peribadi. Kami mereka bentuk struktur yang menyeimbangkan pengumpulan kekayaan, pematuhan undang-undang, dan tanggungjawab moral.
+          </p>
+        </div>
+
+        <!-- Global Design Style Tokens Reference (As requested in prompt: Separated Style Guide reference) -->
+        <div class="md:border-l md:border-r border-brandGold/10 md:px-8">
+          <h4 class="text-xs font-bold uppercase tracking-widest text-brandGold mb-3">Token Warna Global</h4>
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded bg-brandBlue-900 border border-white/20 block"></span>
+              <span class="text-white/80 font-mono">#0A2240 (Biru Pantone Gelap)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded bg-brandGold block"></span>
+              <span class="text-white/80 font-mono">#C5A059 (Emas Satin Premium)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded bg-white border border-slate-700 block"></span>
+              <span class="text-white/80 font-mono">#FFFFFF (Putih Tulen)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disclaimers / Legal -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-brandGold mb-3">Nasihat Profesional</h4>
+          <p class="text-xs text-white/50 leading-relaxed">
+            Semua alat dan penilaian yang disediakan pada halaman ini adalah untuk tujuan simulasi. Perancangan kekayaan & sovereign yang sebenar memerlukan perundingan tersuai selaras dengan prinsip pematuhan Islam dan portfolio kewangan khusus anda.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="border-t border-brandGold/10 pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] text-white/40">
+        <p>&copy; 2026 KAC x TSI Wealth Advisory. Hak cipta terpelihara. Berdaftar di bawah piawaian perundingan kewangan global.</p>
+        <div class="flex gap-4 mt-2 md:mt-0">
+          <a href="#" class="hover:text-brandGold transition-colors">Piagam Privasi</a>
+          <span>&middot;</span>
+          <a href="#" class="hover:text-brandGold transition-colors">Terma Penglibatan</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ================= LOGIC & INTERACTION SCRIPTS ================= -->
+  <script>
+    // Initialize Lucide icons on DOM Load
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+
+    // -----------------------------------------------------------------
+    // Interchangable Logo Customizer Logic
+    // -----------------------------------------------------------------
+    function toggleLogoConfig() {
+      const drawer = document.getElementById('logo-config-drawer');
+      drawer.classList.toggle('translate-x-full');
+    }
+
+    function updateLogoText() {
+      const val1 = document.getElementById('input-logo1').value || 'KAC';
+      const val2 = document.getElementById('input-logo2').value || 'TSI WEALTH';
+      
+      document.getElementById('logo1-text').innerText = val1;
+      document.getElementById('logo2-text').innerText = val2;
+    }
+
+    function applyLogoTheme(theme) {
+      const logo1 = document.getElementById('logo1-wrapper');
+      const logo2 = document.getElementById('logo2-wrapper');
+      const text1 = document.getElementById('logo1-text');
+      const text2 = document.getElementById('logo2-text');
+
+      if (theme === 'gold-accent') {
+        logo1.className = "flex items-center justify-center bg-white/5 border border-brandGold/30 px-3 py-1.5 rounded transition-all";
+        logo2.className = "flex items-center justify-center bg-white/5 border border-brandGold/30 px-3 py-1.5 rounded transition-all";
+        text1.className = "text-xl font-bold tracking-widest text-white brand-title";
+        text2.className = "text-xl font-bold tracking-widest text-brandGold brand-title";
+      } else if (theme === 'modern-white') {
+        logo1.className = "flex items-center justify-center bg-transparent border-0 px-2 py-1 transition-all";
+        logo2.className = "flex items-center justify-center bg-transparent border-0 px-2 py-1 transition-all";
+        text1.className = "text-xl font-light tracking-wide text-white brand-title";
+        text2.className = "text-xl font-bold tracking-widest text-white brand-title border-l border-white/30 pl-4";
+      }
+    }
+
+
+    // -----------------------------------------------------------------
+    // Dynamic Pillar Tooling & Calculations logic
+    // -----------------------------------------------------------------
+    const modal = document.getElementById('pillar-modal');
+    const modalContainer = document.getElementById('modal-container');
+    const modalIcon = document.getElementById('modal-icon');
+    const modalPillarNum = document.getElementById('modal-pillar-num');
+    const modalTitle = document.getElementById('modal-title');
+    const contentSlot = document.getElementById('modal-content-slot');
+
+    // Pillar Details Metadata & Diagnostic Templates
+    const pillarTemplates = {
+      1: {
+        num: "Tunjang 01",
+        title: "Profiler Penjanaan Kekayaan",
+        icon: "key-round",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Kenal pasti arketaip penjanaan kekayaan anda. Produktiviti kewangan tertinggi seseorang individu datang daripada memadankan usaha dengan profil bakat.</p>
+            
+            <div class="bg-brandBlue-900/5 p-5 rounded-xl border border-brandGold/20">
+              <h4 class="font-bold text-sm text-brandBlue-900 mb-3 uppercase tracking-wider">Diagnostik Arketaip Pantas</h4>
+              
+              <div class="space-y-4 text-sm" id="quiz-container">
+                <div>
+                  <p class="font-semibold text-brandBlue-900 mb-2">1. Apabila berhadapan dengan cabaran perniagaan, anda secara semula jadi:</p>
+                  <div class="grid grid-cols-1 gap-2">
+                    <button onclick="selectAnswer(1, 'Creator')" class="text-left p-2.5 bg-white hover:bg-brandGold/10 border border-slate-200 rounded transition-colors">A) Sumbang saran produk atau reka bentuk yang benar-benar baharu</button>
+                    <button onclick="selectAnswer(1, 'Trader')" class="text-left p-2.5 bg-white hover:bg-brandGold/10 border border-slate-200 rounded transition-colors">B) Cari peluang arbitraj atau perbezaan harga untuk berdagang aset</button>
+                    <button onclick="selectAnswer(1, 'System')" class="text-left p-2.5 bg-white hover:bg-brandGold/10 border border-slate-200 rounded transition-colors">C) Bentuk pasukan untuk mengembangkan skala model operasi</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Result Showcase (Dynamic) -->
+              <div id="quiz-result" class="hidden mt-6 pt-6 border-t border-brandGold/20 text-center">
+                <p class="text-xs uppercase text-slate-500 font-bold tracking-wider">Sorotan Arketaip Anda</p>
+                <h4 id="archetype-name" class="text-2xl font-black text-brandBlue-900 brand-title mt-1 text-brandGold">Inovator Strategik</h4>
+                <p id="archetype-desc" class="text-sm text-slate-600 mt-2">Anda memanfaatkan kebijaksanaan yang tinggi dan leveraj struktur untuk mewujudkan sistem pengeluaran berterusan. Laluan kekayaan anda tertumpu kepada harta intelek yang unik, bukan perundingan berjam.</p>
+                <button onclick="resetQuiz()" class="mt-4 text-xs font-bold text-brandBlue-900 underline">Ulang Ujian</button>
+              </div>
+            </div>
+            
+            <div class="text-xs text-slate-400 leading-relaxed border-t border-slate-100 pt-4">
+              *Diagnostik personaliti penuh merangkumi audit corak tingkah laku intensif 80 soalan bersama perunding KAC.
+            </div>
+          </div>
+        `
+      },
+      2: {
+        num: "Tunjang 02",
+        title: "Pengurusan Kekayaan: Audit Baki",
+        icon: "scale",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Fahami indeks kesolvenan kewangan keseluruhan anda. Kira nilai bersih anda dengan pantas di bawah.</p>
+            
+            <div class="space-y-4 bg-slate-50 p-6 rounded-xl border border-slate-200">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Aset Cair (Tunai / Emas)</label>
+                  <input type="number" id="m-assets" value="50000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcManagement()">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Liabiliti (Hutang / Pinjaman)</label>
+                  <input type="number" id="m-liabilities" value="20000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcManagement()">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pendapatan Aktif Bulanan</label>
+                  <input type="number" id="m-income" value="8000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcManagement()">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Perbelanjaan Bulanan</label>
+                  <input type="number" id="m-expenses" value="5000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcManagement()">
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center bg-brandBlue-900 text-white p-4 rounded-lg">
+                <div>
+                  <p class="text-xs text-brandGold font-bold uppercase tracking-wider">Anggaran Nilai Bersih</p>
+                  <p class="text-2xl font-extrabold" id="mgmt-net-worth">RM 30,000</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-xs text-slate-300 uppercase tracking-wider">Lebihan Bersih Bulanan</p>
+                  <p class="text-xl font-bold" id="mgmt-surplus">RM 3,000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      3: {
+        num: "Tunjang 03",
+        title: "Kalkulator Penyucian Kekayaan",
+        icon: "heart-handshake",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Laksanakan Zakat secara sistematik (penyucian pematuhan) berdasarkan nilai piawai 2.5% ke atas aset cair yang layak melebihi paras Nisab.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Jumlah Aset Layak Zakat (Simpanan, Emas, Saham)</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-2.5 text-sm text-slate-400">RM</span>
+                  <input type="number" id="zakat-assets" value="100000" class="w-full bg-white border border-slate-300 rounded pl-10 pr-3 py-2 text-sm text-brandBlue-900" oninput="recalcPurification()">
+                </div>
+              </div>
+
+              <div class="p-4 bg-brandGold/10 rounded border border-brandGold/30 flex justify-between items-center">
+                <div>
+                  <h4 class="text-xs font-bold text-brandBlue-900 uppercase">Zakat Al-Maal Dikira (2.5%)</h4>
+                  <p class="text-sm text-slate-600 mt-1">Kena dibayar apabila genap tahun kekayaan (Haul)</p>
+                </div>
+                <p class="text-2xl font-black text-brandBlue-900" id="zakat-total">RM 2,500.00</p>
+              </div>
+
+              <div class="text-xs text-slate-500">
+                💡 <strong>Manfaat Rebat Cukai:</strong> Di kebanyakan bidang kuasa, Zakat yang dibayar berfungsi sebagai rebat langsung terhadap bebanan cukai pendapatan peribadi yang dikira.
+              </div>
+            </div>
+          </div>
+        `
+      },
+      4: {
+        num: "Tunjang 04",
+        title: "Sandbox Pemeliharaan Kekayaan",
+        icon: "shield-alert",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Bina rizab kontingensi kecemasan. Daya tahan kewangan menuntut 3 hingga 6 bulan perbelanjaan asas dikunci dalam simpanan hasil tinggi, cair, dan selamat.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Purata Kos Sara Hidup Bulanan</label>
+                <input type="number" id="pres-expenses" value="4500" class="w-full bg-white border border-slate-300 rounded p-2.5 text-sm text-brandBlue-900" oninput="recalcPreservation()">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Tempoh Perlindungan Yang Dikehendaki</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button onclick="setPreservationHorizon(3)" id="horizon-3" class="py-2 px-3 rounded border border-brandGold bg-brandBlue-900 text-white text-xs font-bold transition-all">3 Bulan (Standard)</button>
+                  <button onclick="setPreservationHorizon(6)" id="horizon-6" class="py-2 px-3 rounded border border-slate-300 bg-white text-slate-700 text-xs font-bold transition-all">6 Bulan (Optimum)</button>
+                  <button onclick="setPreservationHorizon(12)" id="horizon-12" class="py-2 px-3 rounded border border-slate-300 bg-white text-slate-700 text-xs font-bold transition-all">12 Bulan (Kukuh)</button>
+                </div>
+              </div>
+
+              <div class="p-4 bg-brandBlue-900 text-white rounded-xl border border-brandGold flex items-center justify-between">
+                <div>
+                  <h4 class="text-xs text-brandGold font-bold tracking-widest uppercase">Sasaran Modal Pemeliharaan</h4>
+                  <p class="text-[10px] text-white/60">Perlu kekal bebas risiko, cair dan tidak mudah berubah</p>
+                </div>
+                <p class="text-2xl font-black" id="pres-target">RM 13,500</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      5: {
+        num: "Tunjang 05",
+        title: "Audit Perlindungan Kekayaan",
+        icon: "umbrella",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Nilai perlindungan risiko terhadap kelemahan utama. Takaful yang patuh Syariah melindungi tanggungan dan legasi anda daripada gangguan sepenuhnya.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <h4 class="text-xs font-bold text-brandBlue-900 uppercase tracking-widest">Pilih Elemen Risiko untuk Dilindungi:</h4>
+              
+              <div class="space-y-2">
+                <label class="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" id="risk-life" checked class="w-4 h-4 text-brandGold focus:ring-brandGold" onchange="recalcProtection()">
+                  <div>
+                    <span class="text-sm font-bold text-brandBlue-900 block">Nyawa & Hilang Upaya Kekal Menyeluruh (TPD)</span>
+                    <span class="text-xs text-slate-500">Menyediakan modal sekali gus untuk menggantikan sokongan pendapatan.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" id="risk-medical" checked class="w-4 h-4 text-brandGold focus:ring-brandGold" onchange="recalcProtection()">
+                  <div>
+                    <span class="text-sm font-bold text-brandBlue-900 block">Perisai Perubatan Komprehensif</span>
+                    <span class="text-xs text-slate-500">Melindungi aset tegar anda daripada dicairkan akibat kecemasan perubatan.</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded cursor-pointer hover:bg-slate-50">
+                  <input type="checkbox" id="risk-critical" class="w-4 h-4 text-brandGold focus:ring-brandGold" onchange="recalcProtection()">
+                  <div>
+                    <span class="text-sm font-bold text-brandBlue-900 block">Rizab Penyakit Kritikal</span>
+                    <span class="text-xs text-slate-500">Kecairan tambahan untuk membiayai tempoh pemulihan.</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="p-4 bg-brandBlue-900 text-white rounded-lg flex items-center justify-between">
+                <span class="text-xs font-bold text-brandGold uppercase">Indeks Keutamaan Perlindungan</span>
+                <span id="protection-status" class="px-3 py-1 bg-green-600 text-[10px] uppercase font-extrabold tracking-widest rounded-full text-white">ASAS OPTIMUM</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      
+
+      6: {
+        num: "Tunjang 06",
+        title: "Simulator penggandaan Kekayaan",
+        icon: "trending-up",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Simulasikan kitaran penggandaan kekayaan berdasarkan purata kadar pertumbuhan ekuiti sejarah.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Modal Pelaburan Awal</label>
+                  <input type="number" id="mult-initial" value="10000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcMultiplication()">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Sasaran Pulangan Tahunan (%)</label>
+                  <input type="number" id="mult-rate" value="7" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcMultiplication()">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tempoh Penggandaan (Tahun)</label>
+                <input type="range" id="mult-years" min="1" max="40" value="15" class="w-full accent-brandGold cursor-pointer" oninput="recalcMultiplication()">
+                <div class="flex justify-between text-[10px] text-slate-500 font-bold mt-1">
+                  <span>1 Tahun</span>
+                  <span id="horizon-display" class="text-brandBlue-900 bg-brandGold/20 px-2 py-0.5 rounded">15 Tahun</span>
+                  <span>40 Tahun</span>
+                </div>
+              </div>
+
+              <div class="p-5 bg-brandBlue-900 text-white rounded-xl border border-brandGold/40 text-center">
+                <span class="text-xs text-brandGold uppercase tracking-widest font-bold">Nilai Modal Masa Hadapan</span>
+                <h3 class="text-3xl font-black tracking-tight mt-1" id="mult-result">RM 27,590.32</h3>
+                <p class="text-[10px] text-white/50 mt-1">Simulasi pertumbuhan tidak mengambil kira pembolehubah pengeluaran modal.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      7: {
+        num: "Tunjang 07",
+        title: "Diagnostik Pembiayaan Kekayaan",
+        icon: "coins",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Manfaatkan instrumen kewangan bijak. Semak had maksimum Nisbah Khidmat Hutang (DSR) yang selamat sebelum memohon kelulusan bank.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gaji Bersih Dibawa Pulang Bulanan</label>
+                  <input type="number" id="dsr-income" value="7000" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcDSR()">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Jumlah Komitmen Tetap</label>
+                  <input type="number" id="dsr-debts" value="2500" class="w-full bg-white border border-slate-300 rounded p-2 text-sm text-brandBlue-900" oninput="recalcDSR()">
+                </div>
+              </div>
+
+              <div class="p-5 rounded-xl border flex items-center justify-between" id="dsr-panel">
+                <div>
+                  <h4 class="text-xs font-bold uppercase tracking-wider">Status DSR Dikira</h4>
+                  <p class="text-2xl font-black mt-1" id="dsr-ratio">35.7%</p>
+                </div>
+                <div class="text-right">
+                  <span id="dsr-badge" class="px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full text-white bg-green-600">TAHAP SELAMAT</span>
+                  <p class="text-[10px] text-slate-500 mt-2" id="dsr-feedback">Ruang cemerlang untuk penggunaan kredit strategik.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      8: {
+        num: "Tunjang 08",
+        title: "Pemeta Legasi Pembahagian Kekayaan",
+        icon: "scroll",
+        content: `
+          <div class="space-y-6">
+            <p class="text-sm text-slate-600">Elakkan pembekuan aset dari segi undang-undang. Rangka pemindahan lancar yang mengutamakan hibah (pemberian), struktur faraid, dan amanah.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+              <h4 class="text-xs font-bold text-brandBlue-900 uppercase tracking-widest mb-2">Tentukan Saluran Pembahagian:</h4>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3 bg-white border border-brandGold/20 rounded">
+                  <span class="font-bold text-brandBlue-900 block mb-1">HIBAH (Pemberian Tanpa Syarat)</span>
+                  <p class="text-slate-500 leading-relaxed">Pemindahan terus kepada sesiapa semasa hayat. Mengelak tempoh pembekuan harta pusaka serta-merta.</p>
+                </div>
+                <div class="p-3 bg-white border border-brandGold/20 rounded">
+                  <span class="font-bold text-brandBlue-900 block mb-1">FARAID (Pembahagian Syariah)</span>
+                  <p class="text-slate-500 leading-relaxed">Kadar sah piawai yang diberikan khusus kepada waris yang berhak selepas kematian.</p>
+                </div>
+                <div class="p-3 bg-white border border-brandGold/20 rounded">
+                  <span class="font-bold text-brandBlue-900 block mb-1">WASIAT (Legasi Wasiat)</span>
+                  <p class="text-slate-500 leading-relaxed">Peruntukkan sehingga 1/3 daripada jumlah nilai harta pusaka khusus untuk bukan waris atau badan amal.</p>
+                </div>
+                <div class="p-3 bg-white border border-brandGold/20 rounded">
+                  <span class="font-bold text-brandBlue-900 block mb-1">AMANAH & KUNCIAN ASET</span>
+                  <p class="text-slate-500 leading-relaxed">Perlindungan berterusan, menetapkan kriteria kompleks untuk pembayaran kepada anak di bawah umur.</p>
+                </div>
+              </div>
+
+              <div class="bg-brandBlue-900 text-white p-4 rounded-lg flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-brandGold font-bold uppercase block">Perlindungan Pembekuan Aset</span>
+                  <span class="text-[10px] text-white/60">Elakkan proses pemegangan harta pusaka yang berbulan atau bertahun</span>
+                </div>
+                <button onclick="alertLegacy()" class="bg-brandGold text-brandBlue-900 font-extrabold text-[10px] uppercase tracking-widest px-3 py-2 rounded hover:bg-white hover:text-brandBlue-900 transition-all">Muat Turun Pelan Tindakan</button>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    // Open dynamic modal
+    function openPillarModal(pillarId) {
+      const template = pillarTemplates[pillarId];
+      if (!template) return;
+
+      // Update Modal Header values
+      modalPillarNum.innerText = template.num;
+      modalTitle.innerText = template.title;
+      
+      // Inject body markup
+      contentSlot.innerHTML = template.content;
+
+      // Change Icon Class
+      modalIcon.setAttribute("data-lucide", template.icon);
+      lucide.createIcons();
+
+      // Show Modal Backdrop
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      // Animate Modal Container
+      setTimeout(() => {
+        modalContainer.classList.remove('scale-95', 'opacity-0');
+        modalContainer.classList.add('scale-100', 'opacity-100');
+      }, 50);
+
+      // Trigger initial custom script executions per modal type
+      if (pillarId === 2) recalcManagement();
+      if (pillarId === 3) recalcPurification();
+      if (pillarId === 4) setPreservationHorizon(3);
+      if (pillarId === 5) recalcProtection();
+      if (pillarId === 6) recalcMultiplication();
+      if (pillarId === 7) recalcDSR();
+    }
+
+    // Close dynamic modal safely
+    function closePillarModal() {
+      modalContainer.classList.remove('scale-100', 'opacity-100');
+      modalContainer.classList.add('scale-95', 'opacity-0');
+      
+      setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+      }, 250);
+    }
+
+    // ------------------------------------
+    // Dynamic Calculator Functions
+    // ------------------------------------
+
+    // Pillar 1: Quick Personality Profiler Engine
+    let quizSelectedAnswers = {};
+    function selectAnswer(questionId, value) {
+      quizSelectedAnswers[questionId] = value;
+      
+      // Show dynamic mock archetype based on selection
+      document.getElementById('quiz-container').classList.add('hidden');
+      const result = document.getElementById('quiz-result');
+      result.classList.remove('hidden');
+
+      const nameSlot = document.getElementById('archetype-name');
+      const descSlot = document.getElementById('archetype-desc');
+
+      if (value === 'Creator') {
+        nameSlot.innerText = "Inovator Kekayaan";
+        descSlot.innerText = "Laluan utama anda ialah memperkenalkan harta intelek tersuai, struktur kreatif, atau konsep bernilai tinggi. Fokus kepada membina dan mereka bentuk produk.";
+      } else if (value === 'Trader') {
+        nameSlot.innerText = "Arbitraj Modal";
+        descSlot.innerText = "Anda gemar leveraj aktif, kitaran pasaran, dan mengenal pasti percanggahan harga. Laluan semula jadi anda berkembang melalui perdagangan, hartanah, dan urus niaga pantas.";
+      } else {
+        nameSlot.innerText = "Pembina Sistem";
+        descSlot.innerText = "Anda membina rangkaian, mekanisme korporat, dan pasukan. Kekayaan anda berganda apabila menguruskan aliran operasi yang kompleks dan leveraj perniagaan.";
+      }
+    }
+
+    function resetQuiz() {
+      document.getElementById('quiz-container').classList.remove('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+      quizSelectedAnswers = {};
+    }
+
+    // Pillar 2: Wealth Management Solver
+    function recalcManagement() {
+      const assets = parseFloat(document.getElementById('m-assets').value) || 0;
+      const liabilities = parseFloat(document.getElementById('m-liabilities').value) || 0;
+      const income = parseFloat(document.getElementById('m-income').value) || 0;
+      const expenses = parseFloat(document.getElementById('m-expenses').value) || 0;
+
+      const netWorth = assets - liabilities;
+      const surplus = income - expenses;
+
+      document.getElementById('mgmt-net-worth').innerText = "RM " + netWorth.toLocaleString();
+      document.getElementById('mgmt-surplus').innerText = "RM " + surplus.toLocaleString();
+    }
+
+    // Pillar 3: Zakat Solver
+    function recalcPurification() {
+      const assets = parseFloat(document.getElementById('zakat-assets').value) || 0;
+      const zakat = assets * 0.025;
+      document.getElementById('zakat-total').innerText = "RM " + zakat.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // Pillar 4: Preservation Target
+    let currentPreservationHorizon = 3;
+    function setPreservationHorizon(months) {
+      currentPreservationHorizon = months;
+      
+      // Toggle button active classes visually
+      [3, 6, 12].forEach(m => {
+        const btn = document.getElementById(`horizon-${m}`);
+        if (m === months) {
+          btn.className = "py-2 px-3 rounded border border-brandGold bg-brandBlue-900 text-white text-xs font-bold transition-all";
+        } else {
+          btn.className = "py-2 px-3 rounded border border-slate-300 bg-white text-slate-700 text-xs font-bold transition-all";
+        }
+      });
+
+      recalcPreservation();
+    }
+
+    function recalcPreservation() {
+      const expenses = parseFloat(document.getElementById('pres-expenses').value) || 0;
+      const targetValue = expenses * currentPreservationHorizon;
+      document.getElementById('pres-target').innerText = "RM " + targetValue.toLocaleString();
+    }
+
+    // Pillar 5: Protection Indicator
+    function recalcProtection() {
+      const life = document.getElementById('risk-life').checked;
+      const medical = document.getElementById('risk-medical').checked;
+      const critical = document.getElementById('risk-critical').checked;
+
+      const badge = document.getElementById('protection-status');
+      
+      let score = 0;
+      if (life) score++;
+      if (medical) score++;
+      if (critical) score++;
+
+      if (score === 3) {
+        badge.innerText = "PERISAI OPTIMUM";
+        badge.className = "px-3 py-1 bg-green-600 text-[10px] uppercase font-extrabold tracking-widest rounded-full text-white";
+      } else if (score === 2) {
+        badge.innerText = "KELEMAHAN WUJUD";
+        badge.className = "px-3 py-1 bg-yellow-600 text-[10px] uppercase font-extrabold tracking-widest rounded-full text-white";
+      } else {
+        badge.innerText = "JURANG KRITIKAL";
+        badge.className = "px-3 py-1 bg-red-600 text-[10px] uppercase font-extrabold tracking-widest rounded-full text-white";
+      }
+    }
+
+    // Pillar 6: Compounding Multiplier
+    function recalcMultiplication() {
+      const p = parseFloat(document.getElementById('mult-initial').value) || 0;
+      const r = parseFloat(document.getElementById('mult-rate').value) / 100 || 0;
+      const n = parseInt(document.getElementById('mult-years').value) || 0;
+
+      document.getElementById('horizon-display').innerText = n + " Tahun";
+
+      const total = p * Math.pow((1 + r), n);
+      document.getElementById('mult-result').innerText = "RM " + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // Pillar 7: Financing Assessment
+    function recalcDSR() {
+      const income = parseFloat(document.getElementById('dsr-income').value) || 1;
+      const debts = parseFloat(document.getElementById('dsr-debts').value) || 0;
+
+      const dsr = (debts / income) * 100;
+
+      const dsrRatio = document.getElementById('dsr-ratio');
+      const badge = document.getElementById('dsr-badge');
+      const feedback = document.getElementById('dsr-feedback');
+      const panel = document.getElementById('dsr-panel');
+
+      dsrRatio.innerText = dsr.toFixed(1) + "%";
+
+      if (dsr <= 40) {
+        badge.innerText = "TAHAP SELAMAT";
+        badge.className = "px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full text-white bg-green-600";
+        feedback.innerText = "Ruang cemerlang untuk penggunaan kredit strategik.";
+        panel.className = "p-5 rounded-xl border border-green-200 bg-green-50 flex items-center justify-between";
+      } else if (dsr <= 70) {
+        badge.innerText = "AMARAN BERHATI-HATI";
+        badge.className = "px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full text-white bg-yellow-600";
+        feedback.innerText = "Pemberi pinjaman mungkin mencabar leveraj lanjut. Optimumkan liabiliti anda.";
+        panel.className = "p-5 rounded-xl border border-yellow-200 bg-yellow-50 flex items-center justify-between";
+      } else {
+        badge.innerText = "PROFIL RISIKO TINGGI";
+        badge.className = "px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full text-white bg-red-600";
+        feedback.innerText = "Kurangkan leveraj serta-merta. Kelulusan pembiayaan sangat tidak mungkin.";
+        panel.className = "p-5 rounded-xl border border-red-200 bg-red-50 flex items-center justify-between";
+      }
+    }
+
+    // Pillar 8: Legacy Alert fallback
+    function alertLegacy() {
+      // Direct replacement for browser alert()
+      const content = document.getElementById('modal-content-slot');
+      content.innerHTML = `
+        <div class="bg-green-50 border border-green-200 p-6 rounded-xl text-center space-y-4">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600">
+            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Pelan Tindakan Legasi Dijana</h3>
+          <p class="text-sm text-slate-600">Templat pembahagian Hibah dan Faraid tersuai anda telah dimasukkan ke dalam giliran untuk penyatuan. Hubungi penasihat yang ditetapkan untuk mendapatkan pelan rasmi anda.</p>
+          <button onclick="openPillarModal(8)" class="bg-brandBlue-900 text-white font-bold text-xs uppercase px-4 py-2 rounded">Kembali ke pemeta pembahagian</button>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+  </script>
+
+</body>
+</html>

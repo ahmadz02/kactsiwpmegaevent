@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Zakat & Cukai · YA 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-dark:#0A2240; --navy-med:#11335C; --navy-light:#1A4475;
+  --gold:#C5A059; --gold-hover:#D4AF37; --gold-light:#F4EEDC; --gold-glow:rgba(197,160,89,.2);
+  --white:#fff; --offwhite:#F8FAFC; --gray-dark:#1E293B; --gray-muted:#64748B; --line:#E2E8F0;
+  --display:'Cinzel',Georgia,'Times New Roman',serif;
+  --body:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--body);background:var(--offwhite);color:var(--gray-dark);-webkit-font-smoothing:antialiased;line-height:1.5;}
+.display{font-family:var(--display);}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--navy-dark);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
+
+/* layout */
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px;}
+header.hero{background:var(--navy-dark);color:#fff;}
+.hero-inner{max-width:1120px;margin:0 auto;padding:38px 20px 44px;}
+.hero-top{display:flex;align-items:center;gap:16px;}
+.hero-badge{width:48px;height:48px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--navy-med);border:1px solid var(--gold);}
+.eyebrow{color:var(--gold);font-weight:700;letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;margin:0;}
+h1.title{font-family:var(--display);font-size:1.75rem;font-weight:700;line-height:1.15;margin:2px 0 0;}
+.hero-sub{margin:16px 0 0;font-size:.98rem;max-width:640px;color:var(--gold-light);}
+
+main{max-width:1120px;margin:0 auto;padding:32px 20px;display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start;}
+.col-left{display:flex;flex-direction:column;gap:24px;min-width:0;}
+
+.card{background:var(--white);border:1px solid rgba(197,160,89,.25);border-radius:16px;padding:24px;box-shadow:0 10px 24px -14px rgba(10,34,64,.18);transition:box-shadow .35s cubic-bezier(.16,1,.3,1),border-color .35s cubic-bezier(.16,1,.3,1);}
+.card:hover{border-color:var(--gold);box-shadow:0 14px 30px -12px rgba(10,34,64,.2),0 0 16px var(--gold-glow);}
+
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+.sec-ic{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--gold-light);}
+.sec-title{font-family:var(--display);font-size:1.25rem;font-weight:700;color:var(--navy-dark);margin:0;}
+
+/* fields */
+.field{margin-top:16px;}
+.field-label{font-size:.84rem;font-weight:600;color:var(--gray-dark);display:block;}
+.field-hint{font-size:.7rem;color:var(--gray-muted);margin:4px 0 0;}
+.field-wrap{position:relative;margin-top:6px;}
+.rm{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-muted);font-weight:600;font-size:.9rem;pointer-events:none;}
+input.money{width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:10px;background:#FCFDFE;font-family:var(--body);font-size:1rem;font-weight:600;color:var(--navy-dark);transition:border-color .2s,box-shadow .2s;-moz-appearance:textfield;}
+input.money::-webkit-outer-spin-button,input.money::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+input.money:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow);background:#fff;}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;}
+@media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+
+/* segmented */
+.seg{display:inline-flex;background:var(--offwhite);border:1px solid var(--line);border-radius:10px;padding:3px;flex-wrap:wrap;}
+.seg button{font-family:var(--body);font-size:.82rem;font-weight:600;padding:7px 16px;border:none;background:none;border-radius:8px;color:var(--gray-muted);transition:all .2s;cursor:pointer;}
+.seg button.active{background:var(--navy-dark);color:#fff;box-shadow:0 4px 10px -4px rgba(10,34,64,.5);}
+
+/* toggle */
+.rowbox{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--offwhite);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+.rowbox.click{cursor:pointer;}
+.toggle{appearance:none;-webkit-appearance:none;width:44px;height:24px;border-radius:999px;background:#CBD5E1;position:relative;cursor:pointer;transition:background .2s;flex:none;border:none;}
+.toggle:checked{background:var(--gold);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.toggle:checked::after{left:22px;}
+
+.total-band{margin-top:20px;border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.total-band.dark{background:var(--navy-dark);}
+.total-band.gold{background:var(--gold-light);}
+.total-lbl{font-size:.85rem;font-weight:600;}
+.total-val{font-family:var(--display);font-weight:700;}
+
+.warn{margin-top:16px;display:flex;align-items:flex-start;gap:8px;border-radius:12px;padding:12px;font-size:.85rem;background:#FEF3F2;border:1px solid #FDA29B;color:#B42318;}
+
+.reset{margin-top:2px;background:none;border:none;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--gray-muted);display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:8px 4px;}
+.reset:hover{color:var(--navy-dark);}
+
+/* summary */
+.summary{background:var(--navy-dark);border:1px solid rgba(197,160,89,.4);border-radius:16px;padding:24px;position:sticky;top:24px;}
+.summary .eyebrow{margin-bottom:4px;}
+.sum-title{font-family:var(--display);font-size:1.25rem;font-weight:700;color:#fff;margin:0 0 20px;}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.88rem;margin-bottom:12px;}
+.stat .k{color:#CBD5E1;}
+.stat .v{font-weight:600;color:#fff;}
+.stat .v.gold{color:var(--gold-hover);}
+.divider{height:1px;background:rgba(197,160,89,.3);margin:18px 0;}
+.bar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.bar-head .k{font-size:.72rem;font-weight:600;color:#CBD5E1;}
+.bar-head .p{font-size:.72rem;font-weight:700;color:var(--gold);}
+.bar{width:100%;height:12px;border-radius:999px;overflow:hidden;background:var(--navy-light);}
+.bar>span{display:block;height:100%;border-radius:999px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-hover));transition:width .35s;}
+.covernote{font-size:.7rem;color:#94A3B8;margin:6px 0 20px;}
+.net-box{border-radius:14px;padding:16px;margin-bottom:12px;background:var(--navy-med);border:1px solid var(--gold);}
+.net-lbl{font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-light);margin:0 0 4px;}
+.net-val{font-family:var(--display);font-size:1.9rem;font-weight:700;color:#fff;margin:0;}
+.net-eff{font-size:.7rem;color:#94A3B8;margin:4px 0 0;}
+.mini2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.mini{border-radius:12px;padding:12px;background:var(--navy-med);}
+.mini .k{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#94A3B8;margin:0;}
+.mini .v{font-family:var(--display);font-size:1.05rem;font-weight:700;margin:2px 0 0;}
+.insight{margin-top:16px;border-radius:12px;padding:12px;font-size:.75rem;line-height:1.55;background:var(--gold-light);color:var(--navy-dark);}
+.zk-ctrl{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--navy-med);border-radius:12px;padding:12px 14px;margin-bottom:16px;}
+.zk-ctrl .k{font-size:.72rem;font-weight:600;color:var(--gold-light);}
+.summary input.money{background:#0f2b4d;border-color:#22436b;color:#fff;}
+.summary .rm{color:#94A3B8;}
+
+footer{max-width:1120px;margin:0 auto;padding:0 20px 40px;}
+.disc{border-radius:12px;padding:16px;font-size:.72rem;line-height:1.6;background:#fff;border:1px solid var(--line);color:var(--gray-muted);}
+.disc b{color:var(--navy-dark);}
+
+@media(max-width:960px){
+  main{grid-template-columns:1fr;}
+  .summary{position:static;}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;}}
+svg.ic{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-badge">
+        <svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Perancangan Kewangan Islamik · YA 2025</p>
+        <h1 class="title">Kalkulator Zakat &amp; Cukai</h1>
+      </div>
+    </div>
+    <p class="hero-sub">Kira zakat pendapatan anda dan lihat bagaimana ia menolak cukai secara terus (rebat 100%) — dalam satu paparan.</p>
+  </div>
+</header>
+
+<main>
+  <div class="col-left">
+
+    <!-- INCOME -->
+    <section class="card">
+      <p class="eyebrow">Langkah 1 · Pendapatan</p>
+      <h2 class="sec-title" style="margin-top:2px;">Pendapatan Tahunan</h2>
+      <div class="field">
+        <label class="field-label" for="income">Jumlah pendapatan kasar setahun (RM)</label>
+        <div class="field-wrap"><span class="rm">RM</span>
+          <input class="money" type="number" id="income" inputmode="decimal" min="0" step="100" placeholder="60000"></div>
+        <p class="field-hint">Gaji, bonus, elaun bercukai &amp; side income sepanjang tahun. Digunakan untuk zakat &amp; cukai.</p>
+      </div>
+    </section>
+
+    <!-- ZAKAT -->
+    <section class="card">
+      <div class="sec-head">
+        <span class="sec-ic">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A2240" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7Z"/></svg>
+        </span>
+        <div><p class="eyebrow">Langkah 2 · Zakat</p><h2 class="sec-title">Kira Zakat (2.5%)</h2></div>
+      </div>
+
+      <div class="field">
+        <p class="field-label" style="margin-bottom:8px;">Kaedah zakat pendapatan</p>
+        <div class="seg" id="zakatMethod">
+          <button type="button" data-method="kasar" class="active">Pendapatan Kasar</button>
+          <button type="button" data-method="bersih">Bersih (Selepas Tolakan)</button>
+        </div>
+        <p class="field-hint">Kaedah kasar: 2.5% × pendapatan penuh. Kaedah bersih: 2.5% selepas tolak perbelanjaan asas yang dibenarkan.</p>
+      </div>
+
+      <div class="field" id="tolakanWrap" style="display:none;">
+        <label class="field-label" for="tolakan">Tolakan / perbelanjaan asas dibenarkan (RM)</label>
+        <div class="field-wrap"><span class="rm">RM</span>
+          <input class="money" type="number" id="tolakan" inputmode="decimal" min="0" step="100" placeholder="18000"></div>
+        <p class="field-hint">Cth: nafkah diri &amp; tanggungan, caruman KWSP. Rujuk kaedah pusat zakat negeri anda.</p>
+      </div>
+
+      <div class="grid2" style="margin-top:16px;">
+        <div>
+          <label class="field-label" for="simpanan">Zakat simpanan — baki cukup haul (RM)</label>
+          <div class="field-wrap"><span class="rm">RM</span>
+            <input class="money" type="number" id="simpanan" inputmode="decimal" min="0" step="100" placeholder="0"></div>
+          <p class="field-hint">Baki terendah dalam akaun yang kekal genap setahun.</p>
+        </div>
+        <div>
+          <label class="field-label" for="pelaburan">Zakat pelaburan — emas/saham/kripto (RM)</label>
+          <div class="field-wrap"><span class="rm">RM</span>
+            <input class="money" type="number" id="pelaburan" inputmode="decimal" min="0" step="100" placeholder="0"></div>
+          <p class="field-hint">Nilai semasa aset pelaburan yang layak.</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="nisab">Nilai nisab semasa (RM) — pilihan</label>
+        <div class="field-wrap"><span class="rm">RM</span>
+          <input class="money" type="number" id="nisab" inputmode="decimal" min="0" step="100" placeholder="Cth 26000"></div>
+        <p class="field-hint">Paras minimum sebelum zakat wajib. Jika diisi &amp; pendapatan bawah nisab, zakat pendapatan = RM0. Semak nilai terkini pusat zakat negeri.</p>
+      </div>
+
+      <div class="warn" id="nisabWarn" style="display:none;">
+        <svg class="ic" width="18" height="18" style="flex:none;margin-top:1px;" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+        <span>Pendapatan di bawah nisab semasa — zakat pendapatan tidak diwajibkan.</span>
+      </div>
+
+      <div class="total-band dark">
+        <span class="total-lbl" style="color:var(--gold-light);">Jumlah Zakat Setahun</span>
+        <span class="total-val" id="zakatTotal" style="color:var(--gold);font-size:1.5rem;">RM 0.00</span>
+      </div>
+    </section>
+
+    <!-- CUKAI -->
+    <section class="card">
+      <div class="sec-head">
+        <span class="sec-ic">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A2240" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+        </span>
+        <div><p class="eyebrow">Langkah 3 · Cukai</p><h2 class="sec-title">Pelepasan Cukai</h2></div>
+      </div>
+      <p class="field-hint" style="margin-bottom:16px;">Semakin banyak pelepasan yang layak dituntut, semakin rendah pendapatan bercukai anda.</p>
+
+      <div class="rowbox" style="margin-bottom:16px;">
+        <div><p class="field-label">Pelepasan individu &amp; tanggungan</p><p class="field-hint">Automatik untuk setiap pembayar cukai</p></div>
+        <span class="display" style="font-weight:700;color:var(--navy-dark);">RM 9,000</span>
+      </div>
+
+      <label class="rowbox click" style="margin-bottom:16px;">
+        <div><p class="field-label">Pasangan tiada pendapatan</p><p class="field-hint">Tambah pelepasan RM4,000 (&amp; rebat RM400 jika layak)</p></div>
+        <input type="checkbox" id="spouse" class="toggle">
+      </label>
+
+      <div class="grid2" id="reliefGrid"></div>
+
+      <div class="total-band gold">
+        <span class="total-lbl" style="color:var(--navy-dark);">Jumlah Pelepasan</span>
+        <span class="total-val" id="reliefTotal" style="color:var(--navy-dark);font-size:1.25rem;">RM 9,000.00</span>
+      </div>
+    </section>
+
+    <button class="reset" id="resetBtn">
+      <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      Set semula
+    </button>
+  </div>
+
+  <!-- SUMMARY -->
+  <aside>
+    <div class="summary">
+      <p class="eyebrow">Ringkasan</p>
+      <h2 class="sum-title">Keputusan Anda</h2>
+
+      <label class="zk-ctrl">
+        <span class="k">Guna zakat sebagai rebat cukai</span>
+        <input type="checkbox" id="useZakatRebate" class="toggle" checked>
+      </label>
+      <div class="field" id="manualZakatWrap" style="display:none;margin-top:0;margin-bottom:16px;">
+        <label class="field-label" for="manualZakat" style="color:var(--gold-light);">Zakat dibayar untuk rebat (RM)</label>
+        <div class="field-wrap"><span class="rm">RM</span>
+          <input class="money" type="number" id="manualZakat" inputmode="decimal" min="0" step="100" placeholder="0"></div>
+      </div>
+
+      <div class="stat"><span class="k">Pendapatan bercukai</span><span class="v" id="sChargeable">RM 0.00</span></div>
+      <div class="stat"><span class="k">Cukai sebelum rebat</span><span class="v" id="sTaxBefore">RM 0.00</span></div>
+      <div class="stat" id="rebateIndivRow" style="display:none;"><span class="k">− Rebat individu</span><span class="v gold" id="sRebateIndiv">RM 0.00</span></div>
+      <div class="stat"><span class="k">− Rebat zakat (100%)</span><span class="v gold" id="sZakatRebate">RM 0.00</span></div>
+
+      <div class="divider"></div>
+
+      <div class="bar-head"><span class="k">Cukai ditampung zakat</span><span class="p" id="coverPct">0%</span></div>
+      <div class="bar"><span id="coverBar"></span></div>
+      <p class="covernote" id="coverNote">Masukkan pendapatan untuk mula mengira.</p>
+
+      <div class="net-box">
+        <p class="net-lbl">Cukai bersih kena bayar</p>
+        <p class="net-val" id="sNetTax">RM 0.00</p>
+        <p class="net-eff" id="effRate">Kadar efektif 0.0%</p>
+      </div>
+
+      <div class="mini2">
+        <div class="mini"><p class="k">Jumlah Zakat</p><p class="v" id="sZakatOut" style="color:var(--gold);">RM 0.00</p></div>
+        <div class="mini"><p class="k">Jumlah Keluar</p><p class="v" id="sTotalOut" style="color:#fff;">RM 0.00</p></div>
+      </div>
+
+      <div class="insight" id="insight" style="display:none;"></div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <div class="disc">
+    <b>Penafian:</b> Kalkulator ini memberi anggaran sahaja berdasarkan kadar cukai &amp; pelepasan individu pemastautin Tahun Taksiran 2025 (difailkan 2026). Ia bukan nasihat cukai, undang-undang atau kewangan peribadi. Had pelepasan, nisab dan kaedah zakat berbeza mengikut keadaan dan negeri. Sila sahkan dengan <b>LHDN (hasil.gov.my)</b> dan pusat zakat negeri anda sebelum membuat keputusan atau memfailkan.
+  </div>
+</footer>
+
+<script>
+const money = v => 'RM ' + (isFinite(v)?v:0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const RELIEFS=[
+ {id:'r_epf',label:'Caruman KWSP (wajib)',cap:4000,hint:'Maksimum RM4,000'},
+ {id:'r_life',label:'Insurans nyawa / Takaful / KWSP sukarela',cap:3000,hint:'Maksimum RM3,000'},
+ {id:'r_prs',label:'PRS / Anuiti Tertunda',cap:3000,hint:'Maksimum RM3,000'},
+ {id:'r_medins',label:'Insurans perubatan & pendidikan',cap:4000,hint:'Maksimum RM4,000'},
+ {id:'r_lifestyle',label:'Gaya hidup (buku, gajet, internet)',cap:2500,hint:'Maksimum RM2,500'},
+ {id:'r_sport',label:'Sukan (peralatan & aktiviti)',cap:1000,hint:'Maksimum RM1,000'},
+ {id:'r_medical',label:'Perubatan (penyakit serius, saringan)',cap:10000,hint:'Maksimum RM10,000'},
+ {id:'r_edu',label:'Yuran pengajian sendiri / upskilling',cap:7000,hint:'Maksimum RM7,000'},
+ {id:'r_sspn',label:'SSPN (deposit bersih)',cap:8000,hint:'Maksimum RM8,000'},
+ {id:'r_socso',label:'PERKESO (SOCSO) & SIP (EIS)',cap:350,hint:'Maksimum RM350'},
+ {id:'r_parents',label:'Perubatan ibu bapa',cap:8000,hint:'Maksimum RM8,000'},
+ {id:'r_child',label:'Pelepasan anak',cap:200000,hint:'RM2,000/anak (<18) · RM8,000/anak (pengajian tinggi)'},
+ {id:'r_other',label:'Lain-lain pelepasan',cap:200000,hint:'Jumlah pelepasan lain yang layak'},
+];
+const grid=document.getElementById('reliefGrid');
+RELIEFS.forEach(r=>{
+ const d=document.createElement('div');
+ d.innerHTML='<label class="field-label" for="'+r.id+'">'+r.label+'</label>'+
+  '<div class="field-wrap"><span class="rm">RM</span>'+
+  '<input class="money" type="number" id="'+r.id+'" inputmode="decimal" min="0" step="50" placeholder="0" data-cap="'+r.cap+'"></div>'+
+  '<p class="field-hint">'+r.hint+'</p>';
+ grid.appendChild(d);
+});
+
+const BANDS=[{u:5000,r:0},{u:20000,r:.01},{u:35000,r:.03},{u:50000,r:.06},{u:70000,r:.11},{u:100000,r:.19},{u:400000,r:.25},{u:600000,r:.26},{u:2000000,r:.28},{u:Infinity,r:.30}];
+function progressiveTax(ci){let t=0,l=0;for(const b of BANDS){if(ci>l){t+=(Math.min(ci,b.u)-l)*b.r;l=b.u;}else break;}return t;}
+const num=id=>{const el=document.getElementById(id);const v=parseFloat(el.value);return isFinite(v)&&v>0?v:0;};
+let zakatMethod='kasar';
+
+function compute(){
+ const income=num('income');
+
+ const base=zakatMethod==='kasar'?income:Math.max(0,income-num('tolakan'));
+ const nisab=num('nisab');
+ const belowNisab=nisab>0&&base>0&&base<nisab;
+ document.getElementById('nisabWarn').style.display=belowNisab?'flex':'none';
+
+ const zP=belowNisab?0:base*0.025;
+ const zS=num('simpanan')*0.025;
+ const zI=num('pelaburan')*0.025;
+ const zakatTotal=zP+zS+zI;
+ document.getElementById('zakatTotal').textContent=money(zakatTotal);
+
+ let reliefs=9000;
+ const spouse=document.getElementById('spouse').checked;
+ if(spouse)reliefs+=4000;
+ RELIEFS.forEach(r=>{const el=document.getElementById(r.id);let v=parseFloat(el.value);v=isFinite(v)&&v>0?v:0;reliefs+=Math.min(v,r.cap);});
+ document.getElementById('reliefTotal').textContent=money(reliefs);
+
+ const chargeable=Math.max(0,income-reliefs);
+ const taxBefore=progressiveTax(chargeable);
+ const rIndiv=(chargeable<=35000&&chargeable>0)?400:0;
+ const rSpouse=(spouse&&chargeable<=35000&&chargeable>0)?400:0;
+ const totalIndivRebate=rIndiv+rSpouse;
+ const taxAfterRebates=Math.max(0,taxBefore-totalIndivRebate);
+
+ const useZakat=document.getElementById('useZakatRebate').checked;
+ const zakatForRebate=useZakat?zakatTotal:num('manualZakat');
+ const zakatApplied=Math.min(zakatForRebate,taxAfterRebates);
+ const netTax=Math.max(0,taxAfterRebates-zakatApplied);
+ const totalOut=netTax+zakatTotal;
+ const effRate=income>0?(netTax/income)*100:0;
+
+ document.getElementById('sChargeable').textContent=money(chargeable);
+ document.getElementById('sTaxBefore').textContent=money(taxBefore);
+ document.getElementById('sRebateIndiv').textContent='− '+money(totalIndivRebate);
+ document.getElementById('rebateIndivRow').style.display=totalIndivRebate>0?'flex':'none';
+ document.getElementById('sZakatRebate').textContent='− '+money(zakatApplied);
+ document.getElementById('sNetTax').textContent=money(netTax);
+ document.getElementById('effRate').textContent='Kadar efektif '+effRate.toFixed(1)+'%';
+ document.getElementById('sZakatOut').textContent=money(zakatTotal);
+ document.getElementById('sTotalOut').textContent=money(totalOut);
+
+ const cover=taxAfterRebates>0?Math.min(100,(zakatApplied/taxAfterRebates)*100):0;
+ document.getElementById('coverBar').style.width=cover.toFixed(0)+'%';
+ document.getElementById('coverPct').textContent=cover.toFixed(0)+'%';
+
+ const cn=document.getElementById('coverNote');
+ const ins=document.getElementById('insight');
+ if(income<=0){cn.textContent='Masukkan pendapatan untuk mula mengira.';ins.style.display='none';}
+ else if(taxAfterRebates<=0){cn.textContent='Tiada cukai kena bayar selepas pelepasan & rebat.';ins.style.display='none';}
+ else if(zakatApplied<=0){cn.textContent='Tiada zakat digunakan sebagai rebat.';ins.style.display='none';}
+ else if(netTax<=0){
+   cn.textContent='Zakat melangsaikan sepenuhnya cukai anda.';ins.style.display='block';
+   let m='<b>Combo berjaya:</b> Zakat '+money(zakatApplied)+' menolak 100% cukai anda — cukai bersih menjadi RM 0.00.';
+   const ex=zakatForRebate-zakatApplied;
+   if(ex>0.5)m+=' Lebihan zakat '+money(ex)+' tidak boleh dituntut balik, namun harta anda tetap disucikan.';
+   ins.innerHTML=m;
+ } else {
+   cn.textContent='Zakat menampung '+cover.toFixed(0)+'% daripada cukai anda.';ins.style.display='block';
+   ins.innerHTML='<b>Kesan zakat:</b> Setiap RM1 zakat menolak RM1 cukai. Zakat '+money(zakatApplied)+' terus mengurangkan cukai anda kepada '+money(netTax)+'.';
+ }
+}
+
+document.querySelectorAll('#zakatMethod button').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+   document.querySelectorAll('#zakatMethod button').forEach(b=>b.classList.remove('active'));
+   btn.classList.add('active');zakatMethod=btn.dataset.method;
+   document.getElementById('tolakanWrap').style.display=zakatMethod==='bersih'?'block':'none';
+   compute();
+ });
+});
+document.getElementById('useZakatRebate').addEventListener('change',e=>{
+ document.getElementById('manualZakatWrap').style.display=e.target.checked?'none':'block';compute();
+});
+RELIEFS.forEach(r=>{const el=document.getElementById(r.id);el.addEventListener('blur',()=>{let v=parseFloat(el.value);if(isFinite(v)&&v>r.cap)el.value=r.cap;});});
+document.addEventListener('input',e=>{if(e.target.matches('input'))compute();});
+document.getElementById('spouse').addEventListener('change',compute);
+document.getElementById('resetBtn').addEventListener('click',()=>{
+ document.querySelectorAll('input[type=number]').forEach(i=>i.value='');
+ document.getElementById('spouse').checked=false;
+ document.getElementById('useZakatRebate').checked=true;
+ document.getElementById('manualZakatWrap').style.display='none';
+ document.querySelectorAll('#zakatMethod button').forEach(b=>b.classList.remove('active'));
+ document.querySelector('#zakatMethod button[data-method=kasar]').classList.add('active');
+ zakatMethod='kasar';document.getElementById('tolakanWrap').style.display='none';compute();
+});
+compute();
+</script>
+</body>
+</html>

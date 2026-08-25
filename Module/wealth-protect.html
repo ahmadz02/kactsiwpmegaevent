@@ -1,0 +1,1082 @@
+<!doctype html>
+<html lang="ms">
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wealth Protection Audit Calculator</title>
+
+  <style>
+    :root {
+      --navy: #0B2545;
+      --navy-2: #071A32;
+      --gold: #D7A84B;
+      --gold-soft: #FFF4D8;
+
+      --text: #223044;
+      --muted: #667085;
+      --bg: #F6F8FB;
+      --card: #FFFFFF;
+      --line: #DDE3EA;
+
+      --blue: #2F80ED;
+      --blue-soft: #EAF2FF;
+
+      --green: #2E9D63;
+      --green-soft: #EAF7EF;
+
+      --yellow: #D6A100;
+      --yellow-soft: #FFF4CC;
+
+      --red: #D83A34;
+      --red-soft: #FDECEA;
+
+      --shadow: 0 16px 42px rgba(11, 37, 69, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(215, 168, 75, 0.18), transparent 28%),
+        linear-gradient(180deg, #FFFFFF 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: auto;
+      padding: 28px 22px 46px;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(215, 168, 75, 0.65);
+      background: #FFF9EC;
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-icon {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      margin: 16px 0 14px;
+      color: var(--navy);
+    }
+
+    .lead {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0;
+    }
+
+    .hero-card,
+    .panel,
+    .result,
+    .need-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-card {
+      overflow: hidden;
+    }
+
+    .hero-top {
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      color: #FFFFFF;
+      padding: 22px 24px;
+      border-bottom: 4px solid var(--gold);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .hero-top small {
+      display: block;
+      color: var(--gold);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+    }
+
+    .hero-top h2 {
+      margin: 3px 0 0;
+      font-size: 22px;
+    }
+
+    .hero-body {
+      padding: 22px 24px;
+    }
+
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 13px 14px;
+      margin-bottom: 10px;
+      background: #FFFFFF;
+    }
+
+    .mini b {
+      display: block;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    .mini span {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .priority {
+      margin-top: 12px;
+      background: var(--navy);
+      color: #FFFFFF;
+      border-radius: 11px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .priority em {
+      font-style: normal;
+      background: var(--red);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* LAYOUT */
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+    }
+
+    .panel,
+    .result {
+      padding: 24px;
+    }
+
+    .result {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+    }
+
+    h2.section {
+      margin: 0 0 6px;
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .hint {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* NEED CARDS */
+
+    .needs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .need-card {
+      box-shadow: none;
+      padding: 14px;
+      border-radius: 14px;
+    }
+
+    .need-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+
+    .num {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gold);
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      color: #876000;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .need-card b {
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    .need-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* FORM */
+
+    .group {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 16px;
+      margin-top: 14px;
+      background: #FFFFFF;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .group-title h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 17px;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 800;
+      color: #876000;
+      background: var(--gold-soft);
+      border: 1px solid rgba(215, 168, 75, 0.55);
+      border-radius: 999px;
+      padding: 5px 9px;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 750;
+      font-size: 13.5px;
+    }
+
+    .help {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px 10px 42px;
+      font-size: 16px;
+      color: var(--text);
+      background: #FFFFFF;
+    }
+
+    input:focus {
+      outline: 3px solid var(--blue-soft);
+      border-color: #7FB0F0;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    button {
+      height: 48px;
+      border-radius: 10px;
+      font-weight: 850;
+      font-size: 15.5px;
+      cursor: pointer;
+    }
+
+    .primary {
+      border: none;
+      background: var(--navy);
+      color: #FFFFFF;
+    }
+
+    .secondary {
+      background: #FFFFFF;
+      color: var(--navy);
+      border: 1px solid var(--line);
+    }
+
+    button:focus {
+      outline: 3px solid rgba(215, 168, 75, 0.4);
+      outline-offset: 2px;
+    }
+
+    /* RESULT */
+
+    .score {
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      border: 1px solid #CEE0FF;
+      margin: 18px 0;
+    }
+
+    .score small {
+      display: block;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 38px;
+      line-height: 1.1;
+      margin-top: 4px;
+      color: var(--navy);
+    }
+
+    .bar {
+      height: 12px;
+      background: #EEF1F4;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      background: var(--red);
+      transition: 0.35s;
+    }
+
+    .status {
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 14px;
+      font-weight: 650;
+    }
+
+    .status strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .status.green {
+      background: var(--green-soft);
+      color: #1F7046;
+    }
+
+    .status.yellow {
+      background: var(--yellow-soft);
+      color: #6F5400;
+    }
+
+    .status.red {
+      background: var(--red-soft);
+      color: #9D251F;
+    }
+
+    .rows {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #FAFBFC;
+    }
+
+    .row span {
+      color: var(--muted);
+    }
+
+    .row b {
+      text-align: right;
+      color: var(--navy);
+    }
+
+    .row.total {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .row.total span,
+    .row.total b {
+      color: #FFFFFF;
+    }
+
+    .priority-box {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: #FFFFFF;
+    }
+
+    .priority-box b {
+      color: var(--navy);
+    }
+
+    .priority-box ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+      color: var(--muted);
+    }
+
+    .note {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 940px) {
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result {
+        position: static;
+      }
+
+      .needs {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .wrap {
+        padding: 20px 14px 36px;
+      }
+
+      .form-grid,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .panel,
+      .result {
+        padding: 18px;
+      }
+
+      .hero-top,
+      .hero-body {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .score strong {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+
+
+<body>
+  <main class="wrap">
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div>
+        <div class="badge">
+          <span class="badge-icon">📊</span>
+          Risk Management Assessment
+        </div>
+
+        <h1>Lindungi kekayaan anda sebelum krisis melanda.</h1>
+
+        <p class="lead">
+          Sebagai Financial Planner Representative (FPR), saya sentiasa tekankan pengurusan risiko. Kalkulator <i>simple</i> ni bantu audit <b>Death/TPD Gap</b>, <b>Critical Illness Gap</b>, dan <b>Medical Gap</b> anda secara objektif supaya perlindungan keluarga anda ngam-ngam ikut keperluan dan tak over-budget. Jom semak!
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="Ringkasan aplikasi">
+        <div class="hero-top">
+          <div>
+            <small>PILLAR 05</small>
+            <h2>Wealth Protection Audit</h2>
+          </div>
+
+          <div class="badge-icon">↗</div>
+        </div>
+
+        <div class="hero-body">
+          <div class="mini">
+            <b>1. Death / TPD Need</b>
+            <span>Survival fund keluarga jika pendapatan utama hilang.</span>
+          </div>
+
+          <div class="mini">
+            <b>2. Critical Illness Need</b>
+            <span>Dana recovery apabila income terganggu semasa rawatan.</span>
+          </div>
+
+          <div class="mini">
+            <b>3. Medical Need</b>
+            <span>Semak medical coverage supaya aset tidak perlu dicairkan.</span>
+          </div>
+
+          <div class="priority">
+            <span>COVERAGE PRIORITY INDEX</span>
+            <em id="heroPriority">AUDIT NOW</em>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- MAIN CALCULATOR SECTION -->
+    <section class="grid">
+
+      <!-- INPUT FORM -->
+      <form class="panel" id="calcForm">
+        <h2 class="section">Input Audit</h2>
+
+        <p class="hint">
+          Masukkan angka anggaran. Semua nilai adalah dalam Ringgit Malaysia (RM).
+        </p>
+
+        <!-- 3 NEED SUMMARY -->
+        <div class="needs">
+          <div class="need-card">
+            <div class="need-top">
+              <span class="num">1</span>
+              <b>Death / TPD</b>
+            </div>
+            <p>Ganti pendapatan, hutang dan kos keluarga.</p>
+          </div>
+
+          <div class="need-card">
+            <div class="need-top">
+              <span class="num">2</span>
+              <b>Critical Illness</b>
+            </div>
+            <p>Dana pemulihan dan income replacement.</p>
+          </div>
+
+          <div class="need-card">
+            <div class="need-top">
+              <span class="num">3</span>
+              <b>Medical</b>
+            </div>
+            <p>Limit rawatan hospital dan medical coverage.</p>
+          </div>
+        </div>
+
+        <!-- A. DEATH / TPD NEED -->
+        <div class="group">
+          <div class="group-title">
+            <h3>A. Death / TPD Need</h3>
+            <span class="tag">Family survival</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="income">Pendapatan bulanan</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="income" type="number" min="0" value="5000" />
+              </div>
+              <span class="help">Pendapatan bersih bulanan.</span>
+            </div>
+
+            <div class="field">
+              <label for="years">Tahun income replacement</label>
+              <div class="input-wrap">
+                <span class="prefix">#</span>
+                <input id="years" type="number" min="1" max="30" value="10" />
+              </div>
+              <span class="help">Cadangan 5–10 tahun.</span>
+            </div>
+
+            <div class="field">
+              <label for="debt">Hutang / komitmen</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="debt" type="number" min="0" value="150000" />
+              </div>
+              <span class="help">Rumah, kereta, personal loan.</span>
+            </div>
+
+            <div class="field">
+              <label for="education">Dana pendidikan / tanggungan</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="education" type="number" min="0" value="80000" />
+              </div>
+              <span class="help">Kos anak dan tanggungan.</span>
+            </div>
+
+            <div class="field">
+              <label for="finalCost">Kos akhir / kos segera</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="finalCost" type="number" min="0" value="30000" />
+              </div>
+              <span class="help">Urusan akhir dan kecemasan.</span>
+            </div>
+
+            <div class="field">
+              <label for="assets">Aset cair sedia ada</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="assets" type="number" min="0" value="40000" />
+              </div>
+              <span class="help">Simpanan / aset mudah cair.</span>
+            </div>
+
+            <div class="field full">
+              <label for="dtpdCoverage">Existing Death / TPD Coverage</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="dtpdCoverage" type="number" min="0" value="100000" />
+              </div>
+              <span class="help">
+                Jumlah perlindungan hayat / TPD sedia ada.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- B. CRITICAL ILLNESS NEED -->
+        <div class="group">
+          <div class="group-title">
+            <h3>B. Critical Illness Need</h3>
+            <span class="tag">Recovery fund</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="ciMonths">Tempoh recovery</label>
+              <div class="input-wrap">
+                <span class="prefix">#</span>
+                <input id="ciMonths" type="number" min="0" value="24" />
+              </div>
+              <span class="help">Bilangan bulan income support.</span>
+            </div>
+
+            <div class="field">
+              <label for="ciTreatment">Kos rawatan tambahan</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="ciTreatment" type="number" min="0" value="30000" />
+              </div>
+              <span class="help">Rawatan, supplement, travel.</span>
+            </div>
+
+            <div class="field">
+              <label for="caregiver">Kos penjagaan / caregiver</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="caregiver" type="number" min="0" value="20000" />
+              </div>
+              <span class="help">Bantuan penjagaan sementara.</span>
+            </div>
+
+            <div class="field">
+              <label for="ciCoverage">Existing CI Coverage</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="ciCoverage" type="number" min="0" value="50000" />
+              </div>
+              <span class="help">
+                Perlindungan penyakit kritikal sedia ada.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- C. MEDICAL NEED -->
+        <div class="group">
+          <div class="group-title">
+            <h3>C. Medical Need</h3>
+            <span class="tag">Hospital cost</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="medicalTarget">Medical coverage target</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="medicalTarget" type="number" min="0" value="1000000" />
+              </div>
+              <span class="help">Limit rawatan sasaran.</span>
+            </div>
+
+            <div class="field">
+              <label for="medicalCoverage">Existing medical coverage</label>
+              <div class="input-wrap">
+                <span class="prefix">RM</span>
+                <input id="medicalCoverage" type="number" min="0" value="300000" />
+              </div>
+              <span class="help">Medical card / manfaat majikan.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="actions">
+          <button class="primary" type="submit">
+            Kira Protection Gap
+          </button>
+
+          <button class="secondary" type="button" id="resetBtn">
+            Reset contoh
+          </button>
+        </div>
+      </form>
+
+      <!-- RESULT PANEL -->
+      <aside class="result" aria-live="polite">
+        <h2 class="section">Keputusan Audit</h2>
+
+        <p class="hint">
+          Keputusan ini menunjukkan gap mengikut kategori dan total protection gap.
+        </p>
+
+        <div class="score">
+          <small>Total Protection Gap</small>
+          <strong id="totalGap">RM0</strong>
+        </div>
+
+        <div class="bar" aria-hidden="true">
+          <div class="fill" id="fill"></div>
+        </div>
+
+        <div id="status" class="status red">
+          <strong>Gap tinggi</strong>
+          Perlu susun tindakan secara berperingkat.
+        </div>
+
+        <div class="rows">
+          <div class="row">
+            <span>Death / TPD Gap</span>
+            <b id="dtpdGap">RM0</b>
+          </div>
+
+          <div class="row">
+            <span>Critical Illness Gap</span>
+            <b id="ciGap">RM0</b>
+          </div>
+
+          <div class="row">
+            <span>Medical Gap</span>
+            <b id="medicalGap">RM0</b>
+          </div>
+
+          <div class="row total">
+            <span>Total Protection Gap</span>
+            <b id="totalGapRow">RM0</b>
+          </div>
+
+          <div class="row">
+            <span>Jumlah keperluan</span>
+            <b id="totalNeed">RM0</b>
+          </div>
+
+          <div class="row">
+            <span>Jumlah perlindungan / aset</span>
+            <b id="totalAvailable">RM0</b>
+          </div>
+
+          <div class="row">
+            <span>Nisbah dilindungi</span>
+            <b id="ratio">0%</b>
+          </div>
+        </div>
+
+        <div class="priority-box">
+          <b>Coverage Priority Index</b>
+          <ol id="priorityList">
+            <li>Masukkan angka untuk audit.</li>
+          </ol>
+        </div>
+
+        <p class="note">
+          Nota: Kalkulator ini ialah panduan pendidikan awal sahaja, bukan nasihat
+          kewangan peribadi atau cadangan produk. Semakan sebenar perlu mengambil
+          kira dokumen polisi/sijil, manfaat majikan, status kesihatan, kemampuan
+          dan nasihat profesional.
+        </p>
+      </aside>
+    </section>
+
+    <!-- FORMULA FOOTER -->
+    <div class="footer">
+      <b>Formula:</b>
+      Death / TPD Gap = Income Replacement + Hutang + Pendidikan + Kos Akhir
+      − Aset Cair − Existing Death / TPD Coverage.
+      CI Gap = Recovery Income + Kos Rawatan Tambahan + Caregiver − Existing CI Coverage.
+      Medical Gap = Medical Coverage Target − Existing Medical Coverage.
+    </div>
+  </main>
+
+  <script>
+    const fmt = new Intl.NumberFormat("ms-MY", {
+      style: "currency",
+      currency: "MYR",
+      maximumFractionDigits: 0
+    });
+
+    const ids = [
+      "income",
+      "years",
+      "debt",
+      "education",
+      "finalCost",
+      "assets",
+      "dtpdCoverage",
+      "ciMonths",
+      "ciTreatment",
+      "caregiver",
+      "ciCoverage",
+      "medicalTarget",
+      "medicalCoverage"
+    ];
+
+    const defaults = {
+      income: 5000,
+      years: 10,
+      debt: 150000,
+      education: 80000,
+      finalCost: 30000,
+      assets: 40000,
+      dtpdCoverage: 100000,
+      ciMonths: 24,
+      ciTreatment: 30000,
+      caregiver: 20000,
+      ciCoverage: 50000,
+      medicalTarget: 1000000,
+      medicalCoverage: 300000
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function val(id) {
+      return Math.max(0, Number($(id).value || 0));
+    }
+
+    function calculate() {
+      const incomeReplacement = val("income") * 12 * val("years");
+
+      const dtpdNeed =
+        incomeReplacement +
+        val("debt") +
+        val("education") +
+        val("finalCost");
+
+      const dtpdAvailable =
+        val("assets") +
+        val("dtpdCoverage");
+
+      const dtpdGap = Math.max(0, dtpdNeed - dtpdAvailable);
+
+      const ciNeed =
+        val("income") * val("ciMonths") +
+        val("ciTreatment") +
+        val("caregiver");
+
+      const ciGap = Math.max(0, ciNeed - val("ciCoverage"));
+
+      const medicalNeed = val("medicalTarget");
+
+      const medicalGap = Math.max(
+        0,
+        medicalNeed - val("medicalCoverage")
+      );
+
+      const totalGap =
+        dtpdGap +
+        ciGap +
+        medicalGap;
+
+      const totalNeed =
+        dtpdNeed +
+        ciNeed +
+        medicalNeed;
+
+      const totalAvailable =
+        dtpdAvailable +
+        val("ciCoverage") +
+        val("medicalCoverage");
+
+      const ratio =
+        totalNeed > 0
+          ? Math.min(100, Math.round((totalAvailable / totalNeed) * 100))
+          : 100;
+
+      $("dtpdGap").textContent = fmt.format(dtpdGap);
+      $("ciGap").textContent = fmt.format(ciGap);
+      $("medicalGap").textContent = fmt.format(medicalGap);
+      $("totalGap").textContent = fmt.format(totalGap);
+      $("totalGapRow").textContent = fmt.format(totalGap);
+      $("totalNeed").textContent = fmt.format(totalNeed);
+      $("totalAvailable").textContent = fmt.format(totalAvailable);
+      $("ratio").textContent = ratio + "%";
+
+      const fill = $("fill");
+      fill.style.width = ratio + "%";
+
+      const status = $("status");
+
+      if (ratio >= 80) {
+        fill.style.background = "var(--green)";
+        status.className = "status green";
+        status.innerHTML =
+          "<strong>Gap rendah</strong>Perlindungan asas mungkin hampir mencukupi.";
+      } else if (ratio >= 50) {
+        fill.style.background = "var(--yellow)";
+        status.className = "status yellow";
+        status.innerHTML =
+          "<strong>Gap sederhana</strong>Perlu semak semula keutamaan dan kemampuan.";
+      } else {
+        fill.style.background = "var(--red)";
+        status.className = "status red";
+        status.innerHTML =
+          "<strong>Gap tinggi</strong>Perlu susun tindakan secara berperingkat.";
+      }
+
+      const priorities = [
+        ["Death / TPD Gap", dtpdGap],
+        ["Critical Illness Gap", ciGap],
+        ["Medical Gap", medicalGap]
+      ].sort((a, b) => b[1] - a[1]);
+
+      $("priorityList").innerHTML = priorities
+        .map(([name, amount]) => `<li><b>${name}</b> — ${fmt.format(amount)}</li>`)
+        .join("");
+
+      $("heroPriority").textContent =
+        priorities[0][1] > 0
+          ? priorities[0][0].replace(" Gap", "").toUpperCase()
+          : "LOW GAP";
+    }
+
+    $("calcForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      calculate();
+    });
+
+    ids.forEach(function (id) {
+      $(id).addEventListener("input", calculate);
+    });
+
+    $("resetBtn").addEventListener("click", function () {
+      Object.entries(defaults).forEach(function ([key, value]) {
+        $(key).value = value;
+      });
+
+      calculate();
+    });
+
+    calculate();
+  </script>
+</body>
+</html>

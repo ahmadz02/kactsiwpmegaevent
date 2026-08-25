@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAC x TSI Wealth Portal</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons for premium visual cues -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------------------------------------------------------
+       GLOBAL THEME STYLE SYSTEM
+       Decoupled color definitions for simple global changes
+       --------------------------------------------------------- */
+    :root {
+      /* Primary Pantone Blue Palette */
+      --color-pantone-blue-dark: #0A2240;      /* Deep rich navy */
+      --color-pantone-blue-medium: #11335C;    /* Classic Pantone Blue */
+      --color-pantone-blue-light: #1A4475;     /* Accent blue */
+      
+      /* Premium Metallic Gold Palette */
+      --color-gold-primary: #C5A059;           /* Pure satin gold */
+      --color-gold-hover: #D4AF37;             /* Bright metallic gold */
+      --color-gold-light: #F4EEDC;             /* Champagne soft gold */
+      --color-gold-glow: rgba(197, 160, 89, 0.2);
+
+      /* Neutrals & Utility */
+      --color-white: #FFFFFF;
+      --color-offwhite: #F8FAFC;
+      --color-gray-dark: #1E293B;
+      --color-gray-muted: #64748B;
+      
+      /* Typography */
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-offwhite);
+      color: var(--color-gray-dark);
+    }
+
+    /* Custom Color Utilities to map custom CSS variables with Tailwind classes */
+    .bg-pantone-dark { background-color: var(--color-pantone-blue-dark); }
+    .bg-pantone-medium { background-color: var(--color-pantone-blue-medium); }
+    .bg-pantone-light { background-color: var(--color-pantone-blue-light); }
+    
+    .bg-gold-primary { background-color: var(--color-gold-primary); }
+    .bg-gold-light { background-color: var(--color-gold-light); }
+    .text-pantone-dark { color: var(--color-pantone-blue-dark); }
+    .text-pantone-medium { color: var(--color-pantone-blue-medium); }
+    .text-gold-primary { color: var(--color-gold-primary); }
+    .text-gold-hover { color: var(--color-gold-hover); }
+    
+    .border-gold { border-color: var(--color-gold-primary); }
+    .border-pantone-light { border-color: var(--color-pantone-blue-light); }
+    
+    /* Elegant Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-pantone-blue-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-gold-primary);
+      border-radius: 4px;
+    }
+
+    /* Premium Hover States & Card Transitions */
+    .premium-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(197, 160, 89, 0.15);
+    }
+    .premium-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--color-gold-primary);
+      box-shadow: 0 12px 24px -10px rgba(10, 34, 64, 0.15), 0 0 15px var(--color-gold-glow);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+    }
+  </style>
+
+  <script>
+    // Configures Tailwind with custom extensions matching our variables
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandBlue: {
+              900: 'var(--color-pantone-blue-dark)',
+              800: 'var(--color-pantone-blue-medium)',
+              700: 'var(--color-pantone-blue-light)',
+            },
+            brandGold: {
+              DEFAULT: 'var(--color-gold-primary)',
+              light: 'var(--color-gold-light)',
+              hover: 'var(--color-gold-hover)',
+            }
+          },
+          fontFamily: {
+            display: ['Cinzel', 'serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
