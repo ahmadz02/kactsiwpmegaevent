@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LFP Diagnostic Dashboard | KAC x TSI Wealth Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js for 10-Year Projections -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-pantone-blue-dark: #0A2240;
+      --color-pantone-blue-medium: #11335C;
+      --color-pantone-blue-light: #1A4475;
+      
+      --color-gold-primary: #C5A059;
+      --color-gold-hover: #D4AF37;
+      --color-gold-light: #F4EEDC;
+      --color-gold-glow: rgba(197, 160, 89, 0.2);
+
+      --color-white: #FFFFFF;
+      --color-offwhite: #F8FAFC;
+      --color-gray-dark: #1E293B;
+      --color-gray-muted: #64748B;
+      
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-offwhite);
+      color: var(--color-gray-dark);
+    }
+
+    .bg-pantone-dark { background-color: var(--color-pantone-blue-dark); }
+    .bg-pantone-medium { background-color: var(--color-pantone-blue-medium); }
+    .bg-pantone-light { background-color: var(--color-pantone-blue-light); }
+    
+    .bg-gold-primary { background-color: var(--color-gold-primary); }
+    .bg-gold-light { background-color: var(--color-gold-light); }
+    .text-pantone-dark { color: var(--color-pantone-blue-dark); }
+    .text-pantone-medium { color: var(--color-pantone-blue-medium); }
+    .text-gold-primary { color: var(--color-gold-primary); }
+    .text-gold-hover { color: var(--color-gold-hover); }
+    
+    .border-gold { border-color: var(--color-gold-primary); }
+    .border-pantone-light { border-color: var(--color-pantone-blue-light); }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-pantone-blue-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-gold-primary);
+      border-radius: 4px;
+    }
+
+    .premium-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(197, 160, 89, 0.15);
+    }
+    .premium-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-gold-primary);
+      box-shadow: 0 12px 24px -10px rgba(10, 34, 64, 0.15), 0 0 15px var(--color-gold-glow);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandBlue: {
+              900: 'var(--color-pantone-blue-dark)',
+              800: 'var(--color-pantone-blue-medium)',
+              700: 'var(--color-pantone-blue-light)',
+            },
+            brandGold: {
+              DEFAULT: 'var(--color-gold-primary)',
+              light: 'var(--color-gold-light)',
+              hover: 'var(--color-gold-hover)',
+            }
+          },
+          fontFamily: {
+            display: ['Cinzel', 'serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- TOP HEADER -->
+  <header class="bg-pantone-dark text-white border-b border-brandGold/30 sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-brandGold/10 border border-brandGold/40 rounded">
+          <i data-lucide="shield-check" class="w-6 h-6 text-brandGold"></i>
+        </div>
+        <div>
+          <h1 class="brand-title text-xl font-bold tracking-wider text-brandGold">KAC x TSI WEALTH</h1>
+          <p class="text-xs text-slate-300 font-light">Licensed Financial Planning & Behavioral Advisory</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-xs px-3 py-1 rounded-full bg-brandGold/20 border border-brandGold text-brandGold font-medium">Omar's Diagnostic Framework</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- LEFT PANEL: DATA INPUTS -->
+    <section class="lg:col-span-4 space-y-6">
+      <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <h2 class="text-lg font-bold text-brandBlue-900 mb-4 flex items-center gap-2 border-b pb-3 border-slate-100">
+          <i data-lucide="wallet" class="w-5 h-5 text-brandGold"></i> Monthly Income
+        </h2>
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Gross Salary (RM)</label>
+            <input type="number" id="grossSalary" value="11000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Other Income (RM)</label>
+            <input type="number" id="otherIncome" value="200" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Statutory Deductions (EPF/SOCSO/PCB) (RM)</label>
+            <input type="number" id="statutory" value="1752" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <h2 class="text-lg font-bold text-brandBlue-900 mb-4 flex items-center gap-2 border-b pb-3 border-slate-100">
+          <i data-lucide="credit-card" class="w-5 h-5 text-brandGold"></i> Monthly Outflows
+        </h2>
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">A1 Mandatory Commitment (Mortgage) (RM)</label>
+            <input type="number" id="expA1" value="1800" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">A2 Non-Mandatory Commitment (Car/Debt) (RM)</label>
+            <input type="number" id="expA2" value="650" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">B Fixed Expenses (Living) (RM)</label>
+            <input type="number" id="expB" value="5000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">C Variable Expenses (Lifestyle) (RM)</label>
+            <input type="number" id="expC" value="220" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">D Savings / Investments (RM)</label>
+            <input type="number" id="expD" value="2000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">E Takaful / Insurance (RM)</label>
+            <input type="number" id="expE" value="256" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+        <h2 class="text-lg font-bold text-brandBlue-900 mb-4 flex items-center gap-2 border-b pb-3 border-slate-100">
+          <i data-lucide="scale" class="w-5 h-5 text-brandGold"></i> Balance Sheet Items
+        </h2>
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Cash / Cash Equivalent (RM)</label>
+            <input type="number" id="assetCash" value="4200" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Liquid Investments (RM)</label>
+            <input type="number" id="assetInv" value="58083" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Properties Value (RM)</label>
+            <input type="number" id="assetProp" value="520000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">EPF Balance (RM)</label>
+            <input type="number" id="assetEPF" value="98058" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Mortgage Outstanding (RM)</label>
+            <input type="number" id="liabMortgage" value="251000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-600 mb-1 font-medium">Non-Mortgage Debt (RM)</label>
+            <input type="number" id="liabNonMortgage" value="21214" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brandGold outline-none">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: DIAGNOSTIC DASHBOARD & PROJECTIONS -->
+    <section class="lg:col-span-8 space-y-8">
+      
+      <!-- CASHFLOW METRICS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+          <p class="text-xs text-slate-500 font-medium">Net Monthly Income</p>
+          <p class="text-xl font-bold text-brandBlue-900 mt-1" id="dispNetIncome">RM 9,448</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+          <p class="text-xs text-slate-500 font-medium">Total Outflow</p>
+          <p class="text-xl font-bold text-brandBlue-900 mt-1" id="dispTotalOutflow">RM 9,126</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+          <p class="text-xs text-slate-500 font-medium">Cashflow Surplus</p>
+          <p class="text-xl font-bold text-emerald-600 mt-1" id="dispSurplus">RM 322</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+          <p class="text-xs text-slate-500 font-medium">Net Worth</p>
+          <p class="text-xl font-bold text-brandBlue-900 mt-1" id="dispNetWorth">RM 407,025</p>
+        </div>
+      </div>
+
+      <!-- FINANCIAL HEALTH RATIOS MATRIX -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+        <h3 class="brand-title text-base font-bold text-brandBlue-900 mb-1 flex items-center gap-2">
+          <i data-lucide="bar-chart-3" class="w-5 h-5 text-brandGold"></i> Financial Health Ratio Matrix
+        </h3>
+        <p class="text-xs text-slate-500 mb-4">Standardized Licensed Financial Planning (LFP) quantitative health indicators computed using Total Outflow as living expenses.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm" id="ratiosContainer">
+          <!-- Dynamic ratio cards inserted via JS -->
+        </div>
+      </div>
+
+      <!-- EMERGENCY FUND GAP -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+        <h3 class="brand-title text-base font-bold text-brandBlue-900 mb-2 flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-5 h-5 text-brandGold"></i> Emergency Cash Gap Analysis
+        </h3>
+        <div class="flex justify-between text-xs text-slate-500 font-medium mb-2">
+          <span>Current Cash: <strong class="text-slate-800" id="dispCurrentCash">RM 4,200</strong></span>
+          <span>Target (3 Months Total Outflow): <strong class="text-slate-800" id="dispTargetCash">RM 27,378</strong></span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div id="cashGapBar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 15.3%;"></div>
+        </div>
+        <p class="text-xs text-rose-600 font-semibold mt-2 text-right" id="dispGapText">Shortfall Gap: RM 23,178</p>
+      </div>
+
+      <!-- 10-YEAR COMPOUNDED FINANCIAL PROJECTION GRAPH -->
+      <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 pb-2 border-b border-slate-100 gap-2">
+          <div>
+            <h3 class="brand-title text-base font-bold text-brandBlue-900 flex items-center gap-2">
+              <i data-lucide="trending-up" class="w-5 h-5 text-brandGold"></i> 10-Year Compounded Financial Projection
+            </h3>
+            <p class="text-xs text-slate-500">Yearly compounding forecast for Projected Net Worth & Cashflow Surplus Pool at 5% p.a.</p>
+          </div>
+          <div class="text-xs bg-slate-100 px-3 py-1.5 rounded-lg text-slate-600 font-medium">
+            Standard Compounding Assumption: 5.0% Annual Compounded Growth Rate
+          </div>
+        </div>
+        <div class="w-full h-80">
+          <canvas id="projectionChart"></canvas>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="bg-pantone-dark text-slate-400 text-xs py-6 border-t border-brandGold/20 mt-12 text-center">
+    <p>© 2026 KAC x TSI Wealth Portal | Licensed Financial Planning Consultation Engine (Omar Standard)</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    let projectionChartInstance = null;
+
+    function recalculate() {
+      const gross = parseFloat(document.getElementById('grossSalary').value) || 0;
+      const other = parseFloat(document.getElementById('otherIncome').value) || 0;
+      const stat = parseFloat(document.getElementById('statutory').value) || 0;
+      
+      const expA1 = parseFloat(document.getElementById('expA1').value) || 0;
+      const expA2 = parseFloat(document.getElementById('expA2').value) || 0;
+      const expB = parseFloat(document.getElementById('expB').value) || 0;
+      const expC = parseFloat(document.getElementById('expC').value) || 0;
+      const expD = parseFloat(document.getElementById('expD').value) || 0;
+      const expE = parseFloat(document.getElementById('expE').value) || 0;
+
+      const cash = parseFloat(document.getElementById('assetCash').value) || 0;
+      const inv = parseFloat(document.getElementById('assetInv').value) || 0;
+      const prop = parseFloat(document.getElementById('assetProp').value) || 0;
+      const epf = parseFloat(document.getElementById('assetEPF').value) || 0;
+      
+      const mort = parseFloat(document.getElementById('liabMortgage').value) || 0;
+      const nonMort = parseFloat(document.getElementById('liabNonMortgage').value) || 0;
+
+      const netIncome = gross + other - stat;
+      const totalOutflow = expA1 + expA2 + expB + expC + expD + expE;
+      const surplus = netIncome - totalOutflow;
+      const totalAssets = cash + inv + prop + epf;
+      const totalLiabilities = mort + nonMort;
+      const netWorth = totalAssets - totalLiabilities;
+
+      // Monthly Living Expenses mapped directly to Total Outflow
+      const monthlyLivingExp = totalOutflow;
+
+      // Mathematical Ratios
+      const wealthRatio = monthlyLivingExp > 0 ? (netWorth / monthlyLivingExp).toFixed(2) : 0;
+      const liquidityRatio = monthlyLivingExp > 0 ? (cash / monthlyLivingExp).toFixed(2) : 0;
+      const standbyLiquidity = monthlyLivingExp > 0 ? ((cash + inv) / monthlyLivingExp).toFixed(2) : 0;
+      const savingRatio = netIncome > 0 ? ((expD / netIncome) * 100).toFixed(2) : 0;
+      const debtRatio = totalAssets > 0 ? ((totalLiabilities / totalAssets) * 100).toFixed(2) : 0;
+      const dsr = netIncome > 0 ? (((expA1 + expA2) / netIncome) * 100).toFixed(2) : 0;
+      const nonMortDsr = netIncome > 0 ? ((expA2 / netIncome) * 100).toFixed(2) : 0;
+      const liquidNetWorth = netWorth > 0 ? ((cash / netWorth) * 100).toFixed(2) : 0;
+
+      // Update Summary UI
+      document.getElementById('dispNetIncome').innerText = 'RM ' + netIncome.toLocaleString();
+      document.getElementById('dispTotalOutflow').innerText = 'RM ' + totalOutflow.toLocaleString();
+      document.getElementById('dispSurplus').innerText = 'RM ' + surplus.toLocaleString();
+      document.getElementById('dispNetWorth').innerText = 'RM ' + netWorth.toLocaleString();
+
+      // Emergency Cash Gap Calculation
+      const targetCash = monthlyLivingExp * 3;
+      const gap = Math.max(0, targetCash - cash);
+      const gapPct = targetCash > 0 ? Math.min(100, (cash / targetCash) * 100) : 0;
+
+      document.getElementById('dispCurrentCash').innerText = 'RM ' + cash.toLocaleString();
+      document.getElementById('dispTargetCash').innerText = 'RM ' + targetCash.toLocaleString();
+      document.getElementById('dispGapText').innerText = gap > 0 ? 'Shortfall Gap: RM ' + gap.toLocaleString() : 'Target Reached!';
+      document.getElementById('cashGapBar').style.width = gapPct + '%';
+
+      // Ratio Data Definition
+      const ratios = [
+        { 
+          label: 'Wealth Ratio', 
+          formula: 'Net Worth ÷ Total Outflow', 
+          val: wealthRatio + ' months', 
+          bench: '> 6 months', 
+          pass: wealthRatio > 6 
+        },
+        { 
+          label: 'Liquidity Ratio', 
+          formula: 'Cash ÷ Total Outflow', 
+          val: liquidityRatio + ' months', 
+          bench: '3–6 months', 
+          pass: liquidityRatio >= 3 && liquidityRatio <= 6 
+        },
+        { 
+          label: 'Standby Liquidity Ratio', 
+          formula: '(Cash + Liquid Investments) ÷ Total Outflow', 
+          val: standbyLiquidity + ' months', 
+          bench: '> 3 months', 
+          pass: standbyLiquidity > 3 
+        },
+        { 
+          label: 'Savings Ratio', 
+          formula: '(Monthly Savings ÷ Net Income) × 100', 
+          val: savingRatio + '%', 
+          bench: '≥ 10%', 
+          pass: savingRatio >= 10 
+        },
+        { 
+          label: 'Debt Ratio', 
+          formula: '(Total Liabilities ÷ Total Assets) × 100', 
+          val: debtRatio + '%', 
+          bench: '≤ 50%', 
+          pass: debtRatio <= 50 
+        },
+        { 
+          label: 'Debt Service Ratio (DSR)', 
+          formula: '(Total Debt Obligations ÷ Net Income) × 100', 
+          val: dsr + '%', 
+          bench: '< 35%', 
+          pass: dsr < 35 
+        },
+        { 
+          label: 'Non-Mortgage DSR', 
+          formula: '(Non-Mortgage Debt ÷ Net Income) × 100', 
+          val: nonMortDsr + '%', 
+          bench: '< 15%', 
+          pass: nonMortDsr < 15 
+        },
+        { 
+          label: 'Liquid-to-Net Worth Ratio', 
+          formula: '(Liquid Cash ÷ Net Worth) × 100', 
+          val: liquidNetWorth + '%', 
+          bench: '≥ 15%', 
+          pass: liquidNetWorth >= 15 
+        }
+      ];
+
+      const ratiosContainer = document.getElementById('ratiosContainer');
+      ratiosContainer.innerHTML = '';
+
+      ratios.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'p-3 rounded-lg border flex justify-between items-start bg-slate-50 border-slate-200';
+        card.innerHTML = `
+          <div class="pr-2">
+            <p class="text-xs font-bold text-slate-800">${r.label}</p>
+            <p class="text-[11px] text-brandGold font-medium italic mt-0.5">${r.formula}</p>
+            <p class="text-base font-extrabold mt-1 ${r.pass ? 'text-emerald-700' : 'text-rose-600'}">${r.val}</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Benchmark: ${r.bench}</p>
+          </div>
+          <div class="shrink-0">
+            <span class="text-xs px-2 py-1 rounded font-bold ${r.pass ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              ${r.pass ? '✓ Pass' : '✕ Deficit'}
+            </span>
+          </div>
+        `;
+        ratiosContainer.appendChild(card);
+      });
+
+      // Render 10-Year Compounded Financial Forecast with 5% rate for both metrics
+      renderProjectionChart(surplus, netWorth);
+    }
+
+    function renderProjectionChart(monthlySurplus, currentNetWorth) {
+      const labels = ['Current', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10'];
+      
+      const compoundedSurplusData = [];
+      const netWorthData = [];
+
+      const annualSurplusBase = monthlySurplus * 12;
+      const rate = 0.05; // Explicit 5% annual compounding assumption
+
+      let accumSurplusPool = 0;
+      let accumNetWorth = currentNetWorth;
+
+      for (let i = 0; i <= 10; i++) {
+        if (i === 0) {
+          compoundedSurplusData.push(0);
+          netWorthData.push(Math.round(currentNetWorth));
+        } else {
+          // Both Net Worth and Cashflow Surplus compound at 5% annually
+          accumNetWorth = accumNetWorth * (1 + rate);
+          
+          // Cashflow Surplus pool compounded annually at 5% with annual additions
+          accumSurplusPool = (accumSurplusPool + annualSurplusBase) * (1 + rate);
+
+          compoundedSurplusData.push(Math.round(accumSurplusPool));
+          netWorthData.push(Math.round(accumNetWorth));
+        }
+      }
+
+      const ctx = document.getElementById('projectionChart').getContext('2d');
+
+      if (projectionChartInstance) {
+        projectionChartInstance.destroy();
+      }
+
+      projectionChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Projected Net Worth (5% p.a.)',
+              data: netWorthData,
+              borderColor: '#0A2240',
+              backgroundColor: 'rgba(10, 34, 64, 0.08)',
+              borderWidth: 3,
+              fill: true,
+              yAxisID: 'yNetWorth',
+              tension: 0.35,
+              pointBackgroundColor: '#C5A059',
+              pointRadius: 4
+            },
+            {
+              label: 'Compounded Cashflow Surplus Pool (5% p.a.)',
+              data: compoundedSurplusData,
+              borderColor: '#059669',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              borderDash: [4, 4],
+              yAxisID: 'ySurplus',
+              tension: 0.25,
+              pointBackgroundColor: '#059669',
+              pointRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                font: {
+                  family: 'Plus Jakarta Sans',
+                  size: 11
+                }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += 'RM ' + context.parsed.y.toLocaleString();
+                  }
+                  return label;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                font: { size: 10 }
+              }
+            },
+            yNetWorth: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              title: {
+                display: true,
+                text: 'Net Worth (RM)',
+                font: { size: 11, weight: 'bold' }
+              },
+              ticks: {
+                callback: function(value) {
+                  return 'RM ' + (value / 1000).toFixed(0) + 'k';
+                },
+                font: { size: 10 }
+              }
+            },
+            ySurplus: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              grid: {
+                drawOnChartArea: false
+              },
+              title: {
+                display: true,
+                text: 'Compounded Surplus Pool (RM)',
+                font: { size: 11, weight: 'bold' }
+              },
+              ticks: {
+                callback: function(value) {
+                  return 'RM ' + (value / 1000).toFixed(0) + 'k';
+                },
+                font: { size: 10 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', recalculate);
+    });
+
+    recalculate();
+  </script>
+</body>
+</html>
