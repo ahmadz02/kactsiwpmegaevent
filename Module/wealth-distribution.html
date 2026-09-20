@@ -2,81 +2,788 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<title>Wealth Distribution — e-Workbook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Kalkulator Faraid · Faraid Calculator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#eef1f4;font-family:Arial,Helvetica,sans-serif;color:#243447}
-.page{width:210mm;height:297mm;margin:10px auto;padding:9mm 8mm 6mm;background:#fff}
-.topline{color:#16a99a;font-size:9px;font-weight:700;letter-spacing:.6px}
-.header{display:flex;justify-content:space-between;align-items:flex-start}
-h1{margin:4px 0 0;color:#0b223d;font-size:29px;line-height:1;letter-spacing:-.5px}
-.tag{display:inline-block;margin-left:7px;padding:7px 15px;background:#e7a92b;color:#fff;font-size:11px;font-weight:700;vertical-align:middle}
-.subtitle{margin-top:7px;color:#607080;font-size:10px}
-.brand{text-align:right;color:#e7a92b;font-size:10px;font-weight:700;line-height:1.6}
-.brand .name{color:#40536b;font-size:11px}.brandline{width:72mm;height:2px;background:#e7a92b;margin-left:auto}
-.identity{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:4mm 0}
-.inputbox{border:1px solid #d6dee6;height:13mm;padding:5px 8px;background:#fbfcfd}.label{font-size:8px;font-weight:700;color:#30465d}
-.section{border:1px solid #d6dee6;border-radius:2px;overflow:hidden;margin-top:3mm}.section-title{height:9mm;background:#0e2a46;color:#fff;display:flex;align-items:center;padding:0 8px;font-size:10.5px;font-weight:700}
-.num{width:20px;height:20px;border-radius:50%;background:#18a999;display:inline-flex;align-items:center;justify-content:center;margin-right:9px;font-size:10px}
-.section-body{padding:5px 7px 7px}.desc{font-size:8px;color:#647486;margin-bottom:5px}
-table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #d6dee6;padding:4px 5px;font-size:7.5px;height:7.5mm;vertical-align:middle}th{background:#f4f6f8;color:#172b42;font-weight:700;text-align:left}.center{text-align:center}
-.note{font-size:7px;color:#607080;margin-top:4px;line-height:1.35}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3mm}.small-table th,.small-table td{font-size:7px;height:6.8mm;padding:3px 4px}
-.readiness-actions{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}.check{font-size:7.7px;line-height:1.8}.check:before{content:"☐ ";color:#738397}
-.action-row{display:grid;grid-template-columns:22px 1fr;gap:6px;margin-bottom:5px}.action-num{width:20px;height:20px;border-radius:50%;background:#18a999;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px}
-.write-line{border:1px solid #d6dee6;height:7mm}.date-row{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:4px}.mini-box{border:1px solid #d6dee6;height:8mm;padding:5px;font-size:7px;color:#506176}
-.bottom{display:grid;grid-template-columns:1fr 1.65fr 1.45fr;gap:3mm;margin-top:3mm}.score,.legend,.notes{border:1px solid #d6dee6;min-height:20mm}.score{padding:6px}.score-title,.notes-title{color:#149f91;font-size:8px;font-weight:700}.score-input{border:1px solid #18a999;width:16mm;height:10mm;margin-top:4px;display:inline-block}.slash{font-size:13px;font-weight:700;color:#243447;margin-left:3px}
-.legend{display:grid;grid-template-columns:repeat(3,1fr)}.legend div{display:flex;align-items:center;justify-content:center;text-align:center;font-size:8px;font-weight:700;padding:4px}.l1{background:#fde8eb;color:#e35d68}.l2{background:#fff2da;color:#d99720}.l3{background:#e8f6ee;color:#3caa77}
-.notes{padding:6px}.notes-area{height:13mm;border:1px solid #d6dee6;margin-top:3px}footer{display:flex;justify-content:space-between;margin-top:3mm;padding-top:2mm;border-top:1px solid #d6dee6;color:#607080;font-size:6.8px}
-@media print{body{background:#fff}.page{margin:0}}
+  :root{
+    --bg:#F8FAFC;
+    --panel:#FFFFFF;
+    --ink:#1E293B;
+    --ink-soft:#64748B;
+    --teal:#11335C;
+    --teal-deep:#0A2240;
+    --teal-light:#1A4475;
+    --gold:#C5A059;
+    --gold-hover:#D4AF37;
+    --gold-soft:#F4EEDC;
+    --line:#DCE3EC;
+    --danger:#8B3A3A;
+    --radius:6px;
+    --font-display:'Cinzel', Georgia, "Iowan Old Style", serif;
+    --font-body:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 40px;}
+  .bg-pantone-dark{background-color:var(--teal-deep);}
+  .bg-pantone-medium{background-color:var(--teal);}
+  .text-gold-primary{color:var(--gold);}
+  .border-gold{border-color:var(--gold);}
+  .brand-title{font-family:var(--font-display);letter-spacing:.05em;}
+
+  section.field-group{border-top:1px solid var(--line);padding:18px 0;}
+  section.field-group:first-of-type{border-top:none;}
+  .fg-title{font-family:var(--font-display);font-size:17px;color:var(--teal-deep);margin:0 0 3px;}
+  .fg-sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 12px;}
+  .radio-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+  .radio-opt{display:flex;align-items:center;gap:6px;font-size:14.5px;}
+  input[type=radio],input[type=checkbox]{accent-color:var(--teal);width:18px;height:18px;}
+  .num-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .num-field{display:flex;flex-direction:column;gap:5px;min-width:140px;flex:1;}
+  .num-field label{font-size:13.5px;color:var(--ink);}
+  input[type=number]{
+    border:1px solid var(--line);border-radius:var(--radius);padding:9px 10px;
+    font-size:16px;background:var(--panel);color:var(--ink);width:100%;
+  }
+  input[type=number]:focus,input[type=radio]:focus,input[type=checkbox]:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  .check-row{display:flex;gap:22px;flex-wrap:wrap;}
+  .check-opt{display:flex;align-items:center;gap:7px;font-size:14.5px;}
+  .sib-block{margin-bottom:14px;}
+  .sib-block:last-child{margin-bottom:0;}
+  .sib-block h4{margin:0 0 8px;font-size:13.5px;color:var(--ink-soft);font-weight:600;}
+  #wifeCountWrap{margin-top:10px;display:none;}
+
+  .calc-btn{
+    width:100%;background:var(--teal);color:#FBF7EC;border:none;border-radius:var(--radius);
+    padding:15px;font-size:16px;font-weight:600;cursor:pointer;margin-top:24px;letter-spacing:0.2px;
+  }
+  .calc-btn:active{background:var(--teal-deep);}
+
+  .error-box{
+    background:#F5E7E4;border:1px solid var(--danger);color:var(--danger);
+    padding:12px 14px;border-radius:var(--radius);font-size:14px;margin-top:18px;display:none;
+  }
+
+  #results{margin-top:34px;display:none;}
+  #results h2{
+    font-family:var(--font-display);font-size:21px;color:var(--teal-deep);
+    border-bottom:2px solid var(--gold);padding-bottom:10px;margin:0 0 16px;
+  }
+  .asal-label{font-size:13px;color:var(--ink-soft);margin-bottom:10px;}
+  .asal-label b{color:var(--teal-deep);font-size:15px;}
+  .table-frame{border:1.5px solid var(--gold);border-radius:8px;overflow:hidden;margin-top:6px;}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  th{text-align:left;font-size:12px;color:var(--panel);background:var(--teal-deep);border:1px solid var(--teal-deep);padding:8px 8px;font-weight:600;}
+  th.final-col{background:var(--gold);color:var(--teal-deep);}
+  td{padding:10px 8px;border:1px solid var(--line);vertical-align:top;}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  td.final-col{background:var(--gold-soft);font-weight:700;color:var(--teal-deep);}
+  tr.asabah-row td{background:var(--teal-deep);color:var(--gold-soft);border-color:var(--teal-deep);}
+  tr.asabah-row td.final-col{background:#081A30;color:var(--gold-soft);}
+  tr.asabah-row .heir-name-en{color:#9FB3CC;}
+  .heir-name-en{display:block;font-size:12px;color:var(--ink-soft);}
+  .orig-label{display:block;font-size:12px;color:var(--ink-soft);font-style:italic;}
+  .total-row td{font-weight:700;background:var(--gold-soft);border-color:var(--gold);}
+  .table-note{font-size:12px;color:var(--ink-soft);margin:8px 2px 0;display:flex;align-items:center;gap:6px;}
+  .table-note i{width:11px;height:11px;border-radius:3px;background:var(--teal-deep);display:inline-block;}
+  .flags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px;}
+  .flag{font-size:12px;background:var(--gold-soft);color:var(--teal-deep);padding:4px 9px;border-radius:20px;}
+  .notes{margin-top:16px;padding-left:18px;font-size:13.5px;color:var(--ink-soft);}
+  .notes li{margin-bottom:6px;}
+  .exclusions{margin-top:22px;border:1px solid #D9B8B0;background:#FBF2F0;border-radius:var(--radius);padding:14px 16px;}
+  .exclusions h3{margin:0 0 8px;font-size:14px;color:var(--danger);font-family:var(--font-display);font-weight:600;}
+  .exclusions ul{margin:0;padding-left:18px;}
+  .exclusions li{font-size:13.5px;color:var(--danger);margin-bottom:5px;}
+  .exclusions li span{color:#8A7F72;font-style:italic;}
+  .reset-link{display:inline-block;margin-top:18px;font-size:13.5px;color:var(--teal-deep);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;}
+  /* --- family tree --- */
+  .tree{margin:20px 0 8px;}
+  .tree-gen{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:38px;position:relative;}
+  .tree-gen:not(:last-child)::after{
+    content:"";position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);
+    width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;
+    border-top:11px solid var(--gold);
+  }
+  .tree-gen:not(:last-child)::before{
+    content:"";position:absolute;left:50%;bottom:-20px;width:1.5px;height:12px;background:var(--gold);
+  }
+  .tree-gen:last-child{margin-bottom:22px;}
+  .tree-gen-label{
+    width:100%;text-align:center;font-size:11px;letter-spacing:0.03em;color:var(--ink-soft);margin-bottom:2px;
+  }
+  .tree-box{
+    min-width:108px;border-radius:var(--radius);padding:10px 12px;text-align:center;border:1.5px solid var(--line);
+    background:var(--panel);
+  }
+  .tree-box .t-label{font-size:12.5px;color:var(--ink);font-weight:600;line-height:1.3;}
+  .tree-box .t-status{font-size:11.5px;margin-top:4px;}
+  .tree-box.ok{border-color:var(--teal);background:#EAF0F8;}
+  .tree-box.ok .t-status{color:var(--teal-deep);font-weight:700;}
+  .tree-box.blocked{border-color:var(--danger);background:#FBF0EE;}
+  .tree-box.blocked .t-label{color:var(--danger);text-decoration:line-through;text-decoration-color:#C99;}
+  .tree-box.blocked .t-status{color:var(--danger);}
+  .tree-box.deceased{background:var(--teal-deep);border-color:var(--teal-deep);}
+  .tree-box.deceased .t-label{color:#FBF7EC;}
+  .tree-legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font-size:11.5px;color:var(--ink-soft);margin-top:6px;}
+  .tree-legend span{display:inline-flex;align-items:center;gap:5px;}
+  .tree-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .i-ok{background:#EAF0F8;border:1.5px solid var(--teal);}
+  .i-blocked{background:#FBF0EE;border:1.5px solid var(--danger);}
+  .disclaimer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);}
 </style>
 </head>
 <body>
-<div class="page">
-<div class="topline">FINANCIAL FREEDOM BLUEPRINT • MODULE 8</div>
-<div class="header">
-<div><h1>Wealth Distribution <span class="tag">AGIH</span></h1><div class="subtitle">e-Workbook — kenal pasti harta, hutang &amp; tahap kesiapsiagaan pusaka anda</div></div>
-<div class="brand">WEALTH PLANNING PROFESSIONAL<div class="name">HANAN KHAZANI</div><div class="brandline"></div></div>
+<header class="bg-pantone-dark text-white border-b-2 border-gold shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-3">
+    <div class="flex items-center space-x-3">
+      <div class="p-2 bg-pantone-medium rounded-lg border border-gold">
+        <i data-lucide="shield-check" class="w-7 h-7 text-gold-primary"></i>
+      </div>
+      <div>
+        <h1 class="brand-title text-xl sm:text-2xl font-bold text-white tracking-wide">
+          KAC <span class="text-gold-primary">x</span> TSI WEALTH PORTAL
+        </h1>
+        <p class="text-xs text-gray-300 font-light tracking-wider">Pillar 8 -Semak Waris dan Rancang Harta</p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2 no-print">
+        <a href="/index.html" class="px-3 py-1.5 text-xs font-semibold rounded-md border border-gold/40 text-gold-light hover:bg-pantone-light transition flex items-center space-x-1.5">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Laman Utama</span>
+        </a>
+      </div>
+      
+  </div>
+</header>
+<div class="wrap">
+
+  <form id="faraidForm">
+
+    <section class="field-group">
+      <p class="fg-title">Pasangan</p>
+      <p class="fg-sub">Spouse of the deceased</p>
+      <div class="radio-row">
+        <label class="radio-opt"><input type="radio" name="spouseType" value="none" checked> Tiada / None</label>
+        <label class="radio-opt"><input type="radio" name="spouseType" value="husband"> Suami / Husband</label>
+        <label class="radio-opt"><input type="radio" name="spouseType" value="wife"> Isteri / Wife</label>
+      </div>
+      <div id="wifeCountWrap" class="num-field">
+        <label for="wifeCount">Bilangan isteri (1&ndash;4) / Number of wives</label>
+        <input type="number" id="wifeCount" min="1" max="4" value="1">
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Anak</p>
+      <p class="fg-sub">Children of the deceased</p>
+      <div class="num-row">
+        <div class="num-field"><label for="son">Anak Lelaki / Sons</label><input type="number" id="son" min="0" value="0" inputmode="numeric"></div>
+        <div class="num-field"><label for="daughter">Anak Perempuan / Daughters</label><input type="number" id="daughter" min="0" value="0" inputmode="numeric"></div>
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Cucu (daripada anak lelaki)</p>
+      <p class="fg-sub">Grandchildren from son &middot; hanya releven jika tiada anak lelaki. Cucu daripada anak perempuan tidak layak menjadi waris faraid.</p>
+      <div class="num-row">
+        <div class="num-field"><label for="grandsonFS">Cucu Lelaki / Grandson</label><input type="number" id="grandsonFS" min="0" value="0" inputmode="numeric"></div>
+        <div class="num-field"><label for="granddaughterFS">Cucu Perempuan / Granddaughter</label><input type="number" id="granddaughterFS" min="0" value="0" inputmode="numeric"></div>
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Ibu Bapa</p>
+      <p class="fg-sub">Parents of the deceased</p>
+      <div class="check-row">
+        <label class="check-opt"><input type="checkbox" id="father"> Bapa / Father</label>
+        <label class="check-opt"><input type="checkbox" id="mother"> Ibu / Mother</label>
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Datuk &amp; Nenek</p>
+      <p class="fg-sub">Hanya releven jika bapa/ibu tiada &middot; Only relevant if father/mother absent</p>
+      <div class="check-row">
+        <label class="check-opt"><input type="checkbox" id="grandfather"> Datuk sebelah bapa / Paternal grandfather</label>
+        <label class="check-opt"><input type="checkbox" id="grandmother"> Nenek / Grandmother</label>
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Saudara-mara</p>
+      <p class="fg-sub">Siblings &middot; hanya releven jika tiada bapa/datuk/anak atau cucu lelaki</p>
+
+      <div class="sib-block">
+        <h4>Seibu sebapa (kandung) &middot; Full siblings</h4>
+        <div class="num-row">
+          <div class="num-field"><label for="fBro">Lelaki / Brothers</label><input type="number" id="fBro" min="0" value="0" inputmode="numeric"></div>
+          <div class="num-field"><label for="fSis">Perempuan / Sisters</label><input type="number" id="fSis" min="0" value="0" inputmode="numeric"></div>
+        </div>
+      </div>
+      <div class="sib-block">
+        <h4>Sebapa sahaja &middot; Consanguine (same father)</h4>
+        <div class="num-row">
+          <div class="num-field"><label for="cBro">Lelaki / Brothers</label><input type="number" id="cBro" min="0" value="0" inputmode="numeric"></div>
+          <div class="num-field"><label for="cSis">Perempuan / Sisters</label><input type="number" id="cSis" min="0" value="0" inputmode="numeric"></div>
+        </div>
+      </div>
+      <div class="sib-block">
+        <h4>Seibu sahaja &middot; Uterine (same mother)</h4>
+        <div class="num-row">
+          <div class="num-field"><label for="uBro">Lelaki / Brothers</label><input type="number" id="uBro" min="0" value="0" inputmode="numeric"></div>
+          <div class="num-field"><label for="uSis">Perempuan / Sisters</label><input type="number" id="uSis" min="0" value="0" inputmode="numeric"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="field-group">
+      <p class="fg-title">Jumlah Harta Pusaka (RM)</p>
+      <p class="fg-sub">Pilihan &middot; Optional &mdash; untuk lihat anggaran nilai RM setiap waris</p>
+      <div class="num-field">
+        <input type="number" id="estateValue" min="0" placeholder="cth: 100000">
+      </div>
+    </section>
+
+    <button type="submit" class="calc-btn">Kira Bahagian &middot; Calculate Shares</button>
+    <div class="error-box" id="errorBox"></div>
+  </form>
+
+  <div id="results">
+    <h2>Keputusan &middot; Result</h2>
+    <div class="flags" id="flags"></div>
+
+    <div class="tree" id="familyTree"></div>
+    <div class="tree-legend">
+      <span><i class="i-ok"></i> Layak menerima faraid</span>
+      <span><i class="i-blocked"></i> Tidak layak / disekat</span>
+    </div>
+
+    <p class="asal-label" style="margin-top:24px;">Asal Masalah (nombor asas perkongsian): <b id="asalMasalahNum"></b></p>
+    <div class="table-frame">
+      <table>
+        <thead>
+          <tr><th>Waris / Heir</th><th class="num">Bahagian Asal</th><th class="num">Nilai (/Asal Masalah)</th><th class="num final-col">Bahagian Akhir</th><th class="num" id="rmHeader" style="display:none;">RM</th></tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+        <tfoot><tr class="total-row"><td>Jumlah / Total</td><td></td><td class="num" id="totalFrac"></td><td class="num final-col" id="totalPct"></td><td class="num" id="totalRm" style="display:none;"></td></tr></tfoot>
+      </table>
+    </div>
+    <p class="table-note"><i></i> Baris gelap = <b>Asabah</b> (baki) &mdash; bahagian berhenti di sini, tidak tersebar lagi kepada waris yang lebih jauh.</p>
+    <ul class="notes" id="notesList"></ul>
+    <button type="button" class="reset-link" id="resetBtn">Kira semula &middot; Calculate again</button>
+  </div>
+
+  <p class="disclaimer">
+    Kalkulator ini untuk tujuan pendidikan &amp; latihan taklimat sahaja. Ia meliputi kes-kes lazim (pasangan, anak, cucu daripada anak lelaki, ibu bapa, datuk/nenek sebelah bapa, dan adik-beradik) termasuk Awl, Radd dan Gharrawiyyah, tetapi tidak meliputi bapa saudara, anak saudara, atau perbezaan pandangan mazhab yang lebih lanjut. Untuk pembahagian pusaka sebenar, sila rujuk pegawai agama, peguam pusaka, atau portal rasmi seperti e-Faraid JAKIM.
+  </p>
+
 </div>
 
-<div class="identity"><div class="inputbox"><div class="label">NAMA</div></div><div class="inputbox"><div class="label">TARIKH</div></div></div>
+<script>
+(function(){
+  // ---- Fraction helpers ----
+  function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+  function lcm(a,b){ return Math.abs(a*b)/(gcd(a,b)||1); }
+  function frac(n,d){ if(d<0){n=-n;d=-d;} var g=gcd(n,d)||1; return {n:n/g,d:d/g}; }
+  function fadd(a,b){ return frac(a.n*b.d+b.n*a.d, a.d*b.d); }
+  function fsub(a,b){ return frac(a.n*b.d-b.n*a.d, a.d*b.d); }
+  function fmul(a,b){ return frac(a.n*b.n, a.d*b.d); }
+  function fdiv(a,b){ return frac(a.n*b.d, a.d*b.n); }
+  function fnum(a){ return a.n/a.d; }
+  var ZERO = {n:0,d:1};
+  function F(n,d){ return frac(n,d); }
 
-<section class="section">
-<div class="section-title"><span class="num">1</span> SIAPA WARIS FARAID?</div>
-<div class="section-body"><div class="desc">Kenali waris menurut hukum faraid (jika berkenaan).</div>
-<table><thead><tr><th style="width:31%">KATEGORI WARIS</th><th style="width:31%">CONTOH</th><th style="width:15%" class="center">ADA / TIADA</th><th style="width:23%" class="center">KIRAAN FARAID<br>(BAHAGIAN)</th></tr></thead>
-<tbody>
-<tr><td>Pasangan</td><td>Suami / Isteri</td><td class="center">☐</td><td></td></tr><tr><td>Anak</td><td>Anak lelaki / perempuan</td><td class="center">☐</td><td></td></tr>
-<tr><td>Ibu</td><td>Ibu kandung</td><td class="center">☐</td><td></td></tr><tr><td>Bapa</td><td>Bapa kandung</td><td class="center">☐</td><td></td></tr>
-<tr><td>Saudara Kandung</td><td>Lelaki / Perempuan</td><td class="center">☐</td><td></td></tr><tr><td>Datuk / Nenek</td><td>Datuk, Nenek (pihak ayah / ibu)</td><td class="center">☐</td><td></td></tr>
-<tr><td>Cucu</td><td>Anak kepada anak</td><td class="center">☐</td><td></td></tr><tr><td>Lain-lain (yang layak)</td><td>Saudara seibu, bapa saudara dll</td><td class="center">☐</td><td></td></tr>
-</tbody></table>
-<div class="note">Nota: Senarai ringkas sahaja. Bahagian faraid bergantung kepada kes individu.</div></div></section>
+  function computeFaraid(inp){
+    var notes = [];
+    var son = inp.son|0, daughter = inp.daughter|0;
+    var hasSon = son>0, hasDaughter = daughter>0;
+    var grandsonFS = inp.grandsonFS|0, granddaughterFS = inp.granddaughterFS|0;
+    var hasGrandsonFS0 = grandsonFS>0, hasGranddaughterFS0 = granddaughterFS>0;
+    if (hasSon) { grandsonFS = 0; granddaughterFS = 0; }
+    var hasGrandsonFS = grandsonFS>0, hasGranddaughterFS = granddaughterFS>0;
+    var hasMaleDescendant = hasSon || hasGrandsonFS;
+    var hasDescendant = hasSon || hasDaughter || hasGrandsonFS || hasGranddaughterFS;
 
-<div class="two-col">
-<section class="section"><div class="section-title"><span class="num">2</span> MY WEALTH SNAPSHOT</div><div class="section-body"><div class="desc">Senaraikan aset utama. Tak perlu tepat 100% — anggaran awal sudah memadai.</div>
-<table class="small-table"><thead><tr><th>ASET</th><th>ANGGARAN NILAI<br>(RM)</th><th>LOKASI /<br>DOKUMEN</th><th>SIAPA<br>TAHU?</th></tr></thead><tbody>
-<tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><b>JUMLAH</b></td><td></td><td></td><td></td></tr>
-</tbody></table><div class="note">Tip: fikir juga tentang aset yang keluarga mungkin tidak tahu kewujudannya — akaun lama, pelaburan, emas, business interest atau aset digital.</div></div></section>
+    var father = !!inp.father, mother = !!inp.mother;
+    var grandfather = !!inp.grandfather, grandmother = !!inp.grandmother;
+    var fBro=inp.fBro|0, fSis=inp.fSis|0, cBro=inp.cBro|0, cSis=inp.cSis|0, uBro=inp.uBro|0, uSis=inp.uSis|0;
 
-<section class="section"><div class="section-title"><span class="num">3</span> MY LIABILITY SNAPSHOT</div><div class="section-body"><div class="desc">Apa yang masih tertunggak atau menjadi tanggungjawab kewangan?</div>
-<table class="small-table"><thead><tr><th>HUTANG / KOMITMEN</th><th>BAKI<br>(RM)</th><th>INSTITUSI /<br>ORANG</th><th>DOKUMEN</th></tr></thead><tbody>
-<tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td><b>JUMLAH</b></td><td></td><td></td><td></td></tr>
-</tbody></table></div></section>
-</div>
+    var grandfatherActive = grandfather && !father;
+    var grandmotherActive = grandmother && !mother;
 
-<div class="two-col">
-<section class="section"><div class="section-title"><span class="num">4</span> ESTATE READINESS CHECK</div><div class="section-body"><div class="desc">Tick yang sudah ada. Yang belum ada = gap yang perlu diberi perhatian.</div>
-<div class="readiness-actions"><div class="check">Ada senarai aset</div><div class="check">Tahu lokasi dokumen penting</div><div class="check">Ada senarai hutang</div><div class="check">Dah semak penamaan yang berkaitan</div><div class="check">Pasangan tahu aset utama</div><div class="check">Faham beza faraid, wasiat &amp; hibah</div><div class="check">Tahu siapa waris</div><div class="check">Ada dokumen perancangan yang sesuai</div></div></div></section>
+    var fullSiblingsBlocked = father || grandfatherActive || hasMaleDescendant;
+    var fFullBro = fullSiblingsBlocked?0:fBro;
+    var fFullSis = fullSiblingsBlocked?0:fSis;
 
-<section class="section"><div class="section-title"><span class="num">5</span> MY NEXT 3 ACTIONS</div><div class="section-body"><div class="desc">Tiga perkara utama yang akan dilakukan dalam 30 hari akan datang.</div>
-<div class="action-row"><div class="action-num">1</div><div class="write-line"></div></div><div class="action-row"><div class="action-num">2</div><div class="write-line"></div></div><div class="action-row"><div class="action-num">3</div><div class="write-line"></div></div>
-<div class="date-row"><div class="mini-box">Tarikh mula:</div><div class="mini-box">Tarikh semak semula:</div></div></div></section>
-</div>
+    var consBlockedByFullBro = fFullBro>0;
+    var consSiblingsBlockedBase = father || grandfatherActive || hasMaleDescendant || consBlockedByFullBro;
+    var effCBro = consSiblingsBlockedBase?0:cBro;
+    var effCSis = consSiblingsBlockedBase?0:cSis;
 
-<div class="bottom"><div class="score"><div class="score-title">SKOR SAYA</div><span class="score-input"></span><span class="slash">/ 8</span></div>
-<div class="legend"><div class="l1">0–2<br>PERLU SUSUN</div><div class="l2">3–5<br>SEDANG BERSIAP</div><div class="l3">6–8<br>LEBIH TERATUR</div></div>
-<div class="notes"><div class="notes-title">NOTA TAMBAHAN</div><div class="notes-area"></div></div></div>
+    var uterineBlocked = father || grandfatherActive || hasDescendant;
+    var effUBro = uterineBlocked?0:uBro;
+    var effUSis = uterineBlocked?0:uSis;
+    var uterineTotal = effUBro+effUSis;
 
-<footer><span>Financial Freedom Blueprint • Module 8: Wealth Distribution</span><span>Muka 1/1</span></footer>
-</div>
+    var grandTierMode = 'none';
+    if (!hasSon) {
+      if (hasGrandsonFS) grandTierMode = 'asabah';
+      else if (hasGranddaughterFS) {
+        if (!hasDaughter) grandTierMode = 'fixed';
+        else if (daughter===1) grandTierMode = 'completing1_6';
+        else grandTierMode = 'blocked';
+      }
+    }
+
+    var fullSibMode = 'none';
+    if (fFullBro>0) fullSibMode = 'asabahWithBrothers';
+    else if (fFullSis>0) {
+      if (hasDaughter && !hasSon) fullSibMode = 'asabahBiGhayr';
+      else fullSibMode = 'fixed';
+    }
+
+    var consSibMode = 'none';
+    if (effCBro>0) consSibMode = 'asabahWithBrothers';
+    else if (effCSis>0) {
+      if (fFullBro===0 && fFullSis===0 && hasDaughter && !hasSon) consSibMode = 'asabahBiGhayr';
+      else if (fFullSis===0) consSibMode = 'fixed';
+      else if (fFullSis===1) consSibMode = 'completing1_6';
+      else consSibMode = 'none';
+    }
+
+    var siblingRawCountForMother = (inp.fBro|0)+(inp.fSis|0)+(inp.cBro|0)+(inp.cSis|0)+(inp.uBro|0)+(inp.uSis|0);
+
+    var fixed = [];
+    var exclusions = [];
+    var spouseShare = ZERO;
+    if (inp.spouseType==='husband') {
+      spouseShare = hasDescendant ? F(1,4) : F(1,2);
+      fixed.push({key:'husband', cat:'spouse', label:'Suami', labelEn:'Husband', share:spouseShare, isSpouse:true, count:1, origLabel: hasDescendant?'1/4':'1/2'});
+    } else if (inp.spouseType==='wife') {
+      var wc = Math.max(1, inp.wifeCount|0);
+      spouseShare = hasDescendant ? F(1,8) : F(1,4);
+      fixed.push({key:'wife', cat:'spouse', label:'Isteri', labelEn:'Wife', share:spouseShare, isSpouse:true, count:wc, origLabel: hasDescendant?'1/8':'1/4'});
+    }
+
+    var gharrawain = father && mother && !hasDescendant && siblingRawCountForMother===0 &&
+      (inp.spouseType==='husband' || inp.spouseType==='wife');
+
+    var motherShare = ZERO, fatherGharrawainShare = ZERO;
+
+    if (gharrawain) {
+      var remainder = fsub(F(1,1), spouseShare);
+      motherShare = fmul(remainder, F(1,3));
+      fatherGharrawainShare = fsub(remainder, motherShare);
+      notes.push('Kes Gharrawiyyah/Umariyyatain dikesan: hanya pasangan + kedua ibu bapa. Bahagian ibu = 1/3 daripada baki selepas pasangan (bukan 1/3 keseluruhan), supaya bapa kekal dua kali ganda bahagian ibu.');
+    } else {
+      motherShare = (hasDescendant || siblingRawCountForMother>=2) ? F(1,6) : F(1,3);
+    }
+
+    if (mother) fixed.push({key:'mother', cat:'mother', label:'Ibu', labelEn:'Mother', share:motherShare, count:1, origLabel: gharrawain?'1/3 baki':(fnum(motherShare)>0.2?'1/3':'1/6')});
+
+    if (!gharrawain && father) {
+      if (hasDescendant) fixed.push({key:'father', cat:'father', label:'Bapa', labelEn:'Father', share:F(1,6), count:1, origLabel:'1/6'});
+      else fixed.push({key:'father', cat:'father', label:'Bapa', labelEn:'Father', share:ZERO, count:1, origLabel:'Asabah'});
+    } else if (gharrawain) {
+      fixed.push({key:'father', cat:'father', label:'Bapa', labelEn:'Father', share:fatherGharrawainShare, count:1, origLabel:'Asabah (2/3 baki)'});
+    }
+    if (inp.grandfather && father) exclusions.push({cat:'grandfather', label:'Datuk (sebelah bapa)', reason:'disekat oleh Bapa'});
+
+    if (!father && grandfatherActive) {
+      if (hasDescendant) fixed.push({key:'grandfather', cat:'grandfather', label:'Datuk (sebelah bapa)', labelEn:'Paternal Grandfather', share:F(1,6), count:1, origLabel:'1/6'});
+      else fixed.push({key:'grandfather', cat:'grandfather', label:'Datuk (sebelah bapa)', labelEn:'Paternal Grandfather', share:ZERO, count:1, origLabel:'Asabah'});
+    }
+
+    if (grandmotherActive) fixed.push({key:'grandmother', cat:'grandmother', label:'Nenek', labelEn:'Grandmother', share:F(1,6), count:1, origLabel:'1/6'});
+    if (inp.grandmother && mother) exclusions.push({cat:'grandmother', label:'Nenek', reason:'disekat oleh Ibu'});
+
+    if (!hasSon && hasDaughter) {
+      var dshare = daughter===1 ? F(1,2) : F(2,3);
+      fixed.push({key:'daughter', cat:'daughter', label:'Anak Perempuan', labelEn:'Daughter(s)', share:dshare, count:daughter, origLabel: daughter===1?'1/2':'2/3'});
+    }
+
+    if (grandTierMode==='fixed') {
+      var gdshare = granddaughterFS===1 ? F(1,2) : F(2,3);
+      fixed.push({key:'granddaughterFS', cat:'granddaughterFS', label:'Cucu Perempuan (dr anak lelaki)', labelEn:'Granddaughter(s) from Son', share:gdshare, count:granddaughterFS, origLabel: granddaughterFS===1?'1/2':'2/3'});
+    } else if (grandTierMode==='completing1_6') {
+      fixed.push({key:'granddaughterFS', cat:'granddaughterFS', label:'Cucu Perempuan (dr anak lelaki, penyempurna 2/3)', labelEn:'Granddaughter(s) from Son (completing 2/3)', share:F(1,6), count:granddaughterFS, origLabel:'1/6 (penyempurna)'});
+      notes.push('Cucu perempuan daripada anak lelaki menerima 1/6 untuk menyempurnakan 2/3 bersama seorang anak perempuan.');
+    } else if (grandTierMode==='blocked' && hasGranddaughterFS) {
+      exclusions.push({cat:'granddaughterFS', label:'Cucu Perempuan (dr anak lelaki)', reason:'2 atau lebih Anak Perempuan telah mengambil penuh 2/3, tiada Cucu Lelaki untuk jadikan mereka asabah'});
+    }
+    if (hasSon && hasGrandsonFS0) exclusions.push({cat:'grandsonFS', label:'Cucu Lelaki (daripada anak lelaki)', reason:'disekat oleh Anak Lelaki'});
+    if (hasSon && hasGranddaughterFS0) exclusions.push({cat:'granddaughterFS', label:'Cucu Perempuan (daripada anak lelaki)', reason:'disekat oleh Anak Lelaki'});
+
+    if (fullSibMode==='fixed') {
+      var fsShare = fFullSis===1 ? F(1,2) : F(2,3);
+      fixed.push({key:'fullSis', cat:'fullSis', label:'Saudara Perempuan Seibu Sebapa', labelEn:'Full Sister(s)', share:fsShare, count:fFullSis, origLabel: fFullSis===1?'1/2':'2/3'});
+    }
+    if (consSibMode==='fixed') {
+      var csShare = effCSis===1 ? F(1,2) : F(2,3);
+      fixed.push({key:'consSis', cat:'consSis', label:'Saudara Perempuan Sebapa', labelEn:'Consanguine Sister(s)', share:csShare, count:effCSis, origLabel: effCSis===1?'1/2':'2/3'});
+    } else if (consSibMode==='completing1_6') {
+      fixed.push({key:'consSis', cat:'consSis', label:'Saudara Perempuan Sebapa (penyempurna 2/3)', labelEn:'Consanguine Sister(s) (completing 2/3)', share:F(1,6), count:effCSis, origLabel:'1/6 (penyempurna)'});
+      notes.push('Saudara perempuan sebapa menerima 1/6 untuk menyempurnakan 2/3 bersama seorang saudara perempuan seibu sebapa.');
+    }
+
+    function siblingBlockReason(){
+      if (father) return 'Bapa';
+      if (grandfatherActive) return 'Datuk (ganti Bapa)';
+      if (hasMaleDescendant) return hasSon ? 'Anak Lelaki' : 'Cucu Lelaki (drpd anak lelaki)';
+      return null;
+    }
+    if ((inp.fBro>0 || inp.fSis>0) && fullSiblingsBlocked) {
+      var fReason = 'disekat oleh '+siblingBlockReason();
+      if (inp.fBro>0) exclusions.push({cat:'fullBro', label:'Saudara Lelaki Kandung', reason:fReason});
+      if (inp.fSis>0) exclusions.push({cat:'fullSis', label:'Saudara Perempuan Kandung', reason:fReason});
+    }
+    if (inp.cBro>0 || inp.cSis>0) {
+      if (consSiblingsBlockedBase) {
+        var r = consBlockedByFullBro ? 'Saudara Lelaki Kandung' : siblingBlockReason();
+        if (inp.cBro>0) exclusions.push({cat:'consBro', label:'Saudara Lelaki Sebapa', reason:'disekat oleh '+r});
+        if (inp.cSis>0) exclusions.push({cat:'consSis', label:'Saudara Perempuan Sebapa', reason:'disekat oleh '+r});
+      } else if (consSibMode==='none' && effCSis>0) {
+        exclusions.push({cat:'consSis', label:'Saudara Perempuan Sebapa', reason:'2 atau lebih Saudara Perempuan Kandung telah mengambil penuh 2/3'});
+      }
+    }
+    if ((inp.uBro>0 || inp.uSis>0) && uterineBlocked) {
+      var ur = father ? 'Bapa' : (grandfatherActive ? 'Datuk (ganti Bapa)' : 'kewujudan Anak/Cucu');
+      if (inp.uBro>0) exclusions.push({cat:'uterine', label:'Saudara Lelaki Seibu', reason:'disekat oleh '+ur});
+      if (inp.uSis>0) exclusions.push({cat:'uterine', label:'Saudara Perempuan Seibu', reason:'disekat oleh '+ur});
+    }
+
+    if (uterineTotal===1) {
+      var uLabel = effUBro===1 ? 'Saudara Lelaki Seibu' : 'Saudara Perempuan Seibu';
+      var uLabelEn = effUBro===1 ? 'Uterine Brother' : 'Uterine Sister';
+      fixed.push({key:'uterine', cat:'uterine', label:uLabel, labelEn:uLabelEn, share:F(1,6), count:1, origLabel:'1/6'});
+    } else if (uterineTotal>=2) {
+      fixed.push({key:'uterine', cat:'uterine', label:'Saudara Seibu (kesemua)', labelEn:'Uterine Siblings (all)', share:F(1,3), count:uterineTotal, origLabel:'1/3 (kongsi rata)'});
+      notes.push('Saudara seibu berkongsi 1/3 secara sama rata tanpa mengira lelaki/perempuan.');
+    }
+
+    var totalFixed = ZERO;
+    for (var i=0;i<fixed.length;i++) totalFixed = fadd(totalFixed, fixed[i].share);
+
+    var residue = fsub(F(1,1), totalFixed);
+    var awlApplied=false, raddApplied=false;
+    var asabahRows = [];
+
+    if (residue.n < 0) {
+      awlApplied = true;
+      var factor = fdiv(F(1,1), totalFixed);
+      for (var j=0;j<fixed.length;j++) fixed[j].share = fmul(fixed[j].share, factor);
+      residue = ZERO;
+      notes.push('Awl berlaku: jumlah bahagian tetap melebihi 100%, jadi semua bahagian diselaraskan (dikecilkan) secara berkadar.');
+    } else if (residue.n > 0) {
+      var assigned = false;
+      if (hasSon) {
+        var units = son*2 + daughter*1;
+        var perUnit = fdiv(residue, F(units,1));
+        asabahRows.push({key:'son', cat:'son', label:'Anak Lelaki', labelEn:'Son(s)', share:fmul(perUnit,F(son*2,1)), count:son, origLabel:'Asabah'});
+        if (hasDaughter) asabahRows.push({key:'daughterAsabah', cat:'daughter', label:'Anak Perempuan (bersama anak lelaki)', labelEn:'Daughter(s) (with sons)', share:fmul(perUnit,F(daughter,1)), count:daughter, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Anak lelaki dan anak perempuan berkongsi baki sebagai asabah dengan nisbah 2:1.');
+      } else if (grandTierMode==='asabah') {
+        var unitsG = grandsonFS*2 + granddaughterFS*1;
+        var perUnitG = fdiv(residue, F(unitsG,1));
+        asabahRows.push({key:'grandsonFS', cat:'grandsonFS', label:'Cucu Lelaki (dr anak lelaki)', labelEn:'Grandson(s) from Son', share:fmul(perUnitG,F(grandsonFS*2,1)), count:grandsonFS, origLabel:'Asabah'});
+        if (hasGranddaughterFS) asabahRows.push({key:'granddaughterFSAsabah', cat:'granddaughterFS', label:'Cucu Perempuan (dr anak lelaki, bersama cucu lelaki)', labelEn:'Granddaughter(s) from Son (with grandsons)', share:fmul(perUnitG,F(granddaughterFS,1)), count:granddaughterFS, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Kerana tiada anak lelaki, cucu lelaki dan cucu perempuan (dr anak lelaki) menggantikan peranan anak lelaki dan berkongsi baki 2:1.');
+      } else if (father) {
+        for (var k=0;k<fixed.length;k++){ if(fixed[k].key==='father'){ fixed[k].share = fadd(fixed[k].share, residue); fixed[k].origLabel = hasDescendant ? '1/6 + Asabah' : 'Asabah'; } }
+        assigned = true;
+        notes.push(hasDescendant ? 'Bapa menerima 1/6 tetap PLUS baki (asabah) kerana hanya anak/cucu perempuan wujud.' : 'Bapa menerima keseluruhan baki sebagai asabah (tiada anak).');
+      } else if (grandfatherActive) {
+        for (var k2=0;k2<fixed.length;k2++){ if(fixed[k2].key==='grandfather'){ fixed[k2].share = fadd(fixed[k2].share, residue); fixed[k2].origLabel = hasDescendant ? '1/6 + Asabah' : 'Asabah'; } }
+        assigned = true;
+        notes.push('Datuk (ganti bapa) menerima baki sebagai asabah.');
+      } else if (fFullBro>0) {
+        var unitsF = fFullBro*2 + fFullSis*1;
+        var perUnitF = fdiv(residue, F(unitsF,1));
+        asabahRows.push({key:'fullBro', cat:'fullBro', label:'Saudara Lelaki Seibu Sebapa', labelEn:'Full Brother(s)', share:fmul(perUnitF,F(fFullBro*2,1)), count:fFullBro, origLabel:'Asabah'});
+        if (fFullSis>0) asabahRows.push({key:'fullSisAsabah', cat:'fullSis', label:'Saudara Perempuan Seibu Sebapa (bersama saudara lelaki)', labelEn:'Full Sister(s) (with brothers)', share:fmul(perUnitF,F(fFullSis,1)), count:fFullSis, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Saudara lelaki dan perempuan seibu-sebapa berkongsi baki sebagai asabah 2:1.');
+      } else if (effCBro>0) {
+        var unitsC = effCBro*2 + effCSis*1;
+        var perUnitC = fdiv(residue, F(unitsC,1));
+        asabahRows.push({key:'consBro', cat:'consBro', label:'Saudara Lelaki Sebapa', labelEn:'Consanguine Brother(s)', share:fmul(perUnitC,F(effCBro*2,1)), count:effCBro, origLabel:'Asabah'});
+        if (effCSis>0) asabahRows.push({key:'consSisAsabah', cat:'consSis', label:'Saudara Perempuan Sebapa (bersama saudara lelaki)', labelEn:'Consanguine Sister(s) (with brothers)', share:fmul(perUnitC,F(effCSis,1)), count:effCSis, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Saudara lelaki dan perempuan sebapa berkongsi baki sebagai asabah 2:1.');
+      } else if (fullSibMode==='asabahBiGhayr') {
+        asabahRows.push({key:'fullSisBiGhayr', cat:'fullSis', label:'Saudara Perempuan Seibu Sebapa (asabah bersama anak perempuan)', labelEn:'Full Sister(s) (residuary with daughters)', share:residue, count:fFullSis, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Saudara perempuan seibu-sebapa menjadi asabah bersama anak perempuan dan mengambil keseluruhan baki.');
+      } else if (consSibMode==='asabahBiGhayr') {
+        asabahRows.push({key:'consSisBiGhayr', cat:'consSis', label:'Saudara Perempuan Sebapa (asabah bersama anak perempuan)', labelEn:'Consanguine Sister(s) (residuary with daughters)', share:residue, count:effCSis, origLabel:'Asabah'});
+        assigned = true;
+        notes.push('Saudara perempuan sebapa menjadi asabah bersama anak perempuan dan mengambil keseluruhan baki.');
+      }
+
+      if (!assigned) {
+        var nonSpouse = fixed.filter(function(r){ return !r.isSpouse && r.share.n>0; });
+        if (nonSpouse.length>0) {
+          var sumNonSpouse = ZERO;
+          for (var m=0;m<nonSpouse.length;m++) sumNonSpouse = fadd(sumNonSpouse, nonSpouse[m].share);
+          for (var m2=0;m2<nonSpouse.length;m2++) {
+            var portion = fmul(residue, fdiv(nonSpouse[m2].share, sumNonSpouse));
+            nonSpouse[m2].share = fadd(nonSpouse[m2].share, portion);
+            nonSpouse[m2].origLabel = (nonSpouse[m2].origLabel||'') + ' (+Radd)';
+          }
+          raddApplied = true;
+          notes.push('Radd berlaku: baki tanpa asabah dikembalikan secara berkadar kepada waris ashab al-furud (bukan pasangan).');
+        } else {
+          notes.push('Tiada asabah atau waris radd yang layak. Baki ini secara klasik diserahkan kepada Baitulmal / tertakluk undang-undang pembahagian pusaka semasa. Sila rujuk pihak berkuasa agama.');
+        }
+      }
+    }
+
+    var allRows = fixed.filter(function(r){return r.share.n>0;}).concat(asabahRows);
+    var totalCheck = ZERO;
+    for (var t=0;t<allRows.length;t++) totalCheck = fadd(totalCheck, allRows[t].share);
+
+    var base = 1;
+    var perPersonList = allRows.map(function(r){ return fdiv(r.share, F(r.count,1)); });
+    perPersonList.forEach(function(f){ base = lcm(base, f.d); });
+    allRows.forEach(function(r){ base = lcm(base, r.share.d); });
+    var workingRows = allRows.map(function(r,idx){
+      var perPersonAtBase = perPersonList[idx].n * (base/perPersonList[idx].d);
+      var totalAtBase = perPersonAtBase * r.count;
+      return {key:r.key, cat:r.cat, label:r.label, labelEn:r.labelEn, origLabel:r.origLabel||'', count:r.count, totalAtBase:totalAtBase, perPersonAtBase:perPersonAtBase, share:r.share};
+    });
+
+    return { rows: allRows, notes: notes, awlApplied: awlApplied, raddApplied: raddApplied, gharrawain: gharrawain, totalCheck: totalCheck, exclusions: exclusions, asalMasalah: base, workingRows: workingRows };
+  }
+
+  // ---- UI wiring ----
+  var form = document.getElementById('faraidForm');
+  var errorBox = document.getElementById('errorBox');
+  var resultsBox = document.getElementById('results');
+  var wifeCountWrap = document.getElementById('wifeCountWrap');
+
+  document.querySelectorAll('input[name="spouseType"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      wifeCountWrap.style.display = (document.querySelector('input[name="spouseType"]:checked').value==='wife') ? 'block' : 'none';
+    });
+  });
+
+  function num(id){ return parseInt(document.getElementById(id).value||'0',10) || 0; }
+  function checked(id){ return document.getElementById(id).checked; }
+
+  function gatherInput(){
+    return {
+      spouseType: document.querySelector('input[name="spouseType"]:checked').value,
+      wifeCount: num('wifeCount'),
+      son: num('son'), daughter: num('daughter'),
+      grandsonFS: num('grandsonFS'), granddaughterFS: num('granddaughterFS'),
+      father: checked('father'), mother: checked('mother'),
+      grandfather: checked('grandfather'), grandmother: checked('grandmother'),
+      fBro: num('fBro'), fSis: num('fSis'),
+      cBro: num('cBro'), cSis: num('cSis'),
+      uBro: num('uBro'), uSis: num('uSis')
+    };
+  }
+
+  function findExclusionByCat(result, cat){
+    return result.exclusions.find(function(e){ return e.cat===cat; });
+  }
+
+  function makeBox(labelText, result, cat){
+    var wrow = result.workingRows.find(function(r){ return r.cat===cat; });
+    var excl = findExclusionByCat(result, cat);
+    var div = document.createElement('div');
+    if (wrow) {
+      div.className = 'tree-box ok';
+      var perStr = wrow.count>1 ? (wrow.perPersonAtBase+' /org') : wrow.perPersonAtBase;
+      div.innerHTML = '<div class="t-label">'+labelText+'</div><div class="t-status">&#10003; '+perStr+' drpd '+result.asalMasalah+'</div>';
+    } else if (excl) {
+      div.className = 'tree-box blocked';
+      div.innerHTML = '<div class="t-label">'+labelText+'</div><div class="t-status">&#10007; &larr; '+excl.reason+'</div>';
+    } else {
+      div.className = 'tree-box blocked';
+      div.innerHTML = '<div class="t-label">'+labelText+'</div><div class="t-status">&#10007; tiada bahagian</div>';
+    }
+    return div;
+  }
+
+  function renderFamilyTree(inp, result){
+    var container = document.getElementById('familyTree');
+    container.innerHTML = '';
+
+    function gen(labelText, boxes){
+      if (boxes.length===0) return;
+      var g = document.createElement('div');
+      g.className = 'tree-gen';
+      var lbl = document.createElement('div');
+      lbl.className = 'tree-gen-label';
+      lbl.textContent = labelText;
+      g.appendChild(lbl);
+      boxes.forEach(function(b){ g.appendChild(b); });
+      container.appendChild(g);
+    }
+
+    var gpBoxes = [];
+    if (inp.grandfather) gpBoxes.push(makeBox('Datuk (sblh Bapa)', result, 'grandfather'));
+    if (inp.grandmother) gpBoxes.push(makeBox('Nenek', result, 'grandmother'));
+    gen('Datuk & Nenek', gpBoxes);
+
+    var pBoxes = [];
+    if (inp.father) pBoxes.push(makeBox('Bapa', result, 'father'));
+    if (inp.mother) pBoxes.push(makeBox('Ibu', result, 'mother'));
+    gen('Ibu Bapa', pBoxes);
+
+    var midBoxes = [];
+    if (inp.fBro>0) midBoxes.push(makeBox(inp.fBro+' Saudara L. Kandung', result, 'fullBro'));
+    if (inp.fSis>0) midBoxes.push(makeBox(inp.fSis+' Saudara P. Kandung', result, 'fullSis'));
+    if (inp.cBro>0) midBoxes.push(makeBox(inp.cBro+' Saudara L. Sebapa', result, 'consBro'));
+    if (inp.cSis>0) midBoxes.push(makeBox(inp.cSis+' Saudara P. Sebapa', result, 'consSis'));
+    if (inp.uBro>0) midBoxes.push(makeBox(inp.uBro+' Saudara L. Seibu', result, 'uterine'));
+    if (inp.uSis>0) midBoxes.push(makeBox(inp.uSis+' Saudara P. Seibu', result, 'uterine'));
+
+    var deceasedDiv = document.createElement('div');
+    deceasedDiv.className = 'tree-box deceased';
+    deceasedDiv.innerHTML = '<div class="t-label">SI MATI</div>';
+
+    var spouseBoxes = [];
+    if (inp.spouseType!=='none') {
+      var sLabel = inp.spouseType==='husband' ? 'Suami' : (inp.wifeCount>1 ? inp.wifeCount+' Isteri' : 'Isteri');
+      spouseBoxes.push(makeBox(sLabel, result, 'spouse'));
+    }
+
+    var half = Math.ceil(midBoxes.length/2);
+    gen('Si Mati, Pasangan & Saudara-mara', midBoxes.slice(0, half).concat([deceasedDiv]).concat(spouseBoxes).concat(midBoxes.slice(half)));
+
+    var cBoxes = [];
+    if (inp.son>0) cBoxes.push(makeBox(inp.son+' Anak Lelaki', result, 'son'));
+    if (inp.daughter>0) cBoxes.push(makeBox(inp.daughter+' Anak Perempuan', result, 'daughter'));
+    gen('Anak-anak', cBoxes);
+
+    var gcBoxes = [];
+    if (inp.grandsonFS>0) gcBoxes.push(makeBox(inp.grandsonFS+' Cucu Lelaki', result, 'grandsonFS'));
+    if (inp.granddaughterFS>0) gcBoxes.push(makeBox(inp.granddaughterFS+' Cucu Perempuan', result, 'granddaughterFS'));
+    gen('Cucu (dr Anak Lelaki)', gcBoxes);
+  }
+
+  function runCalculation(){
+    var inp = gatherInput();
+    var anyHeir = inp.spouseType!=='none' || inp.son>0 || inp.daughter>0 || inp.grandsonFS>0 || inp.granddaughterFS>0 ||
+      inp.father || inp.mother || inp.grandfather || inp.grandmother ||
+      inp.fBro>0 || inp.fSis>0 || inp.cBro>0 || inp.cSis>0 || inp.uBro>0 || inp.uSis>0;
+
+    if (!anyHeir) {
+      errorBox.style.display = 'block';
+      errorBox.textContent = 'Sila pilih sekurang-kurangnya seorang waris. / Please select at least one heir.';
+      resultsBox.style.display = 'none';
+      return false;
+    }
+    errorBox.style.display = 'none';
+
+    var result = computeFaraid(inp);
+    var estateRaw = document.getElementById('estateValue').value;
+    var estate = estateRaw ? parseFloat(estateRaw) : null;
+
+    document.getElementById('asalMasalahNum').textContent = result.asalMasalah;
+
+    var tbody = document.getElementById('resultsBody');
+    tbody.innerHTML = '';
+    var rmHeader = document.getElementById('rmHeader');
+    var totalRm = document.getElementById('totalRm');
+    rmHeader.style.display = estate ? '' : 'none';
+    totalRm.style.display = estate ? '' : 'none';
+
+    result.workingRows.forEach(function(row){
+      var tr = document.createElement('tr');
+      if (row.origLabel && row.origLabel.indexOf('Asabah')!==-1) tr.className = 'asabah-row';
+      var countNote = row.count>1 ? (' &times; ' + row.count + ' orang') : '';
+      var nameTd = '<td>'+row.label+countNote+'<span class="heir-name-en">'+row.labelEn+'</span></td>';
+      var origTd = '<td class="num">'+row.origLabel+'</td>';
+      var valTd = '<td class="num">'+row.totalAtBase+' / '+result.asalMasalah+'</td>';
+      var finalTd = '<td class="num final-col">'+row.perPersonAtBase+(row.count>1?' <span class="orig-label">(setiap orang)</span>':'')+'</td>';
+      var rmTd = '<td class="num">'+(estate ? ('RM '+(fnum(row.share)*estate).toLocaleString('en-MY',{maximumFractionDigits:2})) : '')+'</td>';
+      tr.innerHTML = nameTd+origTd+valTd+finalTd+rmTd;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('totalFrac').textContent = result.asalMasalah+' / '+result.asalMasalah;
+    document.getElementById('totalPct').textContent = (Math.round(fnum(result.totalCheck)*10000)/100)+'%';
+    if (estate) document.getElementById('totalRm').textContent = 'RM '+(fnum(result.totalCheck)*estate).toLocaleString('en-MY',{maximumFractionDigits:2});
+
+    var exclusionsBox = document.getElementById('exclusionsBox');
+    if (exclusionsBox) exclusionsBox.style.display = 'none'; // superseded by family tree
+
+    renderFamilyTree(inp, result);
+
+    var flags = document.getElementById('flags');
+    flags.innerHTML = '';
+    if (result.gharrawain) flags.innerHTML += '<span class="flag">Gharrawiyyah</span>';
+    if (result.awlApplied) flags.innerHTML += '<span class="flag">Awl</span>';
+    if (result.raddApplied) flags.innerHTML += '<span class="flag">Radd</span>';
+
+    var notesList = document.getElementById('notesList');
+    notesList.innerHTML = '';
+    result.notes.forEach(function(n){
+      var li = document.createElement('li');
+      li.textContent = n;
+      notesList.appendChild(li);
+    });
+
+    resultsBox.style.display = 'block';
+    resultsBox.scrollIntoView({behavior:'smooth', block:'start'});
+    return true;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    runCalculation();
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    resultsBox.style.display = 'none';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  function setRadio(name, value){
+    document.querySelectorAll('input[name="'+name+'"]').forEach(function(r){ r.checked = (r.value===value); });
+  }
+  function setNum(id, v){ document.getElementById(id).value = v; }
+  function setCheck(id, v){ document.getElementById(id).checked = v; }
+
+  function resetFields(){
+    setRadio('spouseType','none');
+    wifeCountWrap.style.display='none';
+    setNum('wifeCount',1);
+    ['son','daughter','grandsonFS','granddaughterFS','fBro','fSis','cBro','cSis','uBro','uSis'].forEach(function(id){ setNum(id,0); });
+    ['father','mother','grandfather','grandmother'].forEach(function(id){ setCheck(id,false); });
+    document.getElementById('estateValue').value = '';
+  }
+
+  window.resetFaraidPortal = function(){
+    if(confirm('Adakah anda pasti mahu mula semula? Semua maklumat diisi akan dikosongkan.')){
+      resetFields();
+      resultsBox.style.display = 'none';
+      errorBox.style.display = 'none';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+  };
+
+  lucide.createIcons();
+
+})();
+</script>
 </body>
 </html>

@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>Workbook Pelaburan · TSI Wealth Planners</title>
 <!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -497,15 +498,21 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 .workbook-shell{width:min(1120px,calc(100% - 40px));margin:0 auto;}
 
 /* Hero */
-.workbook-hero{position:relative;min-height:auto;width:100%;background:linear-gradient(135deg,var(--primary-dark),var(--primary-medium));color:#fff;border:0;border-radius:0;overflow:hidden;padding:52px 20px 56px;}
-.workbook-hero .center-content{max-width:1120px;margin:0 auto;display:block;height:auto;text-align:left;padding:0!important;}
-.workbook-hero h3{margin:0 0 12px!important;font-size:.78rem!important;letter-spacing:.22em;color:var(--accent-gold)!important;}
-.workbook-hero h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.8rem)!important;line-height:1.08!important;margin:0 0 18px!important;max-width:800px;}
-.workbook-hero .accent-bar{margin:22px 0!important;}
-.workbook-hero p{font-size:clamp(1rem,2vw,1.25rem)!important;max-width:720px;margin:0!important;color:#E2E8F0!important;}
+.workbook-hero{position:sticky;top:0;z-index:70;width:100%;background:var(--primary-dark);color:#fff;border:0;border-bottom:2px solid var(--accent-gold);border-radius:0;box-shadow:0 10px 15px -3px rgba(10,34,64,.2),0 4px 6px -4px rgba(10,34,64,.2);padding:0;}
+.workbook-hero-inner{max-width:1280px;margin:0 auto;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.workbook-brand{display:flex;align-items:center;gap:12px;min-width:0;}
+.workbook-brand-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;background:var(--primary-medium);border:1px solid var(--accent-gold);border-radius:8px;color:var(--accent-gold);}
+.workbook-brand-title{margin:0;color:#fff;font-family:var(--font-display);font-size:24px;line-height:1.25;font-weight:700;letter-spacing:.05em;}
+.workbook-brand-title span{color:var(--accent-gold);}
+.workbook-brand-subtitle{margin:3px 0 0;color:#CBD5E1;font-family:var(--font-body);font-size:12px;line-height:1.3;font-weight:300;letter-spacing:.08em;}
+.workbook-header-label{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid rgba(197,160,89,.4);border-radius:6px;color:var(--accent-gold-light);font-family:var(--font-body);font-size:12px;font-weight:600;white-space:nowrap;}
+.workbook-hero .no-print{display:flex;align-items:center;gap:.5rem;}
+.workbook-hero a[href="/index.html"]{display:inline-flex;align-items:center;gap:.375rem;padding:.375rem .75rem;border:1px solid rgba(197,160,89,.4);border-radius:.375rem;color:var(--accent-gold-light);font-family:var(--font-body);font-size:.75rem;line-height:1rem;font-weight:600;text-decoration:none;transition:background-color .2s ease;}
+.workbook-hero a[href="/index.html"]:hover{background:var(--primary-light);}
+.workbook-hero a[href="/index.html"] svg{width:.875rem;height:.875rem;}
 
 /* Navigation */
-.workbook-nav{background:#fff;border-bottom:1px solid var(--wb-line);position:sticky;top:0;z-index:50;box-shadow:0 6px 18px -16px rgba(10,34,64,.45);}
+.workbook-nav{background:#fff;border-bottom:1px solid var(--wb-line);position:sticky;top:78px;z-index:50;box-shadow:0 6px 18px -16px rgba(10,34,64,.45);}
 .workbook-nav .workbook-shell{padding:14px 0;}
 .nav-label{margin:0 0 8px;font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--wb-muted);}
 .nav-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;}
@@ -513,7 +520,7 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 .nav-grid a:hover{border-color:var(--accent-gold);background:var(--accent-gold-light);}
 
 .workbook-main{padding:34px 0 60px;}
-.workbook-chapter{scroll-margin-top:90px;margin:0 0 50px;}
+.workbook-chapter{scroll-margin-top:180px;margin:0 0 50px;}
 .chapter-head{margin:0 0 18px;padding:0 4px;}
 .chapter-no{margin:0;color:var(--accent-gold);text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:800;}
 .chapter-head h2{font-family:var(--font-display);font-size:clamp(1.65rem,3vw,2.35rem);line-height:1.2;color:var(--primary-dark);margin:4px 0 6px;}
@@ -588,7 +595,9 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 }
 @media(max-width:600px){
   .workbook-shell{width:min(100% - 28px,1120px);}
-  .workbook-hero{padding:38px 14px 42px;}
+  .workbook-hero-inner{flex-direction:column;padding:14px;}
+  .workbook-brand-title{font-size:19px;}
+  .workbook-brand-subtitle{font-size:11px;}
   .workbook-nav{position:static;}
   .nav-grid{display:flex;overflow-x:auto;gap:8px;padding-bottom:3px;-webkit-overflow-scrolling:touch;}
   .nav-grid a{min-width:156px;justify-content:flex-start;text-align:left;}
@@ -773,14 +782,24 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 </style>
 </head>
 <body class="workbook-mode">
-<div class="workbook-root"><div class="workbook-hero" id="top">
-<div class="center-content z-10 p-12">
-<h3 class="text-xl tracking-[0.2em] text-gray-300 uppercase mb-8">TSI Wealth Planners</h3>
-<h1 class="brand-title text-6xl md:text-7xl mb-6 leading-tight">Strategi Pelaburan<br/><span style="color: var(--accent-gold);">Relevan Sepanjang Masa</span></h1>
-<div class="accent-bar mx-auto my-8"></div>
-<p class="text-2xl font-light italic text-gray-300 max-w-3xl">"Pelaburan bukan tentang mengejar keuntungan, tetapi tentang menguasai kesabaran."</p>
+<div class="workbook-root"><header class="workbook-hero" id="top">
+<div class="workbook-hero-inner">
+<div class="workbook-brand">
+<div class="workbook-brand-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3v8Z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
+<div><h1 class="workbook-brand-title">KAC <span>x</span> TSI WEALTH PORTAL</h1><p class="workbook-brand-subtitle">Pillar 6 - Gandakan Kekayaan Anda Dengan Bijak</p></div>
 </div>
-</div><nav aria-label="Kandungan workbook" class="workbook-nav"><div class="workbook-shell"><p class="nav-label">Kandungan Workbook</p><div class="nav-grid"><a href="#bab-1">1. Aliran Perancangan</a><a href="#bab-2">2. Matlamat &amp; TVM</a><a href="#bab-3">3. Profil &amp; Risiko</a><a href="#bab-4">4. Bina Portfolio Anda</a></div></div></nav><main class="workbook-main workbook-shell"><section class="workbook-chapter" id="bab-1"><div class="chapter-head"><p class="chapter-no">Bahagian 1</p><h2>Aliran Perancangan Kewangan</h2><p class="chapter-sub">Fahami kedudukan pelaburan dalam perancangan kewangan, kesan tabiat kewangan, inflasi dan keperluan membina aset.</p></div><div class="slide-container light-theme wb-card" id="slide4">
+
+
+<div class="flex items-center space-x-2 no-print">
+        <a href="/index.html" class="px-3 py-1.5 text-xs font-semibold rounded-md border border-gold/40 text-gold-light hover:bg-pantone-light transition flex items-center space-x-1.5">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Laman Utama</span>
+        </a>
+      </div>
+
+
+</div>
+</header><nav aria-label="Kandungan workbook" class="workbook-nav"><div class="workbook-shell"><p class="nav-label">Kandungan Workbook</p><div class="nav-grid"><a href="#bab-1">1. Aliran Perancangan</a><a href="#bab-2">2. Matlamat &amp; TVM</a><a href="#bab-3">3. Profil &amp; Risiko</a><a href="#bab-4">4. Bina Portfolio Anda</a></div></div></nav><main class="workbook-main workbook-shell"><section class="workbook-chapter" id="bab-1"><div class="chapter-head"><p class="chapter-no">Bahagian 1</p><h2>Aliran Perancangan Kewangan</h2><p class="chapter-sub">Fahami kedudukan pelaburan dalam perancangan kewangan, kesan tabiat kewangan, inflasi dan keperluan membina aset.</p></div><div class="slide-container light-theme wb-card" id="slide4">
 <p class="wb-kicker">Rujukan Workbook</p><h2 class="slide-title">Aliran Perancangan <span>Kewangan</span></h2>
 <div class="content-area center-content relative overflow-hidden" style="padding: 1rem;">
 <style>
@@ -2001,5 +2020,7 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
   }
   render();
 })();
-</script></body>
+</script>
+<script>lucide.createIcons();</script>
+</body>
 </html>
