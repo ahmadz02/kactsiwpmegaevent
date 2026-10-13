@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wealth Financing &mdash; e-Workbook Interaktif</title>
-<meta name="description" content="e-Workbook Modul 7 Financial Freedom Blueprint: kira DSR cara planner dan bandingkan teknik Snowball, Avalanche dan Konsolidasi.">
+<meta name="description" content="e-Workbook Modul 7 Financial Freedom Blueprint: bandingkan DSR banker dan planner, dan bandingkan teknik Snowball, Avalanche dan Konsolidasi.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -182,6 +182,41 @@ table.ord td{white-space:nowrap}
 table.ord .badge-o{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--color-pantone-blue-light);color:#fff;font-size:11px;font-weight:800;margin-right:6px}
 table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-gold-primary)}
 
+/* ---------- banker vs planner ---------- */
+.whotbl{border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+table.who{table-layout:fixed}
+table.who th:nth-child(1){width:auto}
+table.who th:nth-child(2),table.who th:nth-child(3){width:76px;text-align:center;padding-left:4px;padding-right:4px}
+table.who td{font-size:14px;font-weight:600;color:var(--color-pantone-blue-dark)}
+table.who td.c{vertical-align:middle}
+table.who .yes,table.who .no{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;font-size:15px;font-weight:800}
+table.who .yes{background:#E3F0E8;color:var(--tier-1)}
+table.who .no{background:#F6E4E4;color:var(--tier-5)}
+table.who .chip{display:table;margin:5px 0 1px;font-size:10.5px;font-weight:700;letter-spacing:.3px;background:var(--color-gold-light);color:#7A5A1F;border:1px solid rgba(197,160,89,.6);border-radius:10px;padding:2px 8px}
+@media (max-width:420px){table.who td,table.who th{padding-left:9px;padding-right:9px}table.who th:nth-child(2),table.who th:nth-child(3){width:64px}table.who td{font-size:13px}}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.vs-card{border-radius:12px;padding:14px;min-width:0;display:flex;flex-direction:column}
+.vs-card.bk{background:var(--color-offwhite);border:1.5px solid var(--rule)}
+.vs-card.pl{background:var(--color-pantone-blue-dark);border:1.5px solid var(--color-pantone-blue-dark);color:#E4EBF3}
+.vs-who{font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--color-gray-muted)}
+.vs-card.pl .vs-who{color:var(--color-gold-primary)}
+.vs-q{font-size:13.5px;font-weight:700;line-height:1.4;color:var(--color-pantone-blue-dark);margin:4px 0 10px;min-height:2.8em}
+.vs-card.pl .vs-q{color:#fff}
+.vs-row{display:flex;flex-direction:column;padding:6px 0;border-top:1px solid var(--rule-soft)}
+.vs-card.pl .vs-row{border-top-color:rgba(255,255,255,.12)}
+.vs-row span{font-size:11.5px;color:var(--color-gray-muted)}
+.vs-card.pl .vs-row span{color:#94AAC6}
+.vs-row b{font-size:15px;font-weight:800;color:var(--color-pantone-blue-dark)}
+.vs-card.pl .vs-row b{color:#fff}
+.vs-dsr{font-family:var(--font-display);font-size:40px;font-weight:800;line-height:1.05;margin-top:8px;color:var(--color-pantone-blue-dark)}
+.vs-card.pl .vs-dsr{color:var(--color-gold-primary)}
+.vs-tier{font-size:12.5px;font-weight:800;margin-top:2px;color:var(--color-gray-muted)}
+@media (min-width:620px){.vs{gap:14px}.vs-card{padding:18px}.vs-q{font-size:15px}.vs-dsr{font-size:48px}}
+.gapbox{margin-top:12px;border-radius:10px;padding:13px 15px;background:var(--color-gold-light);border:1px solid var(--color-gold-primary);font-size:14px;line-height:1.6;color:var(--color-pantone-blue-dark)}
+.gapbox b{font-weight:800}
+.gapbox .gp{display:block;margin-top:6px;font-size:13px;color:#5B4A2A}
+
 /* ---------- DSR result ---------- */
 .gauge{margin-top:16px}
 .gauge-bar{display:flex;height:30px;border-radius:7px;overflow:hidden}
@@ -310,6 +345,12 @@ table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-g
   .kpi .v{font-size:18px}
   .reco,.kpi.navy{background:#fff!important;color:var(--color-gray-dark)!important;border:1px solid var(--rule)}
   .reco .m,.kpi.navy .v,.kpi.navy .k{color:var(--color-pantone-blue-dark)!important}
+  .vs,.vs-card,.gapbox,table.who tr{break-inside:avoid}
+  .vs-card.pl{background:#fff!important;border:2px solid var(--color-pantone-blue-dark)!important}
+  .vs-card.pl .vs-q,.vs-card.pl .vs-row b,.vs-card.pl .vs-dsr{color:var(--color-pantone-blue-dark)!important}
+  .vs-card.pl .vs-who,.vs-card.pl .vs-row span{color:var(--color-gray-muted)!important}
+  .vs-dsr{font-size:28px}
+  table.who .yes,table.who .no{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   input,textarea{border-color:#A9B3C1!important}
 }
 </style>
@@ -383,28 +424,48 @@ table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-g
 
   <!-- 2 -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-n">2</span><span class="sec-t">Kira DSR &mdash; cara financial planner</span></div>
+    <div class="sec-head"><span class="sec-n">2</span><span class="sec-t">Kira DSR &mdash; banker vs financial planner</span></div>
     <div class="sec-body">
-      <p class="lead">Planner tanya: <b style="color:var(--color-pantone-blue-dark)">&ldquo;Boleh hidup dan bina kekayaan tak?&rdquo;</b> Semua hutang dikira, pendapatan tetap sahaja.</p>
+      <p class="lead">Pendapatan yang sama, hutang yang sama &mdash; tetapi banker dan planner mengira <b style="color:var(--color-pantone-blue-dark)">komitmen</b> secara berbeza. Itulah satu-satunya punca jurang antara dua angka di bawah.</p>
       <div class="frow" style="margin-bottom:18px">
         <div class="fld"><label for="f-tetap">Gaji bersih tetap sebulan <button class="info no-print" type="button" aria-label="Cara isi" aria-expanded="false" data-t="Cara isi" data-b="Ambil jumlah yang <b>masuk akaun bank</b> setiap bulan, selepas KWSP, PERKESO dan PCB. Jangan guna gaji kasar. Jangan campur komisen atau bonus yang tidak tetap.">i</button></label><div class="money"><span>RM</span><input id="f-tetap" type="number" inputmode="decimal" min="0" placeholder="0"></div><small>Selepas KWSP, PERKESO dan PCB.</small></div>
         <div class="fld"><label for="f-luar">Hutang tidak termasuk dalam CCRIS, sebulan <button class="info no-print" type="button" aria-label="Cara isi" aria-expanded="false" data-t="Cara isi" data-b="Jumlah <b>bayaran balik sebulan</b> untuk hutang yang tiada rekod bank &mdash; pinjaman daripada kawan, ibu bapa, saudara atau potongan majikan. Isi 0 jika tiada.">i</button></label><div class="money"><span>RM</span><input id="f-luar" type="number" inputmode="decimal" min="0" placeholder="0"></div><small>Kawan, ibu bapa, saudara atau majikan.</small></div>
       </div>
 
-      <div class="tscroll">
-        <table class="t" id="calc">
-          <thead><tr><th>LANGKAH</th><th class="r">JUMLAH</th></tr></thead>
+      <div class="subh">APA YANG DIKIRA OLEH SIAPA <button class="info no-print" type="button" aria-label="Cara baca" aria-expanded="false" data-t="Cara baca jadual" data-b="Kedua-dua pihak guna <b>gaji bersih tetap yang sama</b>. Bezanya hanya pada komitmen: banker melihat apa yang ada dalam laporan kredit (CCRIS), planner mengira setiap ringgit yang keluar daripada gaji anda setiap bulan.">i</button></div>
+      <div class="whotbl">
+        <table class="t who">
+          <thead><tr><th>PERKARA</th><th class="c">BANKER</th><th class="c">PLANNER</th></tr></thead>
           <tbody>
-            <tr><td><span class="step">1</span>Komitmen hutang tradisional<span class="note" id="c1n">Daripada Bahagian 1</span></td><td class="r" id="c1">RM 0</td></tr>
-            <tr><td><span class="step">2</span>BNPL, semua platform<span class="note">Sering terlepas pandang</span></td><td class="r" id="c2">RM 0</td></tr>
-            <tr><td><span class="step">3</span>Hutang tidak termasuk dalam CCRIS<span class="note">Bank tak nampak, planner kira</span></td><td class="r" id="c3">RM 0</td></tr>
-            <tr class="total"><td>JUMLAH KOMITMEN SEBULAN<span class="note">1 + 2 + 3</span></td><td class="r" id="c4">RM 0</td></tr>
-            <tr class="sub"><td><span class="step">4</span>Bahagi dengan gaji bersih tetap</td><td class="r" id="c5">&divide; RM 0</td></tr>
-            <tr class="result"><td>DSR PLANNER <button class="info no-print" type="button" aria-label="Cara isi" aria-expanded="false" data-t="Maksud angka ini" data-b="Peratus gaji anda yang terikat dengan hutang. Bawah 40% sihat; 41&ndash;60% sederhana; atas 70% terlalu berat. Bank mungkin masih lulus sehingga 70%, tetapi itu bukan bermakna anda mampu.">i</button><span class="note" id="c6n">&times; 100%</span></td><td class="r" id="c6">&mdash;</td></tr>
+            <tr><td>Komitmen hutang tradisional<span class="note" id="w-trad">RM 0 sebulan &middot; daripada Bahagian 1</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td></tr>
+            <tr><td>BNPL, semua platform <button class="info no-print" type="button" aria-label="Tentang pelaporan BNPL" aria-expanded="false" data-t="Pelaporan BNPL ke CCRIS" data-b="Di bawah <b>Akta Kredit Pengguna 2025</b>, pelaporan BNPL ke CCRIS masih dalam <b>fasa peralihan</b>. Sebahagian transaksi BNPL mungkin belum kelihatan dalam laporan kredit, dan amalan setiap bank boleh berbeza. Jadi kiraan banker di sini menganggap BNPL belum dikira &mdash; tetapi bank anda mungkin sudah melihatnya. Planner sentiasa mengira BNPL kerana ia tetap keluar daripada gaji setiap bulan.">i</button><span class="chip">Masih dalam peralihan pelaporan</span><span class="note" id="w-bnpl">RM 0 sebulan</span></td><td class="c"><span class="no" aria-label="Tidak dikira">&#10007;</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td></tr>
+            <tr><td>Hutang luar CCRIS<span class="note" id="w-luar">RM 0 sebulan &middot; kawan, ibu bapa, majikan</span></td><td class="c"><span class="no" aria-label="Tidak dikira">&#10007;</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td></tr>
+            <tr><td>Gaji bersih tetap<span class="note" id="w-gaji">RM 0 sebulan &middot; sama untuk kedua-dua</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td><td class="c"><span class="yes" aria-label="Dikira">&#10003;</span></td></tr>
           </tbody>
         </table>
       </div>
 
+      <div class="vs">
+        <div class="vs-card bk">
+          <div class="vs-who">BANKER</div>
+          <div class="vs-q">&ldquo;Boleh bayar tak pembiayaan ini?&rdquo;</div>
+          <div class="vs-row"><span>Komitmen dikira</span><b id="bk-commit">RM 0</b></div>
+          <div class="vs-row"><span>Pendapatan diiktiraf</span><b id="bk-inc">RM 0</b></div>
+          <div class="vs-dsr" id="bk-dsr">&mdash;</div>
+          <div class="vs-tier" id="bk-tier">Isi gaji untuk kiraan</div>
+        </div>
+        <div class="vs-card pl">
+          <div class="vs-who">PLANNER</div>
+          <div class="vs-q">&ldquo;Boleh hidup dan bina kekayaan tak?&rdquo;</div>
+          <div class="vs-row"><span>Komitmen dikira</span><b id="pl-commit">RM 0</b></div>
+          <div class="vs-row"><span>Pendapatan diiktiraf</span><b id="pl-inc">RM 0</b></div>
+          <div class="vs-dsr" id="pl-dsr">&mdash;</div>
+          <div class="vs-tier" id="pl-tier">Isi gaji untuk kiraan</div>
+        </div>
+      </div>
+      <div class="gapbox" id="gapbox">Isi gaji bersih tetap dan komitmen di Bahagian 1 untuk melihat jurang antara kiraan banker dan planner.</div>
+
+      <div class="subh gap">DSR PLANNER &mdash; TAHAP ANDA <button class="info no-print" type="button" aria-label="Maksud angka ini" aria-expanded="false" data-t="Maksud angka ini" data-b="Peratus gaji anda yang terikat dengan semua hutang. Bawah 40% sihat; 41&ndash;60% sederhana; atas 70% terlalu berat. Bank mungkin masih lulus sehingga 70%, tetapi itu bukan bermakna anda mampu.">i</button></div>
       <div class="gauge">
         <div class="gauge-bar">
           <i style="flex:20;background:var(--tier-1)">&lt;30</i><i style="flex:16;background:var(--tier-2)">30&ndash;40</i><i style="flex:26;background:var(--tier-3)">41&ndash;60</i><i style="flex:16;background:var(--tier-4)">61&ndash;70</i><i style="flex:22;background:var(--tier-5)">&gt;70</i>
@@ -489,6 +550,7 @@ table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-g
   <div class="panel">
     <div class="panel-h">Ringkasan anda</div>
     <div class="panel-b">
+      <div class="stat"><span class="k">DSR banker</span><span class="v" id="s-dsrb">&mdash;</span></div>
       <div class="stat"><span class="k">DSR planner</span><span class="v" id="s-dsr">&mdash;</span></div>
       <div class="stat"><span class="k">Tahap</span><span class="v" id="s-tier">&mdash;</span></div>
       <div class="stat"><span class="k">Baki hidup sebulan</span><span class="v gold" id="s-baki">&mdash;</span></div>
@@ -568,8 +630,30 @@ function tier(d){
   if (d < 30)  return {label:"Cemerlang", color:"var(--tier-1)", dark:"#8FCBA0"};
   if (d <= 40) return {label:"Sihat", color:"var(--tier-2)", dark:"#B8D48E"};
   if (d <= 60) return {label:"Sederhana", color:"var(--tier-3)", dark:"#E2C27F"};
-  if (d <= 70) return {label:"Berisiko tinggi", color:"var(--tier-4)", dark:"#EDA974"};
+  if (d <= 70) return {label:"Berisiko", color:"var(--tier-4)", dark:"#EDA974"};
   return {label:"Overleveraged", color:"var(--tier-5)", dark:"#F09A9A"};
+}
+
+/* ========================= DSR (banker) =========================
+   Same income as the planner; only CCRIS-visible traditional commitments count. */
+function dsrBank(){ var i = num(state.tetap); return i > 0 ? formalMonthly()/i*100 : null; }
+function tierBank(d){
+  if (d === null) return {label:"Isi gaji untuk kiraan", color:"var(--color-gray-muted)"};
+  if (d <= 60) return {label:"Dalam had biasa", color:"var(--tier-1)"};
+  if (d <= 70) return {label:"Sempadan", color:"var(--tier-4)"};
+  return {label:"Melebihi had", color:"var(--tier-5)"};
+}
+function gapText(db, dp){
+  if (db === null) return "Isi gaji bersih tetap dan komitmen di Bahagian 1 untuk melihat jurang antara kiraan banker dan planner.";
+  var gap = Math.round(dp) - Math.round(db), bn = bnplTotal(), lu = num(state.luar), inc = num(state.tetap);
+  if (!bn && !lu) return "<b>Pendapatan sama, hutang sama &mdash; dan kedua-dua kiraan sepadan.</b> Tiada BNPL atau hutang luar CCRIS, jadi apa yang bank nampak ialah gambaran penuh komitmen anda.";
+  var causes = [];
+  if (bn) causes.push("<b>" + rm(bn) + " BNPL</b>");
+  if (lu) causes.push("<b>" + rm(lu) + " hutang luar CCRIS</b>");
+  var html = "<b>Pendapatan sama, hutang sama &mdash; tapi jurangnya " + gap + " mata peratusan.</b> Puncanya " + causes.join(" dan ") + " yang tidak masuk kiraan bank.";
+  if (bn && lu) html += '<span class="gp">BNPL menambah ' + (bn/inc*100).toFixed(1) + ' mata; hutang luar CCRIS menambah ' + (lu/inc*100).toFixed(1) + ' mata.</span>';
+  if (db <= 70 && dp > 40) html += '<span class="gp">Bank mungkin masih melihat anda layak, tetapi selepas semua komitmen, baki hidup anda hanya ' + rmS(inc - commit()) + ' sebulan.</span>';
+  return html;
 }
 function gaugePos(d){
   var segs=[[0,30,0,20],[30,40,20,36],[40,60,36,62],[60,70,62,78],[70,120,78,100]];
@@ -802,23 +886,29 @@ function paint(){
   $("tot-baki").textContent = rm(totalBaki());
   $("tot-bulanan").textContent = rm(formalMonthly() + bnplTotal());
 
-  /* sec 3 — step table */
+  /* sec 2 — banker vs planner */
   var d = dsr(), b = baki(), t = tier(d), inc = num(state.tetap), c = commit();
+  var db = dsrBank(), tb = tierBank(db);
   var nDebts = state.debts.filter(function(x){ return num(x.bulanan); }).length;
-  $("c1").textContent = rm(formalMonthly());
-  $("c1n").textContent = nDebts ? nDebts + " hutang daripada Bahagian 1" : "Daripada Bahagian 1";
-  $("c2").textContent = rm(bnplTotal());
-  $("c3").textContent = rm(num(state.luar));
+  $("w-trad").textContent = rm(formalMonthly()) + " sebulan · " + (nDebts ? nDebts + " hutang daripada Bahagian 1" : "daripada Bahagian 1");
+  $("w-bnpl").textContent = rm(bnplTotal()) + " sebulan";
+  $("w-luar").textContent = rm(num(state.luar)) + " sebulan · kawan, ibu bapa, majikan";
+  $("w-gaji").textContent = rm(inc) + " sebulan · sama untuk kedua-dua";
+  $("bk-commit").textContent = rm(formalMonthly());
+  $("bk-inc").textContent = rm(inc);
+  $("bk-dsr").textContent = db === null ? "—" : Math.round(db) + "%";
+  $("bk-tier").textContent = tb.label; $("bk-tier").style.color = tb.color;
+  $("pl-commit").textContent = rm(c);
+  $("pl-inc").textContent = rm(inc);
+  $("pl-dsr").textContent = d === null ? "—" : Math.round(d) + "%";
+  $("pl-tier").textContent = d === null ? "Isi gaji untuk kiraan" : t.label;
+  $("pl-tier").style.color = d === null ? "#94AAC6" : t.dark;
+  $("gapbox").innerHTML = gapText(db, d);
   var at = akadTally();
   $("ak-i").textContent = rm(at.Islamik.m); $("ak-in").textContent = at.Islamik.n + " hutang";
   $("ak-k").textContent = rm(at.Konvensional.m); $("ak-kn").textContent = at.Konvensional.n + " hutang";
   $("ak-b").textContent = rm(at[""].m); $("ak-bn").textContent = at[""].n + " hutang";
   $("s-akad").textContent = at[""].n ? at[""].n + " hutang" : "Tiada";
-  $("c4").textContent = rm(c);
-  $("c5").textContent = "\u00F7 " + rm(inc);
-  $("c6").textContent = d === null ? "\u2014" : Math.round(d) + "%";
-  $("c6").style.color = d === null ? "" : t.color;
-  $("c6n").textContent = d === null ? "\u00D7 100%" : "\u00D7 100% \u00B7 " + t.label;
 
   var nd = $("needle");
   if (d === null) nd.classList.add("hidden");
@@ -838,6 +928,7 @@ function paint(){
   paintSegs();
 
   /* aside + pinned */
+  $("s-dsrb").textContent = db === null ? "\u2014" : Math.round(db) + "%"; $("s-dsrb").style.color = db === null ? "" : tb.color;
   $("s-dsr").textContent = d === null ? "\u2014" : Math.round(d) + "%"; $("s-dsr").style.color = d === null ? "" : t.color;
   $("s-tier").textContent = t.label; $("s-tier").style.color = d === null ? "" : t.color;
   $("s-baki").textContent = b === null ? "\u2014" : rmS(b);
