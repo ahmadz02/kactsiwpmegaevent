@@ -1523,6 +1523,7 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 <p class="save-hint">Catatan disimpan secara automatik pada peranti ini.</p>
 </section>
 </section>
+<div data-tsi-toolbar></div>
 </main><a aria-label="Kembali ke atas" class="back-top" href="#top">↑</a></div>
 <script>
     // Interactive TVM Calculator
@@ -2022,5 +2023,15 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 })();
 </script>
 <script>lucide.createIcons();</script>
+<script src="tsi-workbook.js"></script>
+<script>
+// This workbook already saves every answer on this device as it is typed;
+// Save Data simply confirms it.
+TSIWorkbook.initPage({
+  id: 'wealth-multiplication',
+  title: 'Wealth Multiplication',
+  save: function(){ return TSIWorkbook.savePage('wealth-multiplication', { confirmed: true }); }
+});
+</script>
 </body>
 </html>

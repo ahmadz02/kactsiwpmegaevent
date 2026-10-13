@@ -499,18 +499,10 @@ table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-g
       <div class="stat"><span class="k">Anggaran bebas hutang</span><span class="v" id="s-bebas">&mdash;</span></div>
     </div>
   </div>
-  <div class="panel no-print">
-    <div class="panel-h">Simpan &amp; kongsi</div>
-    <div class="panel-b">
-      <div class="actions">
-        <button class="btn btn-gold" id="btn-save" type="button">Simpan dalam peranti ini</button>
-        <button class="btn btn-ghost" id="btn-reset" type="button">Kosongkan semua</button>
-      </div>
-      <p class="savenote" id="savenote"></p>
-    </div>
-  </div>
 </aside>
-</div></div>
+</div>
+<div data-tsi-toolbar></div>
+</div>
 
 <footer class="foot"><div class="shell">
   <span>Financial Freedom Blueprint &middot; Modul 7: Wealth Financing</span>
@@ -523,6 +515,7 @@ table.ord input[type=checkbox]{width:18px;height:18px;accent-color:var(--color-g
   <div><div class="k">BAKI HIDUP</div><div class="v" id="pin-baki" style="color:var(--color-gold-primary)">&mdash;</div></div>
 </div>
 
+<script src="tsi-workbook.js"></script>
 <script>
 "use strict";
 /* =========================================================
@@ -997,22 +990,16 @@ Object.keys(BIND).forEach(function(id){
 });
 $("f-norumah").addEventListener("change", function(e){ state.noRumah = e.target.checked; paint(); });
 
-/* ========================= save / load / share ========================= */
-function note(msg){ var el = $("savenote"); el.textContent = msg; setTimeout(function(){ if (el.textContent === msg) el.textContent = ""; }, 4000); }
-$("btn-save").addEventListener("click", function(){
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); note("Disimpan pada " + new Date().toLocaleTimeString("en-MY",{hour:"2-digit",minute:"2-digit"}) + "."); }
-  catch(err){ note("Peranti ini tidak membenarkan simpanan. Sila cuba semula menggunakan pelayar lain."); }
-});
+/* ========================= save / load ========================= */
+/* Save Data, Cetak PDF and Padam Data come from the shared toolbar (tsi-workbook.js). */
+function saveState(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); return true; } catch(err){ return false; }
+}
 function load(){
   var raw; try { raw = localStorage.getItem(STORE_KEY); } catch(err){ return; }
   if (!raw) return;
   try { var s = JSON.parse(raw); if (s && typeof s === "object") Object.keys(state).forEach(function(k){ if (s[k] !== undefined) state[k] = s[k]; }); } catch(err){}
 }
-$("btn-reset").addEventListener("click", function(){
-  if (!confirm("Kosongkan semua data yang telah diisi?")) return;
-  try { localStorage.removeItem(STORE_KEY); } catch(err){}
-  state = blank(); boot();
-});
 $("btn-amir").addEventListener("click", function(){
   if (!confirm("Ini akan menggantikan data yang telah anda isi dengan contoh Encik Amir. Teruskan?")) return;
   state = blank();
@@ -1082,8 +1069,14 @@ function boot(){
   renderDebts(); renderBnpl(); paint();
 }
 load();
-if (ADVISOR_NAME) $("foot-advisor").textContent = "Disediakan oleh: " + ADVISOR_NAME;
+if (ADVISOR_NAME && $("foot-advisor")) $("foot-advisor").textContent = "Disediakan oleh: " + ADVISOR_NAME;
 boot();
+
+TSIWorkbook.initPage({
+  id: "wealth-financing",
+  title: "Wealth Financing",
+  save: saveState
+});
 </script>
 </body>
 </html>

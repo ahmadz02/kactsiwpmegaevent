@@ -213,8 +213,8 @@
         </div>
 
         <form id="form-part-1" onsubmit="event.preventDefault(); goToStep(2);" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
             <div>
               <label for="userName" class="block text-sm font-medium text-gray-700 mb-2">Nama Penuh <span class="text-red-500">*</span></label>
               <div class="relative rounded-lg shadow-sm">
@@ -237,7 +237,20 @@
               </div>
             </div>
 
-            <div class="md:col-span-2">
+            <div>
+              <label for="userPhone" class="block text-sm font-medium text-gray-700 mb-2">No. Telefon <span class="text-red-500">*</span></label>
+              <div class="relative rounded-lg shadow-sm">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <i data-lucide="phone" class="w-5 h-5"></i>
+                </div>
+                <input type="tel" id="userPhone" required inputmode="tel" autocomplete="tel" placeholder="Contoh: 012-3456789"
+                  onblur="tidyPhoneField()"
+                  class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brandGold focus:border-pantone-dark text-gray-800 transition">
+              </div>
+              <p class="text-xs text-gray-500 mt-1">Format: 01X-XXXXXXX</p>
+            </div>
+
+            <div class="md:col-span-3">
               <label for="maritalStatus" class="block text-sm font-medium text-gray-700 mb-2">Status Perkahwinan <span class="text-red-500">*</span></label>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-pantone-light/5 border-gray-200 text-gray-700 transition space-x-3">
@@ -498,6 +511,8 @@
               <span>•</span>
               <span class="flex items-center space-x-1"><i data-lucide="heart" class="w-3.5 h-3.5"></i> Status: <span id="res-status">Bujang</span></span>
               <span>•</span>
+              <span class="flex items-center space-x-1"><i data-lucide="phone" class="w-3.5 h-3.5"></i> No. Telefon: <span id="res-phone">--</span></span>
+              <span>•</span>
               <span class="flex items-center space-x-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Tarikh Analisis: <span id="res-date">--</span></span>
             </div>
           </div>
@@ -689,12 +704,7 @@
           <span>Kembali Edit Ujian</span>
         </button>
 
-        <div class="flex items-center space-x-3 w-full sm:w-auto">
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-none px-6 py-3 bg-gold-primary text-pantone-dark hover:bg-gold-hover rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-md">
-            <i data-lucide="printer" class="w-5 h-5"></i>
-            <span>Cetak / Simpan PDF</span>
-          </button>
-        </div>
+        <div class="w-full sm:w-auto" style="margin-top:0" data-tsi-toolbar></div>
       </div>
 
     </section>
@@ -708,6 +718,7 @@
     </div>
   </footer>
 
+  <script src="tsi-workbook.js"></script>
   <script>
     const behaviorQuestions = [
       {
@@ -772,13 +783,95 @@
 
     window.onload = function() {
       renderBehaviorQuestions();
+      restoreSavedData();
       updateLiveCalculations();
       lucide.createIcons();
-      
+
       const now = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       document.getElementById('res-date').innerText = now.toLocaleDateString('ms-MY', options);
+
+      TSIWorkbook.initPage({
+        id: 'wealth-creation',
+        title: 'Wealth Creation',
+        printHeader: false, // the report already carries the profile
+        validate: function() { return validateProfile(); },
+        save: saveAllData
+      });
     };
+
+    // -------- Saved data (Bahagian 1 profile is shared with every card) --------
+    function readProfileFields() {
+      return {
+        name: document.getElementById('userName').value.trim(),
+        age: document.getElementById('userAge').value,
+        phone: document.getElementById('userPhone').value.trim(),
+        marital: document.querySelector('input[name="maritalStatus"]:checked')?.value || "Bujang"
+      };
+    }
+
+    function validateProfile() {
+      const p = readProfileFields();
+      if (!p.name || !p.age || !p.phone) {
+        return "Sila lengkapkan Nama Penuh, Umur dan No. Telefon di Bahagian 1.";
+      }
+      if (!TSIWorkbook.formatPhone(p.phone)) {
+        return "No. Telefon tidak sah. Sila guna format 01X-XXXXXXX (contoh: 012-3456789).";
+      }
+      return "";
+    }
+
+    function tidyPhoneField() {
+      const el = document.getElementById('userPhone');
+      const formatted = TSIWorkbook.formatPhone(el.value);
+      if (formatted) el.value = formatted;
+    }
+
+    function saveAllData() {
+      tidyPhoneField();
+      const savedProfile = TSIWorkbook.saveProfile(readProfileFields());
+      const savedPage = TSIWorkbook.savePage('wealth-creation', {
+        income: {
+          active: document.getElementById('activeIncome').value,
+          side: document.getElementById('sideIncome').value,
+          passive: document.getElementById('passiveIncome').value,
+          portfolio: document.getElementById('portfolioIncome').value
+        },
+        behaviorAnswers: behaviorAnswers
+      });
+      return savedProfile && savedPage;
+    }
+
+    function restoreSavedData() {
+      const profile = TSIWorkbook.getProfile();
+      if (profile) {
+        document.getElementById('userName').value = profile.name || '';
+        document.getElementById('userAge').value = profile.age || '';
+        document.getElementById('userPhone').value = profile.phone || '';
+        const radio = document.querySelector(`input[name="maritalStatus"][value="${profile.marital}"]`);
+        if (radio) radio.checked = true;
+      }
+
+      const saved = TSIWorkbook.getPage('wealth-creation');
+      if (!saved) return;
+      if (saved.income) {
+        document.getElementById('activeIncome').value = saved.income.active;
+        document.getElementById('sideIncome').value = saved.income.side;
+        document.getElementById('passiveIncome').value = saved.income.passive;
+        document.getElementById('portfolioIncome').value = saved.income.portfolio;
+      }
+      if (saved.behaviorAnswers) {
+        Object.keys(saved.behaviorAnswers).forEach(id => {
+          const choice = saved.behaviorAnswers[id];
+          const radio = document.querySelector(`input[name="behavior_${id}"][value="${choice}"]`);
+          if (radio) {
+            radio.checked = true;
+            behaviorAnswers[id] = choice;
+          }
+        });
+        calculateBehaviorScores();
+      }
+    }
 
     function renderBehaviorQuestions() {
       const tbody = document.getElementById('behavior-table-body');
@@ -850,12 +943,12 @@
     function goToStep(step) {
       if (step > currentStep) {
         if (currentStep === 1) {
-          const name = document.getElementById('userName').value.trim();
-          const age = document.getElementById('userAge').value;
-          if (!name || !age) {
-            alert("Sila lengkapkan Nama Penuh dan Umur anda terlebih dahulu.");
+          const problem = validateProfile();
+          if (problem) {
+            alert(problem);
             return;
           }
+          tidyPhoneField();
         }
       }
 
@@ -918,6 +1011,7 @@
       document.getElementById('res-name').innerText = name.toUpperCase();
       document.getElementById('res-age').innerText = age;
       document.getElementById('res-status').innerText = marital;
+      document.getElementById('res-phone').innerText = document.getElementById('userPhone').value.trim() || "--";
 
       const active = parseFloat(document.getElementById('activeIncome').value) || 0;
       const side = parseFloat(document.getElementById('sideIncome').value) || 0;
@@ -1072,6 +1166,7 @@
       if (confirm("Adakah anda pasti mahu mula semula? Semua maklumat diisi akan dikosongkan.")) {
         document.getElementById('userName').value = '';
         document.getElementById('userAge').value = '';
+        document.getElementById('userPhone').value = '';
         document.getElementById('activeIncome').value = '5000';
         document.getElementById('sideIncome').value = '1000';
         document.getElementById('passiveIncome').value = '800';

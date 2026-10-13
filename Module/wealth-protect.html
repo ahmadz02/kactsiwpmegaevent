@@ -1033,8 +1033,11 @@
       CI Gap = Recovery Income + Kos Rawatan Tambahan + Caregiver − Existing CI Coverage.
       Medical Gap = Medical Coverage Target − Existing Medical Coverage.
     </div>
+
+    <div data-tsi-toolbar></div>
   </main>
 
+  <script src="tsi-workbook.js"></script>
   <script>
     const fmt = new Intl.NumberFormat("ms-MY", {
       style: "currency",
@@ -1196,6 +1199,12 @@
     $("resetBtn").addEventListener("click", resetPortal);
 
     calculate();
+
+    TSIWorkbook.initPage({
+      id: "wealth-protection",
+      title: "Wealth Protection",
+      root: $("calcForm")
+    });
   </script>
 </body>
 </html>

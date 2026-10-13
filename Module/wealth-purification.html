@@ -315,6 +315,8 @@ tailwind.config={
       <div class="insight" id="insight" style="display:none;"></div>
     </div>
   </aside>
+
+  <div style="grid-column:1/-1;margin-top:0" data-tsi-toolbar></div>
 </main>
 
 <footer>
@@ -323,6 +325,7 @@ tailwind.config={
   </div>
 </footer>
 
+<script src="tsi-workbook.js"></script>
 <script>
 const money = v => 'RM ' + (isFinite(v)?v:0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 
@@ -447,6 +450,18 @@ function resetPortal(){
 document.getElementById('resetBtn').addEventListener('click',resetPortal);
 lucide.createIcons();
 compute();
+
+TSIWorkbook.initPage({
+ id:'wealth-purification',
+ title:'Wealth Purification',
+ root:document.querySelector('main'),
+ collect:()=>({zakatMethod}),
+ restore:extra=>{
+   if(!extra||!extra.zakatMethod)return;
+   const btn=document.querySelector('#zakatMethod button[data-method="'+extra.zakatMethod+'"]');
+   if(btn)btn.click();
+ }
+});
 </script>
 </body>
 </html>

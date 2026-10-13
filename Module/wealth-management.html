@@ -288,12 +288,15 @@
       </div>
 
     </section>
+
+    <div class="lg:col-span-12" style="margin-top:0" data-tsi-toolbar></div>
   </main>
 
   <footer class="bg-pantone-dark text-slate-400 text-xs py-6 border-t border-brandGold/20 mt-12 text-center">
     <p>© 2026 KAC x TSI Wealth Portal | Enjin Konsultasi Perancangan Kewangan Bertauliah (Piawaian Omar)</p>
   </footer>
 
+  <script src="tsi-workbook.js"></script>
   <script>
     lucide.createIcons();
 
@@ -592,6 +595,12 @@
     });
 
     recalculate();
+
+    TSIWorkbook.initPage({
+      id: 'wealth-management',
+      title: 'Wealth Management',
+      root: document.querySelector('main')
+    });
   </script>
 </body>
 </html>

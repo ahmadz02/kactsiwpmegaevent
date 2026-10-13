@@ -165,7 +165,7 @@
           <span>Laman Utama</span>
         </a>
       </div>
-      
+
   </div>
 </header>
 <div class="wrap">
@@ -290,8 +290,11 @@
     Kalkulator ini untuk tujuan pendidikan &amp; latihan taklimat sahaja. Ia meliputi kes-kes lazim (pasangan, anak, cucu daripada anak lelaki, ibu bapa, datuk/nenek sebelah bapa, dan adik-beradik) termasuk Awl, Radd dan Gharrawiyyah, tetapi tidak meliputi bapa saudara, anak saudara, atau perbezaan pandangan mazhab yang lebih lanjut. Untuk pembahagian pusaka sebenar, sila rujuk pegawai agama, peguam pusaka, atau portal rasmi seperti e-Faraid JAKIM.
   </p>
 
+  <div data-tsi-toolbar></div>
+
 </div>
 
+<script src="tsi-workbook.js"></script>
 <script>
 (function(){
   // ---- Fraction helpers ----
@@ -679,7 +682,7 @@
     gen('Cucu (dr Anak Lelaki)', gcBoxes);
   }
 
-  function runCalculation(){
+  function runCalculation(noScroll){
     var inp = gatherInput();
     var anyHeir = inp.spouseType!=='none' || inp.son>0 || inp.daughter>0 || inp.grandsonFS>0 || inp.granddaughterFS>0 ||
       inp.father || inp.mother || inp.grandfather || inp.grandmother ||
@@ -743,7 +746,7 @@
     });
 
     resultsBox.style.display = 'block';
-    resultsBox.scrollIntoView({behavior:'smooth', block:'start'});
+    if (!noScroll) resultsBox.scrollIntoView({behavior:'smooth', block:'start'});
     return true;
   }
 
@@ -782,6 +785,14 @@
   };
 
   lucide.createIcons();
+
+  TSIWorkbook.initPage({
+    id: 'wealth-distribution',
+    title: 'Wealth Distribution',
+    root: form,
+    collect: function(){ return { resultsShown: resultsBox.style.display === 'block' }; },
+    restore: function(extra){ if (extra && extra.resultsShown) runCalculation(true); }
+  });
 
 })();
 </script>

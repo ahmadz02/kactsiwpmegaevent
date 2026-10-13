@@ -216,6 +216,40 @@
     .event-input:disabled {
       background: #F1F5F9; color: #94A3B8; cursor: not-allowed;
     }
+    /* Editable row: [check] [name] [delete] / [month ........ amount] */
+    .event-row.editable {
+      grid-template-columns: auto 1fr auto;
+      column-gap: 0.75rem; row-gap: 0.45rem;
+    }
+    .event-row.editable .event-meta {
+      grid-column: 2 / 4;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    .event-row.editable .event-month-select { margin-top: 0; }
+    .event-name-input {
+      width: 100%; min-width: 0;
+      border: none; border-bottom: 1px dashed rgba(10, 34, 64, 0.2);
+      background: transparent; padding: 0.1rem 0;
+      font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+      color: var(--color-pantone-blue-dark);
+    }
+    .event-name-input:focus { outline: none; border-bottom: 1px solid var(--color-gold-primary); }
+    .event-month-select {
+      margin-top: 0.3rem; padding: 0.15rem 0.3rem;
+      border: 1px solid rgba(10, 34, 64, 0.15); border-radius: 3px;
+      background: var(--color-white);
+      font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+      color: var(--color-gray-muted); text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .event-month-select:focus { outline: none; border-color: var(--color-gold-primary); }
+    .event-delete {
+      width: 32px; height: 32px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(180, 35, 24, 0.25); border-radius: 3px;
+      background: var(--color-white); color: #B42318;
+      font-size: 1.1rem; line-height: 1; cursor: pointer;
+    }
+    .event-delete:hover { background: #FEF3F2; }
     .event-check {
       width: 22px; height: 22px; border: 2px solid rgba(10, 34, 64, 0.2);
       border-radius: 3px; display: inline-flex; align-items: center; justify-content: center;
@@ -569,7 +603,7 @@
 
     <p class="text-sm leading-relaxed" style="color: var(--color-gray-muted);">
       Bukan emergency. Bukan surprise. Ini adalah bil-bil yang <em>berulang tahunan</em> —
-      tick yang berkaitan dengan anda, laraskan amaun.
+      tick yang berkaitan dengan anda, laraskan nama, bulan dan amaun, atau buang yang tidak berkaitan.
     </p>
 
     <div class="mt-6 grid gap-2" id="event-list">
@@ -789,7 +823,7 @@
                 setiap bulan ke akaun berasingan untuk bil tahunan yang telah saya kenalpasti.
               </p>
               <div class="mt-2 text-xs" style="color: var(--color-gray-muted);">
-                Tarikh auto-transfer: <input type="text" class="plain-input" placeholder="cth: 1hb setiap bulan" style="width: 200px;" />
+                Tarikh auto-transfer: <input type="text" id="roadmap-transfer-date" class="plain-input" placeholder="cth: 1hb setiap bulan" style="width: 200px;" />
               </div>
             </div>
           </div>
@@ -823,7 +857,7 @@
                 Saya akan buka satu akaun berasingan (bukan akaun harian) untuk simpanan ini pada:
               </p>
               <div class="mt-2">
-                <input type="text" class="plain-input" placeholder="cth: Bank Islam / TH / Wahed" style="width: 100%; max-width: 280px;" />
+                <input type="text" id="roadmap-bank" class="plain-input" placeholder="cth: Bank Islam / TH / Wahed" style="width: 100%; max-width: 280px;" />
               </div>
             </div>
           </div>
@@ -839,14 +873,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="mt-5 flex gap-2 no-print">
-      <button onclick="window.print()" class="btn-secondary flex-1 text-sm">
-        📄 Simpan / Print
-      </button>
-      <button onclick="shareRoadmap()" class="btn-primary flex-1 text-sm">
-        Screenshot &amp; Kongsi
-      </button>
-    </div>
+    <div data-tsi-toolbar></div>
 
     <p class="text-xs text-center mt-4" style="color: var(--color-gray-muted);">
       <em>Screenshot page ini. Tampal di dinding. Semak setiap 30 hari.</em>
@@ -865,6 +892,7 @@
 </div>
 
 <!-- ===== SCRIPT ===== -->
+<script src="tsi-workbook.js"></script>
 <script>
   // -----------------------------------------------------
   // STATE (in-memory only for this prototype)
@@ -1023,17 +1051,21 @@
 
     state.events.forEach((ev, idx) => {
       const row = document.createElement('div');
-      row.className = 'event-row' + (ev.active ? ' active' : '');
+      row.className = 'event-row editable' + (ev.active ? ' active' : '');
+      const monthOptions = monthNames
+        .map((m, i) => `<option value="${i}" ${i === ev.month ? 'selected' : ''}>${m}</option>`)
+        .join('');
       row.innerHTML = `
-        <div class="flex items-center gap-3 min-w-0">
-          <div class="event-check ${ev.active ? 'checked' : ''}" data-idx="${idx}"></div>
-          <div class="min-w-0">
-            <div class="event-name truncate">${ev.name}</div>
-            <div class="event-month">${monthNames[ev.month]}${ev.custom ? ' · custom' : ''}</div>
-          </div>
+        <div class="event-check ${ev.active ? 'checked' : ''}" data-idx="${idx}" role="checkbox"
+          aria-checked="${ev.active}" aria-label="Pilih bil ini"></div>
+        <input type="text" class="event-name-input" data-idx="${idx}" value="${escapeAttr(ev.name)}"
+          placeholder="Nama bil" aria-label="Nama bil" maxlength="60" />
+        <button type="button" class="event-delete" data-idx="${idx}" aria-label="Buang bil" title="Buang bil">&times;</button>
+        <div class="event-meta">
+          <select class="event-month-select" data-idx="${idx}" aria-label="Bulan bil">${monthOptions}</select>
+          <input type="number" inputmode="numeric" class="event-input" aria-label="Amaun (RM)"
+            value="${ev.amount}" data-idx="${idx}" ${ev.active ? '' : 'disabled'} />
         </div>
-        <input type="number" inputmode="numeric" class="event-input"
-          value="${ev.amount}" data-idx="${idx}" ${ev.active ? '' : 'disabled'} />
       `;
       list.appendChild(row);
     });
@@ -1043,6 +1075,33 @@
       el.addEventListener('click', () => {
         const idx = parseInt(el.dataset.idx);
         state.events[idx].active = !state.events[idx].active;
+        renderEvents();
+        recalcSinking();
+      });
+    });
+
+    // Wire up name edits (no re-render, so typing keeps focus)
+    document.querySelectorAll('#event-list .event-name-input').forEach(el => {
+      el.addEventListener('input', () => {
+        state.events[parseInt(el.dataset.idx)].name = el.value;
+      });
+    });
+
+    // Wire up month changes
+    document.querySelectorAll('#event-list .event-month-select').forEach(el => {
+      el.addEventListener('change', () => {
+        state.events[parseInt(el.dataset.idx)].month = parseInt(el.value);
+        recalcSinking();
+      });
+    });
+
+    // Wire up delete
+    document.querySelectorAll('#event-list .event-delete').forEach(el => {
+      el.addEventListener('click', () => {
+        const idx = parseInt(el.dataset.idx);
+        const name = state.events[idx].name || 'bil ini';
+        if (!confirm(`Buang "${name}" daripada senarai?`)) return;
+        state.events.splice(idx, 1);
         renderEvents();
         recalcSinking();
       });
@@ -1083,22 +1142,21 @@
     });
   }
 
-  // Add custom event
-  document.getElementById('add-custom-btn').addEventListener('click', () => {
-    const name = prompt('Nama bil / event:');
-    if (!name) return;
-    const monthStr = prompt('Bulan (1-12):');
-    const month = Math.max(0, Math.min(11, (parseInt(monthStr) || 1) - 1));
-    const amountStr = prompt('Anggaran amaun (RM):');
-    const amount = parseFloat(amountStr) || 0;
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
 
+  // Add custom event: a blank, ticked row the participant fills in place
+  document.getElementById('add-custom-btn').addEventListener('click', () => {
     state.events.push({
       id: 'custom-' + Date.now(),
-      name, month, amount,
+      name: '', month: new Date().getMonth(), amount: 0,
       active: true, custom: true,
     });
     renderEvents();
     recalcSinking();
+    const inputs = document.querySelectorAll('#event-list .event-name-input');
+    inputs[inputs.length - 1].focus();
   });
 
   renderEvents();
@@ -1205,14 +1263,38 @@
     document.getElementById('commit-final-target').textContent = targetTier;
   }
 
-  function shareRoadmap() {
-    alert('Screenshot page ini menggunakan phone anda. Tampal di dinding, wallpaper phone, atau print A4.');
-  }
-
   // -----------------------------------------------------
   // INIT
   // -----------------------------------------------------
   goToScreen(1);
+
+  TSIWorkbook.initPage({
+    id: 'wealth-preservation',
+    title: 'Wealth Preservation',
+    root: document.querySelector('main'),
+    collect: () => ({
+      survival: state.survival ? state.survival.value : null,
+      events: state.events,
+    }),
+    restore: (extra) => {
+      if (!extra) return;
+      if (Array.isArray(extra.events) && extra.events.length) {
+        state.events = extra.events;
+        renderEvents();
+        recalcSinking();
+      }
+      if (extra.survival) {
+        const btn = document.querySelector(`.survival-btn[data-value="${extra.survival}"]`);
+        if (btn) btn.click();
+      }
+    },
+    beforePrint: refreshRoadmap,
+  });
+
+  // Roadmap name comes from the shared profile unless the participant typed their own.
+  const nameInput = document.getElementById('user-name');
+  const sharedProfile = TSIWorkbook.getProfile();
+  if (!nameInput.value && sharedProfile && sharedProfile.name) nameInput.value = sharedProfile.name;
 </script>
 
 </body>
