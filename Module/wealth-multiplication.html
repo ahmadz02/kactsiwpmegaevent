@@ -959,7 +959,7 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
 <div class="info-card" style="padding:1.25rem 1.5rem; display:flex; flex-direction:column; justify-content:center;">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem;">
 <h3 class="font-bold" style="font-size:1.35rem; color:var(--accent-gold);">Maklumat Pelaburan</h3>
-<span class="text-xs text-gray-400">Caruman bulanan pada akhir bulan</span>
+<span class="text-xs text-gray-400">Caruman bulanan × 12, dilabur pada akhir tahun</span>
 </div>
 <div class="tvm-control-row">
 <div class="tvm-label-row">
@@ -1549,18 +1549,19 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
             const annualRate = Math.max(0, parseFloat(document.getElementById('tvmRateNum').value) || 0);
             const years = Math.max(0, parseFloat(document.getElementById('tvmYearsNum').value) || 0);
 
-            const months = years * 12;
-            const monthlyRate = annualRate / 100 / 12;
+            // Pertumbuhan tahunan: caruman bulanan × 12 dilaburkan pada akhir setiap tahun
+            const annualPmt = pmt * 12;
+            const rate = annualRate / 100;
             let fv;
 
-            if (monthlyRate === 0) {
-                fv = pv + (pmt * months);
+            if (rate === 0) {
+                fv = pv + (annualPmt * years);
             } else {
-                const factor = Math.pow(1 + monthlyRate, months);
-                fv = (pv * factor) + (pmt * ((factor - 1) / monthlyRate));
+                const factor = Math.pow(1 + rate, years);
+                fv = (pv * factor) + (annualPmt * ((factor - 1) / rate));
             }
 
-            const contribution = pv + (pmt * months);
+            const contribution = pv + (annualPmt * years);
             const growth = Math.max(0, fv - contribution);
             const contributionShare = fv > 0 ? (contribution / fv) * 100 : 0;
             const growthShare = fv > 0 ? (growth / fv) * 100 : 0;
@@ -1631,15 +1632,16 @@ body.workbook-mode{margin:0;background:var(--wb-bg);color:var(--wb-text);overflo
             const years = Math.max(0, parseFloat(document.getElementById('rtYearsNum').value) || 0);
             const targetToday = Math.max(0, parseFloat(document.getElementById('rtTargetNum').value) || 0);
 
-            const months = years * 12;
-            const monthlyRate = nominalRate / 100 / 12;
+            // Pertumbuhan tahunan: caruman bulanan × 12 dilaburkan pada akhir setiap tahun
+            const annualPmt = pmt * 12;
+            const rate = nominalRate / 100;
             let fv;
 
-            if (monthlyRate === 0) {
-                fv = pv + (pmt * months);
+            if (rate === 0) {
+                fv = pv + (annualPmt * years);
             } else {
-                const factor = Math.pow(1 + monthlyRate, months);
-                fv = (pv * factor) + (pmt * ((factor - 1) / monthlyRate));
+                const factor = Math.pow(1 + rate, years);
+                fv = (pv * factor) + (annualPmt * ((factor - 1) / rate));
             }
 
             const realReturn = ((1 + nominalRate / 100) / (1 + inflation / 100) - 1) * 100;
